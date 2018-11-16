@@ -1,0 +1,10 @@
+\BOOKMARK [1][-]{section.1}{CSV Processing}{}% 1
+\BOOKMARK [1][-]{section.2}{Format Parsing}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{JavaScript with jQuery}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{JavaScript without jQuery}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{JSON}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{Turning values into system object}{}% 6
+\BOOKMARK [2][-]{subsection.3.1}{JavaScript Hierarchy}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.2}{JSON}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.3}{JavaScript Array}{section.3}% 9
+\BOOKMARK [1][-]{section.4}{Conclusion}{}% 10
