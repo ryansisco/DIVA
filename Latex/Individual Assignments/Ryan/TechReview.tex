@@ -1,0 +1,62 @@
+\documentclass[letterpaper, 10pt] {article}
+\usepackage[margin=0.75in] {geometry}
+\title{WebGL Tech Review}
+\author{Ryan Sisco - CS461 Fall 2018}
+\usepackage{titling}
+\usepackage[parfill]{parskip}
+\usepackage{graphicx}
+\usepackage{float}
+\begin{document}
+\begin{titlingpage}
+	\maketitle
+	\vspace*{\fill}
+	\begin{abstract}
+	There are many technologies that we can implement into this project. WebGL is a tool that allows for 3D rendering on web applications. We can use this technology to map the CSV data into a 3D model that allows interaction with the new object.  
+	\end{abstract}
+\end{titlingpage}
+\section{WebGL}
+We plan on using WebGL in order to develop the 3D model. There are several methods we can call in order to produce the object quickly and easily.  Another benefit to WebGL is, if desired, it can be hosted on a webserver allowing users to populate graphs online. WebGL is compatible on all common browsers such as Chrome, Firefox, Opera, and even Edge, Explorer, and Safari.
+This technology is open source and provides an API for easy use. There are many useful methods that we will be using in our project in order to convert our data into a model. These functions break into 2 parts: basic rendering and after effects.
+\section{Rendering Objects}
+Rendering the object is the most important part of the project. The object needs to be interactive and have the ability to receive unique colors and patterns.  We are planning on introducing the data in the form of a JSON file so this WebGL would be implemented nicely. 
+\subsection{createProgram()}
+This function is used to create a WebGL program used to generate the interactive graphics. It can be used to include shaders to produce the graph. This means the graph will not be as basic looking as it would normally be, and, this object can be used to introduce interactivity \cite{createprogram}.  
+This function is very useful for creating a unique look to your object without doing anything too advanced. We may not be implementing this function until later on, as it seems to be mostly used to incorporate add-on features to the main object. While I am sure we will be calling this function eventually, we will most likely not be using it to its full potential until later in the project.
+This method is fully supported by all of the major browsers. This includes Chrome, IE, Firefox, Edge, Opera, and Safari. It also has mobile support in these browsers. 
+\subsection{drawArrays()}
+This function is used to plot points, draw lines, or draw triangles. We will most likely be using it to simply draw a line to the next point, and iterate so we can plot shapes. This tool is very basic in order to allow the programmer the flexibility to set it up how they want \cite{drawarrays}. 
+We will be using this function often in order to produce our plotted points. We can sort our data by time, and produce each point in a time frame of our choosing to show the data in a video format. This would obviously include much more than this function alone, but that is also the point of having small, light functions to call such as this one.
+This method is supported by all of the browsers mentioned earlier including mobile. This will be very easy to implement and get working properly with our current build.
+\subsection{drawElements()}
+This function is very similar to drawArrays, however, it accepts elements instead \cite{drawelements}. This can be useful for many different things, including selecting individual parts of an array. For example, if we wanted to exclude all times before March, we could cycle through our master array and begin outputting once we have time greater than March. 
+The parameters are very similar to drawArrays. This is because they are pretty much the same function with only that one small difference with array vs element.
+This method is also available in all browsers, desktop and mobile. It will be very easy to integrate.
+\section{Styling}
+Changing the style is a very important part of the project. Presenting data in a unique way is the entire goal of the project, so basic renders are far from ideal. In addition to producing an interactive, rendered object, we need to make it look interesting. 
+\subsection{blendColor()}
+Blending an objects colors is very easy to do with blendColor. A benefit to using blendColor is in the parameters, it takes a value of 0-1 for red, green, blue, and alpha \cite{blendcolor}. This gives us lots of options such as changing the color depending on the proximity of similar data, according to time. For example, if data points get farther and farther apart, we can highlight this by blending the colors. We can show lots of points by making them bright red, and yellow as they are less common. With a blend effect, this will be easy to illustrate. 
+Passing in different float values will allow for a highly adjustable range of colors. This will also allow us to divide the array size by the color options we decide, and increment based on that new scale. It also allows us to do basic colors very easily to highlight major differences such as different countries, where a gradient wouldn’t make much sense. 
+\subsection{clearColor()}
+This method sets the color defaulted to when the color is cleared. This can be useful in order to clean up code and make clearing the color easier. This takes the same parameters as blendColor in order to set the correct color. Once set, simply clearing the color will replace it with the color specified earlier \cite{clearcolor}.
+While this is a useful function, we will most likely be calling it rarely as there is no real advantage to clearing instead of re-setting. We can use this function in order to make an easier theme, allowing the user to choose a background. Once the color is cleared, it can default to the background, erasing the image. This could be beneficial in order to not need to redraw the graph, but simply recolor the existing data point.
+\subsection{colorMask()}
+The purpose of this method is to set the allowed colors. This is set with a Boolean option to turn red, green, blue, and alpha disabled or enabled. When disabled, effects added to it will not be able to be modified. For example, if blue is set to false, the effects cannot be modified in a later section until reset \cite{colormask}.
+This could be useful when taking in user input. This allows us to still have some control when taking in user input. Depending on how much we want to be up to the user, we can block certain colors from being edited like the color blend. This of course can also be set at the UI level, but this is also a good safety net to make sure the configuration doesn’t get ruined by mistake.
+\section{Conclusion}
+WebGL is an excellent tool that will allow us to produce the graphics we want. It is full of tools to easily render our data and style it however we want. There is also excellent documentation for WebGL and the source code is available online. There are several tutorials and step by step guides on how to handle 3D modeling. Implementing this technology will allow us to easily generate the models we want.
+\begin{thebibliography}{9}
+\bibitem{createprogram}
+MDN Web Docs. (2018). WebGLRenderingContext.createProgram(). [online] Available at: https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/createProgram
+\bibitem{drawarrays}
+MDN Web Docs. (2018). WebGLRenderingContext.drawArrays(). [online] Available at: https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/drawArrays
+\bibitem{drawelements}
+MDN Web Docs. (2018). WebGLRenderingContext.drawElements(). [online] Available at: https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/drawElements
+\bibitem{blendcolor}
+MDN Web Docs. (2018). WebGLRenderingContext.blendColor(). [online] Available at: https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/blendColor
+\bibitem{clearcolor}
+MDN Web Docs. (2018). WebGLRenderingContext.clearColor(). [online] Available at: https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/clearColor
+\bibitem{colormask}
+MDN Web Docs. (2018). WebGLRenderingContext.colorMask(). [online] Available at: https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/colorMask
+
+\end{thebibliography}
+\end{document}
