@@ -1,0 +1,100 @@
+\documentclass[journal,10pt,onecolumn,compsoc]{IEEEtran} \usepackage[margin=1.0in]{geometry} \usepackage{pdfpages} 
+
+%\usepackage{color}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{balance}
+\usepackage{enumitem}
+\usepackage{pstricks, pst-node}
+\usepackage{hyperref}
+\usepackage{url}
+
+\hypersetup{
+  colorlinks = false,
+  urlcolor = black,
+  pdfkeywords = {CS461``Senior Software Engr Project''Design Document},
+  pdftitle = {CS 461 Tech Review},
+  pdfsubject = {CS 461 Tech Review},
+  pdfpagemode = UseNone
+}
+
+\begin{document}
+\begin{center}
+  
+  \textbf{}
+
+  \vspace{2.5cm}
+  \Huge{}
+  \textbf Tech Review
+  \vspace{1.5cm}
+
+ 
+  \LARGE
+  CS461 - Senior Software Engr Project\\
+  \vspace{0.25cm}
+  Instructor: D. Kevin McGrath \\
+  Instructor: Kirsten Winters \\
+  \vspace{0.25cm}
+  Fall 2018 \\
+  \vspace{1cm}
+  
+  \large{Bhavya Parikh}\\
+  \vfill
+  November 21st, 2018\\
+  \vspace{1cm}
+  \vspace*{\fill}
+   \begin{abstract}
+      This document is a tech review of one of the technologies which are being used in the making of our web application. This technology will give our user the opportunity to make free use of the web application designed entirely for three-dimensional visualization, while the user is making web interaction with our web application. This feature of the technology is being discussed in more detail in the document. It lets the user freely interact with an object that came into being in the three dimension visualization which was promoted by the use of our application, where the user provided the valued data needed for the visualization in the form of a CSV data file. Taking into assumption the CSV data file has at least three columns. This technology shall provide the user with a method to navigate and interact on the web page as well be able to upload, add, edit and/or remove the CSV data file. Lastly, this technology also provides interactive possibilities for the user to engage with three dimensions visualized data, where the user can slightly alter the objects..
+       \noindent 
+   \end{abstract}
+   \normalsize 
+  \end{center}
+\newpage
+\tableofcontents
+\newpage
+ 
+  
+\section{Introduction}
+The purpose of this web application is to generate and populate a three-dimensional representation of the provided data. This is done to provide a better understanding of the collected information and group similarities in the file. Before we start discussing in detail on how this specific technology works, let us have a brief overview of what technologies are being used before this as well how are they made use of simultaneously and how the web page works. The user first starts with opening the website in there preferred browsers such as Google Chrome or Mozilla which runs JavaScript components like JSON or jQuery.  The website will load after correct web address is been added. After this step is been made sure the user may click on the upload button which will lead to a file explorer while from where the user may upload their desired CSV data file which can be read by javascript. After that javascript will generate a three-dimensional visualization of the data. The 3D visualizations are implemented for the users to interact with and the users have the ability to interact with all of the visualization components. For example, changing the color, changing the timeline, changing the values, especially changing the point of view. This could be the most important features to ensure that the users have the best experience in viewing the visualization as part of data presentation.
+
+
+\section{Post-Processing webpage interactivity}
+The post-processing webpage interactivity will take place after the user visits the webpage and they make sure to upload the CSV data file. The CSV data file must at least include at least three columns to be able to generate a three-dimensional visualization, which the user yields for. After these steps are been made the user can interact with the following: 
+
+    \subsection{Interactive objects}
+    In this web application, the interactive objects are the objects which the user has the ability to interact with. The visualization would be based off where the user can visualize the objects. This section will focus more on the changing the object values, such as values of the coordinates, and values of the chart.
+    
+        \subsubsection{Javascript}
+         Since we are using WebGL, the visualization are done using JavaScript. This means that changing the values of the object should be done in JavaScript as well. Changing values in JavaScript can be done easily with if condition or switch case. For example, if the user wants to change the color switch case can be used to generate RGB values based on the user's preference. On the other hand, changing coordinate will be an extra feature of WebGL, which requires a jQuery with slider() function. The slider functions will have 5 options, such as min, max, value, and step to calibrate the motion and sensitivity of rotation.
+
+        \subsubsection{C}
+        While making use of the WebGL, a C program can be used to generate the data arrays to generate coordinates on the map. The data arrays would be made using the data values from the CSV data file. Then using the WebGL they would be rendered for the user to visualize in a three-dimensional figure. The coordinates of the chart can be changed by the user while interacting with the three-dimensional visualization to visualize other data if need be. 
+
+        \subsubsection{HTML}
+        The Fragment shader has the function to change the color or other visual effects through HTML as well since the fragment shader is located there. This will ensure that coloring is not an issue for viewing the data visualization. Other visual effects include lighting or texturing. 
+        
+        
+    \subsection{Interactive relationships}
+    The interactive relationship is something which is directly related to the data, where data change is manipulated or be seen changing with real-time or variables provided. It is different than the interactive object as it involves more than one object in a relationship which might be dependent on each other. For example, suppose value as an object would have a relationship time and it varies with time.
+
+        \subsubsection{HTML}
+         HTML is the base page of WebGL that handles vertex and fragment shaders source code. The idea behind vertex shader and fragment shader is that the vertex shader handles all the vertices, normal, and coordinates that are displayed in the chart; on the other hand, the fragment shader will handle all the color and visual effects. The chart that we planned to make as of right now is using Bezier curve, which consists of numbers of vertices and lines to make a chart. The user then can change these vertices through HTML to change the value of the chart if necessary. The plan that we have in mind is that the user can click into individual points and enable to change the values through a drop-down menu.
+         
+        \subsubsection{JavaScript}
+         Javascript can be used with WebGL to make animation possible for our web application. Using the object relationship over time, the animation for our three-dimensional visualization can be made such that the user can experience a deeper understanding of their data. They even would have the option to export the animation as gif, video or picture. The animation can be done by grabbing the actual real-time from the CSV data file. Then it will be divided by animation cycle and finally be put into a variable. Lastly, it will be outputted upon clicking the animation button. An extra feature would include the freeze option where the animation can be stopped by the user at a particular time. 
+
+        \subsubsection{PHP}
+        A undo and redo feature can be implemented using PHP and javascript feature. There are two components required for that to be implemented. Firstly we would need an operation stack array that will keep track of all the operations that are being performed. Whenever an object is created it is added to the array and when the user hits the undo button it would be removed by removing the last item in the stack. The second most basic thing required would be saved each operation that has been entered. By using this feature the user can interact with the visualization in a much easier manner and can click on the redo button change the coordinated if they don’t prefer.
+
+\section{Conclusion}
+ WebGL with use of javascript, HTML, and C would be ideal for this application to be used for interactive purposes as things would become easier for the user. Making use of Javascript would allow easier use of animations and implementing the undo/redo feature. 
+
+ 
+   
+
+
+\end{document}
