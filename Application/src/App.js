@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 // CSS //
 import "./assets/css/styles.css";
 
+import logo from './assets/img/logo.png';
 
 class App extends Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class App extends Component {
   render() {
     return (
         <div>
-         <h1>DIVA</h1> 
+         <img src={logo} width="50%" height="50%"/><br/>
          <button type="button">Options</button><br/><br/>
          <button type="button">Input</button>
          <button type="button">Output</button><br/><br/>
