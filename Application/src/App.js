@@ -6,10 +6,13 @@ import { connect } from "react-redux";
 // CSS //
 import "./assets/css/styles.css";
 
+import ThreeContainer from './components/DataVisualization/ThreeContainer';
+
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+    };
   }
 
   componentDidMount(){
@@ -18,9 +21,9 @@ class App extends Component {
 
   render() {
     return (
-        <div>
-            
-        </div>
+      <div>
+        <ThreeContainer />
+      </div>
     )
   }
 }
