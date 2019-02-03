@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 // REDUX //
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { updateCameraPosition } from './redux/actions';
 
 // CSS //
 import "./assets/css/styles.css";
@@ -19,10 +21,15 @@ class App extends Component {
     document.title=process.env.TITLE;
   }
 
+  handleCameraChange = e => {
+    this.props.updateCameraPosition(parseInt(e.target.value));
+  }
+
   render() {
     return (
       <div>
         <ThreeContainer />
+        <input type="text" onChange={this.handleCameraChange}/>
       </div>
     )
   }
@@ -33,9 +40,8 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-  };
-};
+const mapDispatchToProps = dispatch => bindActionCreators({
+  updateCameraPosition
+}, dispatch);
 
 export default connect(mapStateToProps,mapDispatchToProps)(App);
