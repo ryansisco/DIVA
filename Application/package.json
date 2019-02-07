@@ -30,6 +30,7 @@
         "image-webpack-loader": "^4.6.0",
         "react": "^16.5.2",
         "react-dom": "^16.5.2",
+        "react-dropdown": "^1.6.4",
         "react-redux": "^5.0.7",
         "react-toggle-component": "^1.0.5",
         "redux": "^4.0.1",

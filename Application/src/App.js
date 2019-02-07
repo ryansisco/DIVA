@@ -2,23 +2,33 @@ import React, { Component } from "react";
 
 // REDUX //
 import { connect } from "react-redux";
+import Dropdown from 'react-dropdown';
 
-import Toggle from "react-toggle-component";
 
 // CSS //
 import "./assets/css/styles.css";
-import "react-toggle-component/styles.css";
+import 'react-dropdown/style.css';
 
 // FILES //
 import logo from './assets/img/logo.png';
 
+const options = [
+  'IOC', 'Date', 'Country', 'IOC Type', 'Sector'
+]
 
 class App extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      value: false
+      value: false,
+      selected: ''
     };
+    this._onSelect = this._onSelect.bind(this);
+  }
+  _onSelect (option) {
+    console.log('You selected ', option.label)
+    this.setState({selected: option})
   }
 
   componentDidMount(){
@@ -26,6 +36,8 @@ class App extends Component {
   }
 
   Togglemenu(){
+    const defaultOption = this.state.selected;
+    const placeHolderValue = typeof this.state.selected === 'string' ? this.state.selected : this.state.selected.label;
     if (this.state.checked==1) {
         return (
           <div>
@@ -33,12 +45,9 @@ class App extends Component {
             <button type="subbutton">Input</button>
              <button type="subbutton">Output</button><br/><br/>
              <form>
-             X-Axis: <input type="text" name="xaxis1"/>
-             <input type="text" name="xaxis2"/><br/>
-             Y-Axis: <input type="text" name="yaxis1"/>
-             <input type="text" name="yaxis2"/><br/>
-             Z-Axis: <input type="text" name="zaxis1"/>
-             <input type="text" name="zaxis2"/>
+             X-Axis: <Dropdown options={options} onChange={this._onSelect} value={defaultOption} placeholder="Select X-Axis" /><br/>
+             Y-Axis: <Dropdown options={options} onChange={this._onSelect} value={defaultOption} placeholder="Select Y-Axis" /><br/>
+             Z-Axis: <Dropdown options={options} onChange={this._onSelect} value={defaultOption} placeholder="Select Z-Axis" /><br/>
              </form>
              <button type="subbutton">Render</button>
              <button type="subbutton">Filter</button>
@@ -63,6 +72,7 @@ class App extends Component {
     );
   }
 }
+
 
 const mapStateToProps = state => {
   return {
