@@ -3948,6 +3948,11 @@ json5@^2.1.0:
   dependencies:
     minimist "^1.2.0"
 
+keymaster@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/keymaster/-/keymaster-1.6.2.tgz#e1ae54d0ea9488f9f60b66b668f02e9a1946c6eb"
+  integrity sha1-4a5U0OqUiPn2C2a2aPAumhlGxus=
+
 keyv@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/keyv/-/keyv-3.0.0.tgz#44923ba39e68b12a7cec7df6c3268c031f2ef373"
@@ -5316,6 +5321,13 @@ react-lifecycles-compat@^3.0.0:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
+
+react-popup@^0.9.3:
+  version "0.9.3"
+  resolved "https://registry.yarnpkg.com/react-popup/-/react-popup-0.9.3.tgz#fbe9a7adf3afc9167123a6f9f4c730ca33da6ccb"
+  integrity sha512-w6bC/Yo+ybe76npOGwoZyGC2f5IaNpHp5GP/Oa63RpYJKn/hERstMCkKMHrTyWNCkxCK+DCpizkQs9DdhBL/HA==
+  dependencies:
+    keymaster "^1.6.2"
 
 react-redux@^5.0.7:
   version "5.1.1"

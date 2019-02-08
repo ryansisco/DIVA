@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-
 // REDUX //
 import { connect } from "react-redux";
-
 // CSS //
 import "./assets/css/styles.css";
-
 import logo from './assets/img/logo.png';
+
+import FileDialogue from './components/FileSelector';
 
 class App extends Component {
   constructor(props) {
@@ -21,9 +20,10 @@ class App extends Component {
   render() {
     return (
         <div>
+          <FileDialogue/>
          <img src={logo} width="50%" height="50%"/><br/>
+
          <button type="button">Options</button><br/><br/>
-         <button type="button">Input</button>
          <button type="button">Output</button><br/><br/>
          <form>
          X-Axis: <input type="text" name="xaxis1"/>
