@@ -39,6 +39,30 @@ class App extends Component {
     document.title=process.env.TITLE;
   }
 
+  Renderready(){
+    if ((this.state.xaxis == this.state.yaxis)||(this.state.yaxis == this.state.zaxis)||(this.state.xaxis == this.state.zaxis)) {
+      return (
+        <div>
+        <button type = "notreadybutton">Not Ready!</button>
+        </div>
+      )
+    }
+    if ((this.state.xaxis == null)||(this.state.yaxis == null)||(this.state.zaxis == null)) {
+      return (
+        <div>
+        <button type = "notreadybutton">Not Ready!</button>
+        </div>
+      )
+    }
+    else {
+      return (
+        <div>
+        <button type = "readybutton">Ready!</button>
+        </div>
+      )
+    }
+  }
+
   Togglemenu(){
     const defaultOption = this.state.selected;
     const placeHolderValue = typeof this.state.selected === 'string' ? this.state.selected : this.state.selected.label;
@@ -53,7 +77,7 @@ class App extends Component {
              Y-Axis: <Dropdown options={options} onChange={e => this._onSelect('yaxis', e)} value={this.state.yaxis} placeholder="Select Y-Axis" /><br/>
              Z-Axis: <Dropdown options={options} onChange={e => this._onSelect('zaxis', e)} value={this.state.zaxis} placeholder="Select Z-Axis" /><br/>
              </form>
-             <button type="subbutton">Render</button>
+             {this.Renderready()}
              <button type="subbutton">Filter</button>
           </div>
         );
