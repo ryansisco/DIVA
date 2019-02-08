@@ -22,13 +22,18 @@ class App extends Component {
     super(props);
     this.state = {
       value: false,
-      selected: ''
+      selected: '',
+      xaxis: null,
+      yaxis: null,
+      zaxis: null
     };
     this._onSelect = this._onSelect.bind(this);
   }
-  _onSelect (option) {
-    console.log('You selected ', option.label)
-    this.setState({selected: option})
+  _onSelect (option, e) {
+    this.setState({
+      ...this.state,
+      [option]: e.value
+    })
   }
 
   componentDidMount(){
@@ -45,9 +50,9 @@ class App extends Component {
             <button type="subbutton">Input</button>
              <button type="subbutton">Output</button><br/><br/>
              <form>
-             X-Axis: <Dropdown options={options} onChange={this._onSelect} value={defaultOption} placeholder="Select X-Axis" /><br/>
-             Y-Axis: <Dropdown options={options} onChange={this._onSelect} value={defaultOption} placeholder="Select Y-Axis" /><br/>
-             Z-Axis: <Dropdown options={options} onChange={this._onSelect} value={defaultOption} placeholder="Select Z-Axis" /><br/>
+             X-Axis: <Dropdown options={options} onChange={e => this._onSelect('xaxis', e)} value={this.state.xaxis} placeholder="Select X-Axis" /><br/>
+             Y-Axis: <Dropdown options={options} onChange={e => this._onSelect('yaxis', e)} value={this.state.yaxis} placeholder="Select Y-Axis" /><br/>
+             Z-Axis: <Dropdown options={options} onChange={e => this._onSelect('zaxis', e)} value={this.state.zaxis} placeholder="Select Z-Axis" /><br/>
              </form>
              <button type="subbutton">Render</button>
              <button type="subbutton">Filter</button>
