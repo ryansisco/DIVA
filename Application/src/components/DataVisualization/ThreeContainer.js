@@ -9,7 +9,7 @@ class ThreeContainer extends Component {
 
     render () {
         return (
-            <div className="header-header" ref={element => this.threeRootElement = element} />
+            <div ref={element => this.threeRootElement = element} ></div>
         );
     }
 }

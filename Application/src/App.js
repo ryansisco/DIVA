@@ -21,15 +21,11 @@ class App extends Component {
     document.title=process.env.TITLE;
   }
 
-  handleCameraChange = e => {
-    this.props.updateCameraPosition(parseInt(e.target.value));
-  }
-
   render() {
     return (
       <div>
         <ThreeContainer />
-        <input type="text" onChange={this.handleCameraChange}/>
+        <input type='text'/>
       </div>
     )
   }
