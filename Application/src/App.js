@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-
 // REDUX //
 import { connect } from "react-redux";
 import Dropdown from 'react-dropdown';
-
+import FileDialogue from './components/FileSelector';
 
 // CSS //
 import "./assets/css/styles.css";
@@ -47,7 +46,7 @@ class App extends Component {
         return (
           <div>
             <br/><br/>
-            <button type="subbutton">Input</button>
+             <FileDialogue/>
              <button type="subbutton">Output</button><br/><br/>
              <form>
              X-Axis: <Dropdown options={options} onChange={e => this._onSelect('xaxis', e)} value={this.state.xaxis} placeholder="Select X-Axis" /><br/>
