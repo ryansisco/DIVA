@@ -70,7 +70,7 @@ class App extends Component {
     const buttonText = this.state.checked ? 'Hide Menu' : 'Show Menu';
     return (
         <div>
-         <img src={logo} width = "25%" height = 'auto'/><br/>
+         <center><img src={logo} width = "40%" height = 'auto'/></center><br/>
          <button onClick={() => this.setState({checked:!this.state.checked})}>{buttonText}</button><br/>
          {this.Togglemenu()}
         </div>
