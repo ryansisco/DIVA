@@ -30,6 +30,7 @@
         "image-webpack-loader": "^4.6.0",
         "react": "^16.5.2",
         "react-dom": "^16.5.2",
+        "react-draggable": "^3.1.1",
         "react-dropdown": "^1.6.4",
         "react-popup": "^0.9.3",
         "react-redux": "^5.0.7",

@@ -3,10 +3,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Dropdown from 'react-dropdown';
 import FileDialogue from './components/FileSelector';
-
+import Draggable from 'react-draggable';
 // CSS //
 import "./assets/css/styles.css";
-import 'react-dropdown/style.css';
 
 // FILES //
 import logo from './assets/img/logo.png';
@@ -43,21 +42,21 @@ class App extends Component {
     if ((this.state.xaxis == this.state.yaxis)||(this.state.yaxis == this.state.zaxis)||(this.state.xaxis == this.state.zaxis)) {
       return (
         <div>
-        <button type = "notreadybutton">Not Ready!</button>
+        <button className = "notreadybutton">Render</button>
         </div>
       )
     }
     if ((this.state.xaxis == null)||(this.state.yaxis == null)||(this.state.zaxis == null)) {
       return (
         <div>
-        <button type = "notreadybutton">Not Ready!</button>
+        <button className = "notreadybutton">Render</button>
         </div>
       )
     }
     else {
       return (
         <div>
-        <button type = "readybutton">Ready!</button>
+        <button className = "button">Render</button>
         </div>
       )
     }
@@ -68,18 +67,19 @@ class App extends Component {
     const placeHolderValue = typeof this.state.selected === 'string' ? this.state.selected : this.state.selected.label;
     if (this.state.checked==1) {
         return (
-          <div>
-            <br/><br/>
+          <Draggable>
+          <div className = "menucontainer">
              <FileDialogue/>
-             <button type="subbutton">Output</button><br/><br/>
+             <button className="button">Output</button><br/><br/>
              <form>
              X-Axis: <Dropdown options={options} onChange={e => this._onSelect('xaxis', e)} value={this.state.xaxis} placeholder="Select X-Axis" /><br/>
              Y-Axis: <Dropdown options={options} onChange={e => this._onSelect('yaxis', e)} value={this.state.yaxis} placeholder="Select Y-Axis" /><br/>
              Z-Axis: <Dropdown options={options} onChange={e => this._onSelect('zaxis', e)} value={this.state.zaxis} placeholder="Select Z-Axis" /><br/>
              </form>
              {this.Renderready()}
-             <button type="subbutton">Filter</button>
+             <button className="button">Filter</button>
           </div>
+          </Draggable>
         );
     }
     if (this.state.checked==0) {
@@ -90,12 +90,12 @@ class App extends Component {
   }
 
   render() {
-    const buttonText = this.state.checked ? 'Hide Menu' : 'Show Menu';
+    const buttonText = this.state.checked ? '-' : '+';
     return (
         <div>
-         <center><img src={logo} width = "40%" height = 'auto'/></center><br/>
-         <button onClick={() => this.setState({checked:!this.state.checked})}>{buttonText}</button><br/>
+         <button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>{buttonText}</button><br/>
          {this.Togglemenu()}
+         <center><img src={logo} className="mainlogo" width = "40%" height = 'auto'/></center><br/>
         </div>
     );
   }
