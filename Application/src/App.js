@@ -2,14 +2,19 @@ import React, { Component } from "react";
 
 // REDUX //
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { updateCameraPosition } from './redux/actions';
 
 // CSS //
 import "./assets/css/styles.css";
 
+import ThreeContainer from './components/DataVisualization/ThreeContainer';
+
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+    };
   }
 
   componentDidMount(){
@@ -18,9 +23,10 @@ class App extends Component {
 
   render() {
     return (
-        <div>
-            
-        </div>
+      <div>
+        <ThreeContainer />
+        <input type='text'/>
+      </div>
     )
   }
 }
@@ -30,9 +36,8 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-  };
-};
+const mapDispatchToProps = dispatch => bindActionCreators({
+  updateCameraPosition
+}, dispatch);
 
 export default connect(mapStateToProps,mapDispatchToProps)(App);
