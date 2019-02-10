@@ -72,7 +72,7 @@ class App extends Component {
         return (
           <Draggable>
           <div className = "menucontainer">
-             <button className = "button"><FileDialogue/></button>
+             <FileDialogue/>
              <button className="button">Output</button><br/><br/>
              <form className ="dropdownmenu">
              <Dropdown options={options} onChange={e => this._onSelect('xaxis', e)} value={this.state.xaxis} placeholder="X-Axis" /><br/><br/>

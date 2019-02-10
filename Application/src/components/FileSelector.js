@@ -20,7 +20,7 @@ class FileDialogue extends Component {
   }
 
   render(){
-    return <a className="button" href="" onClick={this.handleFileSelect}>Upload file</a>
+    return <button className="button" href="" onClick={this.handleFileSelect}>Upload file</button>
   }
 }
 

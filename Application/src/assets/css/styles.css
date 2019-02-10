@@ -7,7 +7,7 @@ body {
 	height: 55px;
 	font-size: 20;
     background-color: #f09bbb;
-    border: none;
+    border: 1px solid black;
     border-radius: 6px;
     color: white;
     margin: 10px;
