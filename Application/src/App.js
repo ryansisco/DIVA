@@ -43,7 +43,7 @@ class App extends Component {
       return (
         <div>
         <button className = "notreadybutton">Render</button>
-        <button className="button">Filter</button>
+        <button className="notreadybutton">Filter</button>
         </div>
       )
     }
@@ -51,7 +51,7 @@ class App extends Component {
       return (
         <div>
         <button className = "notreadybutton">Render</button>
-        <button className="button">Filter</button>
+        <button className="notreadybutton">Filter</button>
         </div>
       )
     }
@@ -73,7 +73,7 @@ class App extends Component {
           <Draggable>
           <div className = "menucontainer">
              <FileDialogue/>
-             <button className="button">Output</button><br/><br/>
+             <button className="button">Download</button><br/><br/>
              <form className ="dropdownmenu">
              <Dropdown options={options} onChange={e => this._onSelect('xaxis', e)} value={this.state.xaxis} placeholder="X-Axis" /><br/><br/>
              <Dropdown options={options} onChange={e => this._onSelect('yaxis', e)} value={this.state.yaxis} placeholder="Y-Axis" /><br/><br/>
