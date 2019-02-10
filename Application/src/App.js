@@ -43,6 +43,7 @@ class App extends Component {
       return (
         <div>
         <button className = "notreadybutton">Render</button>
+        <button className="button">Filter</button>
         </div>
       )
     }
@@ -50,6 +51,7 @@ class App extends Component {
       return (
         <div>
         <button className = "notreadybutton">Render</button>
+        <button className="button">Filter</button>
         </div>
       )
     }
@@ -57,6 +59,7 @@ class App extends Component {
       return (
         <div>
         <button className = "button">Render</button>
+        <button className="button">Filter</button>
         </div>
       )
     }
@@ -69,15 +72,14 @@ class App extends Component {
         return (
           <Draggable>
           <div className = "menucontainer">
-             <FileDialogue/>
+             <button className = "button"><FileDialogue/></button>
              <button className="button">Output</button><br/><br/>
-             <form>
-             X-Axis: <Dropdown options={options} onChange={e => this._onSelect('xaxis', e)} value={this.state.xaxis} placeholder="Select X-Axis" /><br/>
-             Y-Axis: <Dropdown options={options} onChange={e => this._onSelect('yaxis', e)} value={this.state.yaxis} placeholder="Select Y-Axis" /><br/>
-             Z-Axis: <Dropdown options={options} onChange={e => this._onSelect('zaxis', e)} value={this.state.zaxis} placeholder="Select Z-Axis" /><br/>
+             <form className ="dropdownmenu">
+             <Dropdown options={options} onChange={e => this._onSelect('xaxis', e)} value={this.state.xaxis} placeholder="X-Axis" /><br/><br/>
+             <Dropdown options={options} onChange={e => this._onSelect('yaxis', e)} value={this.state.yaxis} placeholder="Y-Axis" /><br/><br/>
+             <Dropdown options={options} onChange={e => this._onSelect('zaxis', e)} value={this.state.zaxis} placeholder="Z-Axis" /><br/>
              </form>
              {this.Renderready()}
-             <button className="button">Filter</button>
           </div>
           </Draggable>
         );
