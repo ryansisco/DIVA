@@ -2,6 +2,9 @@ body {
   font-family: Tahoma, Geneva, sans-serif;
 }
 
+.fileinput {
+	display: none;
+}
 .button {
 	box-shadow: 4px 4px 2px lightgrey;
 	width: 200px;

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 // REDUX //
 import { connect } from "react-redux";
+import Popup from 'react-popup';
 import Dropdown from 'react-dropdown';
-import FileDialogue from './components/FileSelector';
 import Draggable from 'react-draggable';
 // CSS //
 import "./assets/css/styles.css";
@@ -64,7 +64,30 @@ class App extends Component {
       )
     }
   }
-
+  onChangeFile(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    var file = event.target.files[0];
+    this.setState({file});
+    console.log(file.name);
+  }
+  FileDialogue(){
+    return (
+    <div>
+      <input 
+        className="fileinput"
+        type="file"
+        ref={(ref) => this.upload = ref}
+        onChange={this.onChangeFile.bind(this)}
+      />
+      <button 
+        className = "button"
+        onClick={()=>{this.upload.click()}}
+      >Upload File</button>
+      <button className="button">Download</button><br/><br/>
+    </div>
+    )
+  }
   Togglemenu(){
     const defaultOption = this.state.selected;
     const placeHolderValue = typeof this.state.selected === 'string' ? this.state.selected : this.state.selected.label;
@@ -72,8 +95,7 @@ class App extends Component {
         return (
           <Draggable>
           <div className = "menucontainer">
-             <FileDialogue/>
-             <button className="button">Download</button><br/><br/>
+             {this.FileDialogue()}
              <form className ="dropdownmenu">
              <Dropdown options={options} onChange={e => this._onSelect('xaxis', e)} value={this.state.xaxis} placeholder="X-Axis" /><br/><br/>
              <Dropdown options={options} onChange={e => this._onSelect('yaxis', e)} value={this.state.yaxis} placeholder="Y-Axis" /><br/><br/>
