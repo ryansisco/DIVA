@@ -1,26 +1,27 @@
 //userSelect are dummy variables for CSVParser ---> 3DV
 const userSelect = [
-'IOC', 'Date', 'Country Code'
+ 'IOC', 'Date', 'Country Code'
 ];
 
 //Return the first line of the CSV file as an array
 //INPUT: contents of entire CSV file
 //OUTPUT: div = ['row1_col1', 'row1_col2', ..., 'row1_colN']
-function uiToCSV_titles(content){
+export function uiToCSV_titles(content){
   var str = content;
   var first = str.split('\n')[0];
   var div = first.split(',');
   return div;
 };
 
-//
-function uiToCSV_object2(content){
+//The following two unfilled functions are for filtering options to pass to the UI,
+// which will be done after alpha release
+export function uiToCSV_object2(content){
   var object = [];
 
   return object;
 };
 
-function uiToCSV_object3(content){
+export function uiToCSV_object3(content){
   var object = [];
 
   return object;
@@ -28,7 +29,7 @@ function uiToCSV_object3(content){
 
 //Returns first object for CSV --> 3DV
 //USES GLOBAL: userSelect
-function parserTo3DV_object1(){
+export function parserTo3DV_object1(){
 
   var select1 = userSelect[0], 
       select2 = userSelect[1],
@@ -46,7 +47,7 @@ function parserTo3DV_object1(){
 
 //Returns second object for CSV --> 3DV
 //USES GLOBAL: userSelect
-function parserTo3DV_object2(content){
+export function parserTo3DV_object2(content){
   var object = [];
   var text = '[';
   var contentArray = content.split('\n');
@@ -58,13 +59,15 @@ function parserTo3DV_object2(content){
   var textTemp = "";
 
   for (var i = 1; i < contentArrayLength; i++){
-    var subdataTemp = {};
+    //var subdataTemp = {};
     var rowArray = contentArray[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
     var rowArrayLength = rowArray.length;
 
-    if(rowArray[0][0] == '"'){
-      //rowArray[0][0] = '_';
+    //TODO: identify bad elements
+    if(rowArray[0].indexOf('"') > -1){
+      rowArray[0] = rowArray[0].substring(1, rowArray[0].length - 1);
     }
+
     xTemp = rowArray[xOffset], yTemp = rowArray[yOffset], zTemp = rowArray[zOffset];
     textTemp += '{"x":"'+xTemp+'","y":"'+yTemp+'","z":"'+zTemp+'"}';
 
@@ -76,11 +79,7 @@ function parserTo3DV_object2(content){
   }
   
   text = text + textTemp + "]";
-  //console.log(text);
-  
-  //object = JSON.parse(text);
+  object = JSON.parse(text);
 
   return text;
 };
-
-export {uiToCSV_titles, uiToCSV_object2, uiToCSV_object3, parserTo3DV_object1, parserTo3DV_object2};
