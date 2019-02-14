@@ -93,7 +93,6 @@ class App extends Component {
     const placeHolderValue = typeof this.state.selected === 'string' ? this.state.selected : this.state.selected.label;
     if (this.state.checked==1) {
         return (
-          <Draggable>
           <div className = "menucontainer">
              {this.FileDialogue()}
              <form className ="dropdownmenu">
@@ -103,7 +102,6 @@ class App extends Component {
              </form>
              {this.Renderready()}
           </div>
-          </Draggable>
         );
     }
     if (this.state.checked==0) {
@@ -117,9 +115,12 @@ class App extends Component {
     const buttonText = this.state.checked ? '-' : '+';
     return (
         <div>
+        <div className="topbox">
+         <center><div className="boxaroundlogo">
+         <img src={logo} className="mainlogo" width = '100px' height = 'auto'/><br/>
+         </div></center></div>
          <button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>{buttonText}</button><br/>
          {this.Togglemenu()}
-         <center><img src={logo} className="mainlogo" width = "40%" height = 'auto'/></center><br/>
         </div>
     );
   }
