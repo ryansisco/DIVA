@@ -8,13 +8,13 @@ export default scene => {
 	var graph = new THREE.Object3D();
 	scene.add(graph);
 	
-	function makeLine( geo ){
+	function makeLine( geo, clr ){
 		var g = new MeshLine.MeshLine();
 		g.setGeometry(geo);
 		
 		var material = new MeshLine.MeshLineMaterial({
 			useMap: false,
-			color: new THREE.Color(0x5ca4a9),
+			color: new THREE.Color(clr),
 			opacity: 1,
 			resolution: res,
 			sizeAttenuation: !false,
@@ -26,19 +26,19 @@ export default scene => {
 	}
 	
 	var line = new THREE.Geometry();
-	line.vertices.push( new THREE.Vector3( -30, -30, -30) );
+	line.vertices.push( new THREE.Vector3( -31, -30, -30) );
 	line.vertices.push( new THREE.Vector3( 30, -30, -30) );
-	makeLine(line)
+	makeLine(line, #ff0000)
 	
 	var line = new THREE.Geometry();
-	line.vertices.push( new THREE.Vector3( -30, -30, -30) );
+	line.vertices.push( new THREE.Vector3( -30, -31, -30) );
 	line.vertices.push( new THREE.Vector3( -30, 30, -30) );
-	makeLine(line)
+	makeLine(line, #00ff00)
 	
 	var line = new THREE.Geometry();
-	line.vertices.push( new THREE.Vector3( -30, -30, -30) );
+	line.vertices.push( new THREE.Vector3( -30, -30, -29) );
 	line.vertices.push( new THREE.Vector3( -30, -30, -90) );
-	makeLine(line)
+	makeLine(line, #0000ff)
 	
     const speed = 0.02;
 
