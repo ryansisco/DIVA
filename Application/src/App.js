@@ -3,16 +3,15 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Popup from 'react-popup';
 import Dropdown from 'react-dropdown';
-import Draggable from 'react-draggable';
+import { uiToCSV_titles, uiToCSV_object2, uiToCSV_object3, parserTo3DV_object1, parserTo3DV_object2 } from "./assets/js/csvParser.js"
+import ReactFileReader from "react-file-reader";
 // CSS //
 import "./assets/css/styles.css";
 
 // FILES //
 import logo from './assets/img/logo.png';
 
-const options = [
-  'IOC', 'Date', 'Country', 'IOC Type', 'Sector'
-]
+var options = []
 
 class App extends Component {
 
@@ -23,7 +22,8 @@ class App extends Component {
       selected: '',
       xaxis: null,
       yaxis: null,
-      zaxis: null
+      zaxis: null,
+      options: []
     };
     this._onSelect = this._onSelect.bind(this);
   }
@@ -64,12 +64,20 @@ class App extends Component {
       )
     }
   }
-  onChangeFile(event) {
+  onChangeFile = (event) =>{
     event.stopPropagation();
     event.preventDefault();
     var file = event.target.files[0];
     this.setState({file});
-    console.log(file.name);
+
+    var reader = new FileReader();
+    reader.onload = function(event) {
+    this.setState({
+      ...this.state,
+      options: uiToCSV_titles(event.target.result)
+    })
+    };
+    reader.readAsText(file);
   }
   FileDialogue(){
     return (
@@ -96,9 +104,9 @@ class App extends Component {
           <div className = "menucontainer">
              {this.FileDialogue()}
              <form className ="dropdownmenu">
-             <Dropdown options={options} onChange={e => this._onSelect('xaxis', e)} value={this.state.xaxis} placeholder="X-Axis" /><br/><br/>
-             <Dropdown options={options} onChange={e => this._onSelect('yaxis', e)} value={this.state.yaxis} placeholder="Y-Axis" /><br/><br/>
-             <Dropdown options={options} onChange={e => this._onSelect('zaxis', e)} value={this.state.zaxis} placeholder="Z-Axis" /><br/>
+             <Dropdown options={this.state.options} onChange={e => this._onSelect('xaxis', e)} value={this.state.xaxis} placeholder="X-Axis" /><br/><br/>
+             <Dropdown options={this.state.options} onChange={e => this._onSelect('yaxis', e)} value={this.state.yaxis} placeholder="Y-Axis" /><br/><br/>
+             <Dropdown options={this.state.options} onChange={e => this._onSelect('zaxis', e)} value={this.state.zaxis} placeholder="Z-Axis" /><br/>
              </form>
              {this.Renderready()}
           </div>
