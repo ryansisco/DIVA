@@ -1,20 +1,24 @@
 body {
 	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 12;
 }
 
 .fileinput {
 	display: none;
 }
 .button {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 12;
 	box-shadow: 4px 4px 2px lightgrey;
 	width: 200px;
-	height: 55px;
-	font-size: 20;
+	height: 35px;
 	background-color: #f09bbb;
 	border: 1px solid black;
 	border-radius: 6px;
 	color: white;
 	margin: 10px;
+	margin-top: 3px;
+	margin-bottom: 3px;
 	text-align: center;
 	text-decoration: none;
 	cursor: pointer;
@@ -47,14 +51,17 @@ body {
 }
 
 .notreadybutton {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 12;
 	width: 200px;
-	height: 55px;
-	font-size: 20;
+	height: 35px;
 	background-color: #f09bbb;
 	border: none;
 	border-radius: 6px;
 	color: white;
 	margin: 10px;
+	margin-top: 3px;
+	margin-bottom: 3px;
 	text-align: center;
 	text-decoration: none;
 	cursor: pointer;
@@ -63,8 +70,9 @@ body {
 }
 
 .menubutton {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 12;
 	box-shadow: 2px 2px 2px grey;
-	font-size: 20;
 	display: block;
 	cursor: pointer;
 	height: 30px;
@@ -79,7 +87,7 @@ body {
 
 .menucontainer {
 	float: left;
-	padding: 5px;
+	padding: 2px;
 	outline: 2px solid black;
 	background-color: white;
 	box-shadow: 10px 10px 5px lightgrey;
@@ -103,6 +111,8 @@ body {
 	cursor: pointer;
 	outline: none;
 	padding: 8px 52px 8px 10px;
+	margin-top: 3px;
+	margin-bottom: 3px;
 	transition: all 200ms ease;
 }
 
@@ -145,10 +155,12 @@ body {
 }
 
 .Dropdown-menu .Dropdown-group > .Dropdown-title{
-	padding: 8px 10px;
+	padding: 4px 5px;
 	color: rgba(51, 51, 51, 1);
 	font-weight: bold;
 	text-transform: capitalize;
+	margin-top: 3px;
+	margin-bottom: 3px;
 }
 
 .Dropdown-option {
@@ -156,7 +168,7 @@ body {
 	color: rgba(51, 51, 51, 0.8);
 	cursor: pointer;
 	display: block;
-	padding: 8px 10px;
+	padding: 4px 5px;
 }
 
 .Dropdown-option:last-child {
@@ -180,4 +192,6 @@ body {
 	cursor: default;
 	display: block;
 	padding: 8px 10px;
+	margin-top: 3px;
+	margin-bottom: 3px;
 }
