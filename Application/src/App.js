@@ -68,14 +68,13 @@ class App extends Component {
     event.stopPropagation();
     event.preventDefault();
     var file = event.target.files[0];
-    this.setState({file});
 
     var reader = new FileReader();
-    reader.onload = function(event) {
-    this.setState({
-      ...this.state,
-      options: uiToCSV_titles(event.target.result)
-    })
+    reader.onload = (event) => {
+      this.setState({
+        ...this.state,
+        options: uiToCSV_titles(event.target.result)
+      });
     };
     reader.readAsText(file);
   }
