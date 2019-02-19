@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Popup from 'react-popup';
 import Dropdown from 'react-dropdown';
-import { uiToCSV_titles, uiToCSV_object2, uiToCSV_object3, parserTo3DV_object1, parserTo3DV_object2 } from "./assets/js/csvParser.js"
+import { uiToCSV_titles, uiToCSV_object2, uiToCSV_object3, parserTo3DV_object } from "./assets/js/csvParser.js"
 import ReactFileReader from "react-file-reader";
 // CSS //
 import "./assets/css/styles.css";
