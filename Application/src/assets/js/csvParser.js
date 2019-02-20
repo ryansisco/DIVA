@@ -29,27 +29,56 @@ export function uiToCSV_object3(content){
 
 //Returns first object for CSV --> 3DV
 //USES GLOBAL: userSelect
-export function parserTo3DV_object1(){
+function parserTo3DV_object_old(content){
 
   var select1 = userSelect[0], 
       select2 = userSelect[1],
       select3 = userSelect[2];
 
   var type1 = "string", 
-      type2 = "timestamp",
+      type2 = "timestamp/string",
       type3 = "string";
 
-  var text = '{"xColumn":{"title":"'+select1+'","type":"'+type1+'"},"yColumn":{"title":"'+select2+'","type":"'+type2+'"},"zColumn":{"title":"'+select3+'","type":"'+type3+'"}}';
-  var object = JSON.parse(text);
+  var xIndices = [],
+      yIndices = [],
+      zIndices = [];
 
-  return object;
+  var contentArray = content.split('\n');
+  var contentArrayLength = contentArray.length;
+
+  var xOffset = contentArray[0].split(',').indexOf(userSelect[0]);
+  var yOffset = contentArray[0].split(',').indexOf(userSelect[1]);
+  var zOffset = contentArray[0].split(',').indexOf(userSelect[2]);
+
+  for(var i = 1; i < contentArrayLength; i++){
+    var rowArray = contentArray[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+    if ( xIndices.indexOf(rowArray[xOffset]) == -1 ){
+      xIndices.push(rowArray[xOffset]);
+    }
+    if ( yIndices.indexOf(rowArray[yOffset]) == -1 ){
+      yIndices.push(rowArray[yOffset]);
+    }
+    if ( zIndices.indexOf(rowArray[zOffset]) == -1 ){
+      zIndices.push(rowArray[zOffset]);
+    }
+  }
+
+  var text = '{"xColumn":{"title":"'+select1+'","type":"'+type1+'","indexes":'+JSON.stringify(xIndices)+'},"yColumn":{"title":"'+select2+'","type":"'+type2+'","indexes": '+JSON.stringify(yIndices)+'},"zColumn":{"title":"'+select3+'","type":"'+type3+'","indexes":'+JSON.stringify(zIndices)+'},';
+  //console.log(text)
+  //var object = JSON.parse(text);
+
+  //return object;
+  return text;
 };
 
 //Returns second object for CSV --> 3DV
 //USES GLOBAL: userSelect
-export function parserTo3DV_object2(content){
+export function parserTo3DV_object(content){
+
+  var object1_text = parserTo3DV_object_old(content);
+
   var object = [];
-  var text = '[';
+  var text = '"data":[';
   var contentArray = content.split('\n');
   var contentArrayLength = contentArray.length;
 
@@ -78,7 +107,7 @@ export function parserTo3DV_object2(content){
     }
   }
   
-  text = text + textTemp + "]";
+  text = object1_text + text + textTemp + "]}";
   object = JSON.parse(text);
 
   return text;
