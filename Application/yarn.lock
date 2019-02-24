@@ -4955,6 +4955,11 @@ three-orbitcontrols@^2.101.1:
   resolved "https://registry.yarnpkg.com/three-orbitcontrols/-/three-orbitcontrols-2.101.1.tgz#5361507eb78b1c509b26a90489456a35a923ec26"
   integrity sha512-GnTQGh0ULrnCae5doq+AoEnfRvZ5iW46wuYUwwdLpFSufmAa4ar4XGHYdGNIixYSdCGPokmPXLaqf+IaYHlAvg==
 
+three.meshline@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/three.meshline/-/three.meshline-1.2.0.tgz#89a0c9d67d8062e5649dc0ac9aa16f14e7c199b5"
+  integrity sha512-E7s9xwgjUhQWIvXBMIdCOIvpT1qV9UlntzaaJTWzJvYtvI2ZvVsX8EM8FxoiG5aptXuKbp5osnvcJCCkYOjmBA==
+
 three@^0.100.0:
   version "0.100.0"
   resolved "https://registry.yarnpkg.com/three/-/three-0.100.0.tgz#262841c0b7d88ebd62af73f28d9f578963b3aa00"
