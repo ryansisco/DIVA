@@ -27,6 +27,5 @@ export const createReducer = (actionName, initialData) => {
 }
 
 export default combineReducers({
-    cameraReducer: createReducer('CAMERA', {data: 10, type: 'CAMERA_UPDATE'}),
     graphData: createReducer('GRAPH', [])
 });
