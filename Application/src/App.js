@@ -3,7 +3,51 @@ import React, { Component } from "react";
 // REDUX //
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { updateCameraPosition } from './redux/actions';
+import { updateGraphData } from './redux/actions';
+
+const dummyAxes = {
+  xColumn: {
+    name: 'Country',
+    type: 'string',
+    max: 10,
+    min: 0
+  },
+  yColumn: {
+    name: 'IP',
+    type: 'string',
+    max: 10,
+    min: 0
+  },
+  zColumn: {
+    name: 'Times',
+    type: 'timestamp',
+    max: 10,
+    min: 2
+  }
+}
+
+const graphData = [
+  {
+    x: 2,
+    y: 3,
+    z: 0
+  },
+  {
+    x: 5,
+    y: 5,
+    z: 5
+  },
+  {
+    x: 0,
+    y: 8,
+    z: 3
+  },
+  {
+    x: 6,
+    y: 2,
+    z: 3
+  }
+];
 
 // CSS //
 import "./assets/css/styles.css";
@@ -24,8 +68,8 @@ class App extends Component {
   render() {
     return (
       <div>
+        <button onClick={() => this.props.updateGraphData({...dummyAxes, data: graphData})}>Click Me</button>
         <ThreeContainer />
-        <input type='text'/>
       </div>
     )
   }
@@ -37,7 +81,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-  updateCameraPosition
+  updateGraphData
 }, dispatch);
 
 export default connect(mapStateToProps,mapDispatchToProps)(App);

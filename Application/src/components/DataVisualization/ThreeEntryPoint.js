@@ -1,8 +1,8 @@
 import SceneManager from './SceneManager';
 
-export default container => {
+export default (container, graphData) => {
     const canvas = createCanvas(document, container);
-    const sceneManager = new SceneManager(canvas);
+    const sceneManager = new SceneManager(canvas, graphData);
 
     let canvasHalfWidth;
     let canvasHalfHeight;

@@ -13,3 +13,4 @@ const createAction = (actionName) => {
 }
 
 export const updateCameraPosition = createAction('CAMERA');
+export const updateGraphData = createAction('GRAPH');

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import threeEntryPoint from './ThreeEntryPoint';
 
 class ThreeContainer extends Component {
-    componentDidMount() {
-        threeEntryPoint(this.threeRootElement);
+    componentDidUpdate(prevProps) {
+        if (this.props.graphData.type === 'GRAPH_UPDATE') {
+            threeEntryPoint(this.threeRootElement, this.props.graphData.data)
+        }
     }
 
     render () {
@@ -14,4 +17,11 @@ class ThreeContainer extends Component {
     }
 }
 
-export default ThreeContainer;
+
+const mapStateToProps = state => {
+    return {
+        graphData: state.graphData
+    };
+  };
+
+export default connect(mapStateToProps)(ThreeContainer);

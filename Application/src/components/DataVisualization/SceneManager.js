@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import * as OrbitControls from 'three-orbitcontrols';
 import SceneSubject from './SceneSubject';
 
-export default canvas => {
+export default (canvas, graphData) => {
 
     const clock = new THREE.Clock();
 
@@ -15,7 +15,7 @@ export default canvas => {
     const renderer = buildRender(screenDimensions);
     const camera = buildCamera(screenDimensions);
     const controls = new OrbitControls(camera, renderer.domElement);
-    controls.target = new THREE.Vector3(5,5,0);
+    controls.target = new THREE.Vector3(10,5,0);
     controls.enableKeys;
     renderer.domElement.addEventListener("mouseenter", function(  ) {controls.enabled = true});
     renderer.domElement.addEventListener("mouseout", function(  ) {controls.enabled = false});
@@ -47,14 +47,14 @@ export default canvas => {
         const farPlane = 100; 
         const camera = new THREE.PerspectiveCamera(fieldOfView, aspectRatio, nearPlane, farPlane);
 
-        camera.position.set(5,5,10);
+        camera.position.set(10,5,10);
 
         return camera;
     }
 
     function createSceneSubjects(scene) {
         const sceneSubjects = [
-            new SceneSubject(scene)
+            new SceneSubject(scene, graphData)
         ];
 
         return sceneSubjects;
