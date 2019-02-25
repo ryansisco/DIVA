@@ -5,6 +5,12 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { updateGraphData } from './redux/actions';
 
+// CSS //
+import "./assets/css/styles.css";
+
+// COMPONENTS //
+import ThreeContainer from './components/DataVisualization/ThreeContainer';
+
 const dummyAxes = {
   xColumn: {
     name: 'Country',
@@ -48,11 +54,6 @@ const graphData = [
     z: 3
   }
 ];
-
-// CSS //
-import "./assets/css/styles.css";
-
-import ThreeContainer from './components/DataVisualization/ThreeContainer';
 
 class App extends Component {
   constructor(props) {
