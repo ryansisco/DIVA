@@ -6,6 +6,7 @@ body {
 .fileinput {
 	display: none;
 }
+
 .button {
 	font-family: Tahoma, Geneva, sans-serif;
 	font-size: 12;
@@ -31,6 +32,7 @@ body {
 :focus {
 	outline: 0;
 }
+
 .mainlogo{
 	padding-top: 4px;
 	z-index: -1;
@@ -96,11 +98,11 @@ body {
 	top: 42px;
 }
 
-.Dropdown-root {
+.dropdown-root {
 	position: relative;
 }
 
-.Dropdown-control {
+.dropdown-control {
 	position: relative;
 	overflow: hidden;
 	background-color: white;
@@ -116,11 +118,11 @@ body {
 	transition: all 200ms ease;
 }
 
-.Dropdown-control:hover {
+.dropdown-control:hover {
 	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 }
 
-.Dropdown-arrow {
+.dropdown-arrow {
 	border-color: #999 transparent transparent;
 	border-style: solid;
 	border-width: 5px 5px 0;
@@ -134,12 +136,12 @@ body {
 	width: 0
 }
 
-.is-open .Dropdown-arrow {
+.is-open .dropdown-arrow {
 	border-color: transparent transparent #999;
 	border-width: 0 5px 5px;
 }
 
-.Dropdown-menu {
+.dropdown-menu {
 	background-color: white;
 	border: 1px solid #ccc;
 	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
@@ -154,7 +156,7 @@ body {
 	-webkit-overflow-scrolling: touch;
 }
 
-.Dropdown-menu .Dropdown-group > .Dropdown-title{
+.dropdown-menu .dropdown-group > .dropdown-title{
 	padding: 4px 5px;
 	color: rgba(51, 51, 51, 1);
 	font-weight: bold;
@@ -163,7 +165,7 @@ body {
 	margin-bottom: 3px;
 }
 
-.Dropdown-option {
+.dropdown-option {
 	box-sizing: border-box;
 	color: rgba(51, 51, 51, 0.8);
 	cursor: pointer;
@@ -171,22 +173,22 @@ body {
 	padding: 4px 5px;
 }
 
-.Dropdown-option:last-child {
+.dropdown-option:last-child {
 	border-bottom-right-radius: 2px;
 	border-bottom-left-radius: 2px;
 }
 
-.Dropdown-option:hover {
+.dropdown-option:hover {
 	background-color: #f09bbb;
 	color: #333;
 }
 
-.Dropdown-option.is-selected {
+.dropdown-option.is-selected {
 	background-color: #f09bbb;
 	color: #333;
 }
 
-.Dropdown-noresults {
+.dropdown-noresults {
 	box-sizing: border-box;
 	color: #ccc;
 	cursor: default;

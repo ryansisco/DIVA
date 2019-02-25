@@ -25,9 +25,10 @@ class App extends Component {
 			zaxis: null,
 			options: []
 		};
-		this._onSelect = this._onSelect.bind(this);
+		this.onSelect = this.onSelect.bind(this);
 	}
-	_onSelect (option, e) {
+	
+  onSelect (option, e) {
 		this.setState({
 			...this.state,
 			[option]: e.value
@@ -38,7 +39,7 @@ class App extends Component {
 		document.title=process.env.TITLE;
 	}
 
-	Renderready(){
+	renderReady(){
 		if ((this.state.xaxis == this.state.yaxis)||(this.state.yaxis == this.state.zaxis)||(this.state.xaxis == this.state.zaxis)) {
 			return (
 				<div>
@@ -67,6 +68,7 @@ class App extends Component {
 			)
 		}
 	}
+
 	onChangeFile = (event) =>{
 		event.stopPropagation();
 		event.preventDefault();
@@ -81,7 +83,8 @@ class App extends Component {
 		};
 		reader.readAsText(file);
 	}
-	FileDialogue(){
+
+	fileDialogue(){
 		return (
 		<div>
 			<input 
@@ -97,19 +100,20 @@ class App extends Component {
 		</div>
 		)
 	}
-	Togglemenu(){
+
+	toggleMenu(){
 		const defaultOption = this.state.selected;
 		const placeHolderValue = typeof this.state.selected === 'string' ? this.state.selected : this.state.selected.label;
 		if (this.state.checked==1) {
 				return (
 					<div className = "menucontainer">
-						 {this.FileDialogue()}
+						 {this.fileDialogue()}
 						 <form className ="dropdownmenu">
-						 X-Axis:<Dropdown options={this.state.options} onChange={e => this._onSelect('xaxis', e)} value={this.state.xaxis} placeholder="..." /><br/>
-						 Y-Axis:<Dropdown options={this.state.options} onChange={e => this._onSelect('yaxis', e)} value={this.state.yaxis} placeholder="..." /><br/>
-						 Z-Axis:<Dropdown options={this.state.options} onChange={e => this._onSelect('zaxis', e)} value={this.state.zaxis} placeholder="..." />
+						 X-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('xaxis', e)} value={this.state.xaxis} placeholder="..." /><br/>
+						 Y-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('yaxis', e)} value={this.state.yaxis} placeholder="..." /><br/>
+						 Z-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('zaxis', e)} value={this.state.zaxis} placeholder="..." />
 						 </form>
-						 {this.Renderready()}
+						 {this.renderReady()}
 					</div>
 				);
 		}
@@ -129,12 +133,11 @@ class App extends Component {
 				 <img src={logo} className="mainlogo" width = '100px' height = 'auto'/><br/>
 				 </div></center></div>
 				 <button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>{buttonText}</button><br/>
-				 {this.Togglemenu()}
+				 {this.toggleMenu()}
 				</div>
 		);
 	}
 }
-
 
 const mapStateToProps = state => {
 	return {
