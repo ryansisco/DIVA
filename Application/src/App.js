@@ -1,17 +1,64 @@
 import React, { Component } from "react";
 // REDUX //
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { updateGraphData } from './redux/actions';
+
+// Components //
 import Popup from 'react-popup';
 import Dropdown from 'react-dropdown';
-import { uiToCSV_titles, uiToCSV_object2, uiToCSV_object3, parserTo3DV_object } from "./assets/js/csvParser.js"
-import ReactFileReader from "react-file-reader";
+import { uiToCSV_titles, uiToCSV_object2, uiToCSV_object3, parserTo3DV_object } from "./assets/js/csvParser.js";
+import ThreeContainer from './components/DataVisualization/ThreeContainer';
+
 // CSS //
 import "./assets/css/styles.css";
 
 // FILES //
 import logo from './assets/img/logo.png';
 
-var options = []
+const dummyAxes = {
+  xColumn: {
+    name: 'Country',
+    type: 'string',
+    max: 10,
+    min: 0
+  },
+  yColumn: {
+    name: 'IP',
+    type: 'string',
+    max: 10,
+    min: 0
+  },
+  zColumn: {
+    name: 'Times',
+    type: 'timestamp',
+    max: 10,
+    min: 2
+  }
+}
+
+const graphData = [
+  {
+    x: 2,
+    y: 3,
+    z: 0
+  },
+  {
+    x: 5,
+    y: 5,
+    z: 5
+  },
+  {
+    x: 0,
+    y: 8,
+    z: 3
+  },
+  {
+    x: 6,
+    y: 2,
+    z: 3
+  }
+];
 
 class App extends Component {
 
@@ -35,7 +82,8 @@ class App extends Component {
 		})
 	}
 
-	componentDidMount(){
+	componentDidMount() {
+    this.props.updateGraphData({...dummyAxes, data: graphData})
 		document.title=process.env.TITLE;
 	}
 
@@ -133,7 +181,8 @@ class App extends Component {
 				 <img src={logo} className="mainlogo" width = '100px' height = 'auto'/><br/>
 				 </div></center></div>
 				 <button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>{buttonText}</button><br/>
-				 {this.toggleMenu()}
+         {this.toggleMenu()}
+         <ThreeContainer />
 				</div>
 		);
 	}
@@ -144,9 +193,8 @@ const mapStateToProps = state => {
 	};
 };
 
-const mapDispatchToProps = dispatch => {
-	return {
-	};
-};
+const mapDispatchToProps = dispatch => bindActionCreators({
+  updateGraphData
+}, dispatch);
 
 export default connect(mapStateToProps,mapDispatchToProps)(App);
