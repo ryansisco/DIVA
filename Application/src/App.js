@@ -5,7 +5,6 @@ import { bindActionCreators } from "redux";
 import { updateGraphData } from './redux/actions';
 
 // Components //
-import Popup from 'react-popup';
 import Dropdown from 'react-dropdown';
 import { uiToCSV_titles, uiToCSV_object2, uiToCSV_object3, parserTo3DV_object } from "./assets/js/csvParser.js";
 import ThreeContainer from './components/DataVisualization/ThreeContainer';
