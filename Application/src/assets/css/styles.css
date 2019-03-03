@@ -71,20 +71,11 @@ body {
 	cursor: not-allowed;
 }
 
-.menubutton {
-	font-family: Tahoma, Geneva, sans-serif;
-	font-size: 12;
-	box-shadow: 2px 2px 2px grey;
-	display: block;
+.hamburgerimg {
 	cursor: pointer;
-	height: 30px;
-	width: 30px;
-	border-radius: 50%;
-	border: 2px solid #f09bbb;
-	background-color: #EBEBEE;
 	position: fixed;
-	top: 5px;
-	left: 5px;
+	top: 7px;
+	left: 7px;
 }
 
 .menucontainer {

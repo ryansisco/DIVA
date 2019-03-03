@@ -14,6 +14,7 @@ import "./assets/css/styles.css";
 
 // FILES //
 import logo from './assets/img/logo.png';
+import hamburger from './assets/img/hamburger.png';
 
 const dummyAxes = {
   xColumn: {
@@ -172,14 +173,15 @@ class App extends Component {
 	}
 
 	render() {
-		const buttonText = this.state.checked ? '-' : '+';
 		return (
 				<div>
 				<div className="topbox">
 				 <center><div className="boxaroundlogo">
-				 <img src={logo} className="mainlogo" width = '100px' height = 'auto'/><br/>
+				 <img src={logo} className="mainlogo" height = 'auto' width = '110px'/><br/>
 				 </div></center></div>
-				 <button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>{buttonText}</button><br/>
+				 <button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>
+         <img src={hamburger} className="hamburgerimg" width = '26px' height = 'auto'/>
+         </button><br/>
          {this.toggleMenu()}
          <ThreeContainer />
 				</div>
