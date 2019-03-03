@@ -159,7 +159,7 @@ class App extends Component {
 				return (
 					<div className = "menucontainer">
 						 {this.fileDialogue()}
-						 <div className = "selectedfile">Selected File: <a className = "filename"> {this.state.csvfilename}</a></div>
+						 <div className = "selectedfile">Uploaded File: <a className = "filename"> {this.state.csvfilename}</a></div>
 						 <form className ="dropdownmenu">
 						 X-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('xaxis', e)} value={this.state.xaxis} placeholder="..." /><br/>
 						 Y-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('yaxis', e)} value={this.state.yaxis} placeholder="..." /><br/>
@@ -178,12 +178,12 @@ class App extends Component {
 
 	render() {
 		return (
-				<div>
-				<div className="topbox">
-				 <center><div className="boxaroundlogo">
-				 <img src={logo} className="mainlogo" height = 'auto' width = '110px'/><br/>
-				 </div></center></div>
-				 <button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>
+			<div>
+			<div className="topbox">
+			<center><div className="boxaroundlogo">
+			<img src={logo} className="mainlogo" height = 'auto' width = '110px'/><br/>
+			</div></center></div>
+			<button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>
          <img src={hamburger} className="hamburgerimg" width = '26px' height = 'auto'/>
          </button><br/>
          {this.toggleMenu()}
