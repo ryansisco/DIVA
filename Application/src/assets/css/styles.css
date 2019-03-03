@@ -71,6 +71,16 @@ body {
 	cursor: not-allowed;
 }
 
+.selectedfile {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 12;
+	margin-left: 10px;
+}
+
+.filename {
+	font-style: italic;
+}
+
 .hamburgerimg {
 	cursor: pointer;
 	position: fixed;

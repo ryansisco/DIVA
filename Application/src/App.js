@@ -70,7 +70,8 @@ class App extends Component {
 			xaxis: null,
 			yaxis: null,
 			zaxis: null,
-			options: []
+			options: [],
+			csvfilename: null
 		};
 		this.onSelect = this.onSelect.bind(this);
 	}
@@ -126,10 +127,12 @@ class App extends Component {
 		reader.onload = (event) => {
 			this.setState({
 				...this.state,
-				options: uiToCSV_titles(event.target.result)
+				options: uiToCSV_titles(event.target.result),
+				csvfilename: file.name
 			});
 		};
 		reader.readAsText(file);
+		console.log(file.name);
 	}
 
 	fileDialogue(){
@@ -156,6 +159,7 @@ class App extends Component {
 				return (
 					<div className = "menucontainer">
 						 {this.fileDialogue()}
+						 <div className = "selectedfile">Selected File: <a className = "filename"> {this.state.csvfilename}</a></div>
 						 <form className ="dropdownmenu">
 						 X-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('xaxis', e)} value={this.state.xaxis} placeholder="..." /><br/>
 						 Y-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('yaxis', e)} value={this.state.yaxis} placeholder="..." /><br/>
