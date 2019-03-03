@@ -25,14 +25,14 @@ const dummyAxes = {
   yColumn: {
     name: 'IP',
     type: 'string',
-    max: 10,
-    min: 0
+    max: 8,
+    min: 2
   },
   zColumn: {
     name: 'Times',
     type: 'timestamp',
-    max: 10,
-    min: 2
+    max: 5,
+    min: 0
   }
 }
 
@@ -53,7 +53,7 @@ const graphData = [
     z: 3
   },
   {
-    x: 6,
+    x: 10,
     y: 2,
     z: 3
   }
