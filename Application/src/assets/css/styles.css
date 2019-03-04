@@ -53,6 +53,7 @@ body {
 }
 
 .notreadybutton {
+	position: relative;
 	font-family: Tahoma, Geneva, sans-serif;
 	font-size: 12;
 	width: 200px;
@@ -69,6 +70,20 @@ body {
 	cursor: pointer;
 	opacity: 0.6;
 	cursor: not-allowed;
+}
+
+.selectedfile {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 12;
+	margin-left: 10px;
+	width: 200px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.filename {
+	font-style: italic;
 }
 
 .hamburgerimg {
