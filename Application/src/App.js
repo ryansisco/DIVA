@@ -139,7 +139,7 @@ class App extends Component {
 	fileDialogue(){
 		return (
 		<div>
-			<input 
+			<input
 				className = "fileinput"
 				type = "file"
 				ref = {(ref) => this.upload = ref}
@@ -186,10 +186,20 @@ class App extends Component {
              <form className ="dropdownhelpmenu">
              This is a 3D visulization application called DIVA.<br/>
              It lets the user upload a CSV file to visualize the<br/>
-             3D visualixation of the data objects in the file.<br/>
+             3D visualixation of the data objects in the file.<br/> <br/>
              To use this web application use the following steps:<br/>
-             1.Click on this button <img src={hamburger} className="hamburgerimg2" height = 'auto' width = '12px'/><br/> which is on the  top left most <br/>
-             side of the menu.
+             1.Click on this button <img src={hamburger} className="hamburgerimg2" height = 'auto' width = '12px'/> which is on the top left most <br/>
+             side of the menu. This will pop up a window <br/>
+             with different options.<br/> <br/>
+             2. By pressing the Upload file button you can upload <br/>
+             a CSV file, after which it is uploaded the user can  <br/>
+             see the file name right beneath it.<br/><br/>
+             3.The user then select the data variables for X axis,<br/>
+             Y axis and Z axis repectively.<br/><br/>
+             4.By clicking on the render button after that the user <br/>
+             can visualize a 3D interactive visualixation, which can <br/>
+             then be filtered using the filter button or dowloaded <br/>
+             using the dowload button.
              </form>
           </div>
         );
@@ -212,7 +222,6 @@ class App extends Component {
          <img src={helpimg} className="helpimg" width = '26px' height = 'auto'/>
          </button><br/>
          {this.toggleHelpMenu()}
-          <ThreeContainer />
          <button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>
          <img src={hamburger} className="hamburgerimg" width = '26px' height = 'auto'/>
          </button><br/>
