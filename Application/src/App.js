@@ -71,7 +71,8 @@ class App extends Component {
 			xaxis: null,
 			yaxis: null,
 			zaxis: null,
-			options: []
+			options: [],
+			csvfilename: null
 		};
 		this.onSelect = this.onSelect.bind(this);
 	}
@@ -127,10 +128,12 @@ class App extends Component {
 		reader.onload = (event) => {
 			this.setState({
 				...this.state,
-				options: uiToCSV_titles(event.target.result)
+				options: uiToCSV_titles(event.target.result),
+				csvfilename: file.name
 			});
 		};
 		reader.readAsText(file);
+		console.log(file.name);
 	}
 
 	fileDialogue(){
@@ -157,6 +160,7 @@ class App extends Component {
 				return (
 					<div className = "menucontainer">
 						 {this.fileDialogue()}
+						 <div className = "selectedfile">Uploaded File: <a className = "filename"> {this.state.csvfilename}</a></div>
 						 <form className ="dropdownmenu">
 						 X-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('xaxis', e)} value={this.state.xaxis} placeholder="..." /><br/>
 						 Y-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('yaxis', e)} value={this.state.yaxis} placeholder="..." /><br/>
@@ -199,6 +203,7 @@ class App extends Component {
 
 	render() {
 		return (
+<<<<<<< HEAD
 				<div>
 				<div className="topbox">
 				 <center><div className="boxaroundlogo">
@@ -210,6 +215,14 @@ class App extends Component {
          {this.toggleHelpMenu()}
           <ThreeContainer />
          <button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>
+=======
+			<div>
+			<div className="topbox">
+			<center><div className="boxaroundlogo">
+			<img src={logo} className="mainlogo" height = 'auto' width = '110px'/><br/>
+			</div></center></div>
+			<button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>
+>>>>>>> 0d32e1e5f8accee0bf7926e80868b97877f5d8b5
          <img src={hamburger} className="hamburgerimg" width = '26px' height = 'auto'/>
          </button><br/>
          {this.toggleMenu()}
