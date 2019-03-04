@@ -213,20 +213,23 @@ class App extends Component {
 
 	render() {
 		return (
-				<div>
+			<div>
 				<div className="topbox">
-				 <center><div className="boxaroundlogo">
-				 <img src={logo} className="mainlogo" height = 'auto' width = '110px'/><br/>
-				 </div></center></div>
-         <button className='helpmenubutton' onClick={() => this.setState({checked2:!this.state.checked2})}>
-         <img src={helpimg} className="helpimg" width = '26px' height = 'auto'/>
-         </button><br/>
-         {this.toggleHelpMenu()}
-         <button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>
-         <img src={hamburger} className="hamburgerimg" width = '26px' height = 'auto'/>
-         </button><br/>
-         {this.toggleMenu()}
-         <ThreeContainer />
+				<center><div className="boxaroundlogo">
+				<img src={logo} className="mainlogo" height = 'auto' width = '110px'/><br/>
+				</div></center></div>
+
+         		<button className='helpmenubutton' onClick={() => this.setState({checked2:!this.state.checked2})}>
+         		<img src={helpimg} className="helpimg" width = '26px' height = 'auto'/>
+         		</button><br/>
+         		{this.toggleHelpMenu()}
+
+         		<button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>
+         		<img src={hamburger} className="hamburgerimg" width = '26px' height = 'auto'/>
+         		</button><br/>
+         		{this.toggleMenu()}
+
+         		<ThreeContainer />
     		</div>
 		);
 	}
