@@ -92,27 +92,27 @@ class App extends Component {
 		if ((this.state.xaxis == this.state.yaxis)||(this.state.yaxis == this.state.zaxis)||(this.state.xaxis == this.state.zaxis)) {
 			return (
 				<div>
-				<button className="notreadybutton">Filter</button><br/>
+				<button className = "notreadybutton">Filter</button><br/>
 				<button className = "notreadybutton">Render</button><br/>
-				<button className="notreadybutton">Download</button><br/>
+				<button className = "notreadybutton">Download</button><br/>
 				</div>
 			)
 		}
 		if ((this.state.xaxis == null)||(this.state.yaxis == null)||(this.state.zaxis == null)) {
 			return (
 				<div>
-				<button className="notreadybutton">Filter</button><br/>
+				<button className = "notreadybutton">Filter</button><br/>
 				<button className = "notreadybutton">Render</button><br/>
-				<button className="notreadybutton">Download</button><br/>
+				<button className = "notreadybutton">Download</button><br/>
 				</div>
 			)
 		}
 		else {
 			return (
 				<div>
-				<button className="button">Filter</button><br/>
+				<button className = "button">Filter</button><br/>
 				<button className = "button">Render</button><br/>
-				<button className="button">Download</button><br/>
+				<button className = "button">Download</button><br/>
 				</div>
 			)
 		}
@@ -139,14 +139,14 @@ class App extends Component {
 		return (
 		<div>
 			<input 
-				className="fileinput"
-				type="file"
-				ref={(ref) => this.upload = ref}
-				onChange={this.onChangeFile.bind(this)}
+				className = "fileinput"
+				type = "file"
+				ref = {(ref) => this.upload = ref}
+				onChange = {this.onChangeFile.bind(this)}
 			/>
 			<button 
 				className = "button"
-				onClick={()=>{this.upload.click()}}
+				onClick = {() => {this.upload.click()}}
 			>Upload File</button>
 		</div>
 		)
