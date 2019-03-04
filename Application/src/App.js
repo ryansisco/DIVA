@@ -15,7 +15,7 @@ import "./assets/css/styles.css";
 // FILES //
 import logo from './assets/img/logo.png';
 import hamburger from './assets/img/hamburger.png';
-
+import helpimg from './assets/img/helpimg.png';
 const dummyAxes = {
   xColumn: {
     name: 'Country',
@@ -67,6 +67,7 @@ class App extends Component {
 		this.state = {
 			value: false,
 			selected: '',
+      selected2: '',
 			xaxis: null,
 			yaxis: null,
 			zaxis: null,
@@ -75,7 +76,7 @@ class App extends Component {
 		};
 		this.onSelect = this.onSelect.bind(this);
 	}
-	
+
   onSelect (option, e) {
 		this.setState({
 			...this.state,
@@ -144,7 +145,7 @@ class App extends Component {
 				ref = {(ref) => this.upload = ref}
 				onChange = {this.onChangeFile.bind(this)}
 			/>
-			<button 
+			<button
 				className = "button"
 				onClick = {() => {this.upload.click()}}
 			>Upload File</button>
@@ -176,19 +177,48 @@ class App extends Component {
 		}
 	}
 
+  toggleHelpMenu(){
+    const defaultOption = this.state.selected2;
+    const placeHolderValue = typeof this.state.selected2 === 'string' ? this.state.selected2 : this.state.selected2.label;
+    if (this.state.checked2==1) {
+        return (
+          <div className = "helpmenucontainer">
+             <form className ="dropdownhelpmenu">
+             This is a 3D visulization application called DIVA.<br/>
+             It lets the user upload a CSV file to visualize the<br/>
+             3D visualixation of the data objects in the file.<br/>
+             To use this web application use the following steps:<br/>
+             1.Click on this button <img src={hamburger} className="hamburgerimg2" height = 'auto' width = '12px'/><br/> which is on the  top left most <br/>
+             side of the menu.
+             </form>
+          </div>
+        );
+    }
+    if (this.state.checked2==0) {
+      return (
+        <div></div>
+        );
+    }
+  }
+
 	render() {
 		return (
-			<div>
-			<div className="topbox">
-			<center><div className="boxaroundlogo">
-			<img src={logo} className="mainlogo" height = 'auto' width = '110px'/><br/>
-			</div></center></div>
-			<button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>
+				<div>
+				<div className="topbox">
+				 <center><div className="boxaroundlogo">
+				 <img src={logo} className="mainlogo" height = 'auto' width = '110px'/><br/>
+				 </div></center></div>
+         <button className='helpmenubutton' onClick={() => this.setState({checked2:!this.state.checked2})}>
+         <img src={helpimg} className="helpimg" width = '26px' height = 'auto'/>
+         </button><br/>
+         {this.toggleHelpMenu()}
+          <ThreeContainer />
+         <button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>
          <img src={hamburger} className="hamburgerimg" width = '26px' height = 'auto'/>
          </button><br/>
          {this.toggleMenu()}
          <ThreeContainer />
-				</div>
+    		</div>
 		);
 	}
 }
