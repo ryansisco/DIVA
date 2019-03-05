@@ -186,7 +186,7 @@ class App extends Component {
              <form className ="dropdownhelpmenu">
              This is a 3D visulization application called DIVA.<br/>
              It lets the user upload a CSV file to visualize the<br/>
-             3D visualixation of the data objects in the file.<br/> <br/>
+             3D visualization of the data objects in the file.<br/> <br/>
              To use this web application use the following steps:<br/>
              1.Click on this button <img src={hamburger} className="hamburgerimg2" height = 'auto' width = '12px'/> which is on the top left most <br/>
              side of the menu. This will pop up a window <br/>
