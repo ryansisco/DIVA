@@ -123,7 +123,7 @@ class App extends Component {
 		event.stopPropagation();
 		event.preventDefault();
 		var file = event.target.files[0];
-
+		if (file.type == "application/vnd.ms-excel") {
 		var reader = new FileReader();
 		reader.onload = (event) => {
 			this.setState({
@@ -133,7 +133,10 @@ class App extends Component {
 			});
 		};
 		reader.readAsText(file);
-		console.log(file.name);
+		}
+		else {
+			alert("File must be type CSV");
+		}
 	}
 
 	fileDialogue(){
