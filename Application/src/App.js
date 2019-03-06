@@ -16,6 +16,7 @@ import "./assets/css/styles.css";
 import logo from './assets/img/logo.png';
 import hamburger from './assets/img/hamburger.png';
 import helpimg from './assets/img/helpimg.png';
+import camera from './assets/img/camera.png'
 const dummyAxes = {
   xColumn: {
     name: 'Country',
@@ -68,6 +69,7 @@ class App extends Component {
 			value: false,
 			selected: '',
       selected2: '',
+      selected3: '',
 			xaxis: null,
 			yaxis: null,
 			zaxis: null,
@@ -214,6 +216,26 @@ class App extends Component {
     }
   }
 
+  toggleCamera(){
+    const defaultOption = this.state.selected3;
+    const placeHolderValue = typeof this.state.selected3 === 'string' ? this.state.selected3 : this.state.selected3.label;
+    if (this.state.checked3==1) {
+        return (
+          <div className = "helpmenucontainer">
+             <form className ="dropdowncamera">
+             jjjjjjjjjjjjjjjjjjjjjjjjjjj
+             </form>
+          </div>
+        );
+    }
+    if (this.state.checked3==0) {
+      return (
+        <div></div>
+        );
+    }
+  }
+
+
 	render() {
 		return (
 			<div>
@@ -222,16 +244,21 @@ class App extends Component {
 				<img src={logo} className="mainlogo" height = 'auto' width = '110px'/><br/>
 				</div></center></div>
 
-         		<button className='helpmenubutton' onClick={() => this.setState({checked2:!this.state.checked2})}>
-         		<img src={helpimg} className="helpimg" width = '26px' height = 'auto'/>
-         		</button><br/>
-         		{this.toggleHelpMenu()}
-
-         		<button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>
+            <button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>
          		<img src={hamburger} className="hamburgerimg" width = '26px' height = 'auto'/>
          		</button><br/>
          		{this.toggleMenu()}
 
+            <button className='helpmenubutton' onClick={() => this.setState({checked2:!this.state.checked2})}>
+            <img src={helpimg} className="helpimg" width = '26px' height = 'auto'/>
+            </button><br/>
+            {this.toggleHelpMenu()}
+
+            <button className='camerabutton' onClick={() => this.setState({checked3:!this.state.checked3})}>
+            <img src={camera} className="camera" width = '26px' height = 'auto'/>
+            </button><br/>
+            {this.toggleCamera()}
+            
          		<ThreeContainer />
     		</div>
 		);
