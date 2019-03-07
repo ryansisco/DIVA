@@ -100,11 +100,11 @@ body {
 	right: 7px;
 }
 
-.cameraimg{
+.camera{
 	cursor: pointer;
 	position: fixed;
 	top: 7px;
-	center: 7px;
+	right: 45px;
 }
 
 .menucontainer {
@@ -129,7 +129,7 @@ body {
 	top: 42px;
 }
 
-.cameracontainer {
+.cameramenucontainer {
 	float: left;
 	padding: 2px;
 	outline: 2px solid black;
@@ -213,7 +213,7 @@ body {
 	-webkit-overflow-scrolling: touch;
 }
 
-.dropdown-camera {
+.dropdown-cameramenu {
 	background-color: white;
 	border: 1px solid #ccc;
 	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
@@ -247,7 +247,7 @@ body {
 	margin-bottom: 3px;
 }
 
-.dropdown-camera .dropdown-group > .dropdown-title{
+.dropdown-cameramenu .dropdown-group > .dropdown-title{
 	padding: 4px 5px;
 	color: rgba(51, 51, 51, 1);
 	font-weight: bold;

@@ -216,13 +216,13 @@ class App extends Component {
     }
   }
 
-  toggleCamera(){
+  toggleCameraMenu(){
     const defaultOption = this.state.selected3;
     const placeHolderValue = typeof this.state.selected3 === 'string' ? this.state.selected3 : this.state.selected3.label;
     if (this.state.checked3==1) {
         return (
-          <div className = "helpmenucontainer">
-             <form className ="dropdowncamera">
+          <div className = "cameramenucontainer">
+             <form className ="dropdowncameramenu">
              jjjjjjjjjjjjjjjjjjjjjjjjjjj
              </form>
           </div>
@@ -254,11 +254,11 @@ class App extends Component {
             </button><br/>
             {this.toggleHelpMenu()}
 
-            <button className='camerabutton' onClick={() => this.setState({checked3:!this.state.checked3})}>
+            <button className='cameramenubutton' onClick={() => this.setState({checked3:!this.state.checked3})}>
             <img src={camera} className="camera" width = '26px' height = 'auto'/>
             </button><br/>
-            {this.toggleCamera()}
-            
+            {this.toggleCameraMenu()}
+
          		<ThreeContainer />
     		</div>
 		);
