@@ -1,7 +1,22 @@
 import * as THREE from 'three';
 import * as MeshLine from 'three.meshline';
-
+import * as TextSprite from 'three.textsprite';
 import { SCALE } from './SceneManager';
+
+function makeText(scene, text, textSize, x, y, z){
+	var sprite = new TextSprite({
+		textSize,
+		texture: {
+			text,
+			fontFamily: 'Arial, Helvetical, sans-serif',
+		},
+		material: {color: 0x000000},
+	});
+	sprite.position.x = x
+	sprite.position.y = y
+	sprite.position.z = z
+	scene.add(sprite)
+}
 
 export default (scene, graphData) => {
 	// SET UP AXES
@@ -41,8 +56,48 @@ export default (scene, graphData) => {
 	line.vertices.push( new THREE.Vector3( 0, 0, -1 * SCALE) );
 	line.vertices.push( new THREE.Vector3( 0, 0, 0) );
 	makeLine(line, '#0000ff');
+	
+	for(var i = 0; i <= SCALE; i+=SCALE/10){
+		// X axis
+		var line = new THREE.Geometry();
+		if(i != 0){
+			line.vertices.push( new THREE.Vector3( i, 0, 0) );
+			line.vertices.push( new THREE.Vector3( i, 0, SCALE/75) );
+			makeLine(line, '#ff0000')
+		}
+		if(i % 10 == 0 && i != 0){
+			makeText(scene, String(i/10), .015 * SCALE, i, 0, SCALE/25);
+		}
+		
+		// Y Axis
+		if(i != 0){
+			var line = new THREE.Geometry();
+			line.vertices.push( new THREE.Vector3( 0, i, 0) );
+			line.vertices.push( new THREE.Vector3( -SCALE/100, i, SCALE/100) );
+			makeLine(line, '#00ff00')
+		}
+		if(i % 10 == 0 && i != 0){
+			makeText(scene, String(i/10), .015 * SCALE, -20, i, SCALE/25);
+		}
+		
+		//Z Axis
+		if (i != 0){
+			var line = new THREE.Geometry();
+			line.vertices.push( new THREE.Vector3( 0, 0, -i) );
+			line.vertices.push( new THREE.Vector3( -SCALE/75, 0, -i) );
+			makeLine(line, '#0000ff')
+		}
+		if(i % 10 == 0 && i != 0){
+			makeText(scene, String(i/10), .015 * SCALE, -SCALE/25, 0, -i);
+		}
+	}
+	
+	
+	makeText(scene, 'X Axis', .03 * SCALE, SCALE/2, 0, SCALE/10);
+	makeText(scene, 'Y Axis', .03 * SCALE, -SCALE/10, SCALE/2, SCALE/10);
+	makeText(scene, 'Z Axis', .03 * SCALE, -SCALE/10, 0, -SCALE/2);
 	// END OF AXES
-
+	
 	// START OF GRAPH DATA
 	const pointsGeometery = new THREE.Geometry();
 	
