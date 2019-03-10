@@ -44,18 +44,18 @@ export default (scene, graphData) => {
 	// END OF AXES
 
 	// START OF GRAPH DATA
-  const pointsGeometery = new THREE.Geometry();
+	const pointsGeometery = new THREE.Geometry();
 	
-	// All points must be inbetween (0, 0, 0) and (10, 10, 10). This keeps the viewbox consistent for different data being displayed.
-	// The max values will be plotted at 10 on the respective axes. Every other point will be graphed as a percentage of the max.
+	// All points must be inbetween (0, 0, 0) and (SCALE, SCALE, SCALE). This keeps the viewbox consistent for different data being displayed.
+	// The max values will be plotted at SCALE on the respective axes. Every other point will be graphed as a percentage of the max.
 	const formatX = val => {
-		return SCALE * (val / (graphData.xColumn.max - graphData.xColumn.min)) - graphData.xColumn.min;
+		return SCALE * (val - graphData.xColumn.min) / (graphData.xColumn.max - graphData.xColumn.min);
 	}
 	const formatY = val => {
-		return SCALE * (val / (graphData.yColumn.max - graphData.yColumn.min)) - graphData.yColumn.min;
+		return SCALE * (val - graphData.yColumn.min) / (graphData.yColumn.max - graphData.yColumn.min);
 	}
 	const formatZ = val => {
-		return -1 * SCALE * (val / (graphData.zColumn.max - graphData.zColumn.min)) - graphData.zColumn.min;
+		return -1 * SCALE * (val - graphData.zColumn.min) / (graphData.zColumn.max - graphData.zColumn.min);
 	}
 
   graphData.data.forEach(value => {
