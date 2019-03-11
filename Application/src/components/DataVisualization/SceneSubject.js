@@ -88,6 +88,7 @@ export default (scene, graphData) => {
 	makeText(scene, 'X Axis', .03 * SCALE, SCALE/2, 0, SCALE/10);
 	makeText(scene, 'Y Axis', .03 * SCALE, -SCALE/10, SCALE/2, SCALE/10);
 	makeText(scene, 'Z Axis', .03 * SCALE, -SCALE/10, 0, -SCALE/2);
+	makeText(scene, 'INSERT TITLE HERE', .05 * SCALE, SCALE/1.9, 1.2*SCALE, -SCALE/2);
 	// END OF AXES
 	
 	// START OF GRAPH DATA
