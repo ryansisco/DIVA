@@ -76,11 +76,11 @@ export default (scene, graphData) => {
 			line.vertices.push( new THREE.Vector3( 0, 0, -i) );
 			line.vertices.push( new THREE.Vector3( -SCALE/75, 0, -i) );
 			makeLine(line, '#0000ff')
-		}
-		if(i % 10 == 0 && i != 0){
-			makeText(scene, String(i/10), .015 * SCALE, i, 0, SCALE/25);
-			makeText(scene, String(i/10), .015 * SCALE, -SCALE/25, i, SCALE/25);
-			makeText(scene, String(i/10), .015 * SCALE, -SCALE/25, 0, -i);
+			if(i % 10 == 0){
+				makeText(scene, String(i/10), .015 * SCALE, i, 0, SCALE/25);
+				makeText(scene, String(i/10), .015 * SCALE, -SCALE/25, i, SCALE/25);
+				makeText(scene, String(i/10), .015 * SCALE, -SCALE/25, 0, -i);
+			}
 		}
 	}
 	
