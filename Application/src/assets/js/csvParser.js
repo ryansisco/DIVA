@@ -1,114 +1,126 @@
-//userSelect are dummy variables for CSVParser ---> 3DV
-const userSelect = [
- 'IOC', 'Date', 'Country Code'
-];
-
 //Return the first line of the CSV file as an array
 //INPUT: contents of entire CSV file
 //OUTPUT: div = ['row1_col1', 'row1_col2', ..., 'row1_colN']
-export function uiToCSV_titles(content){
-  var str = content;
-  var first = str.split('\n')[0];
-  var div = first.split(',');
-  return div;
+export function getTitles(content){
+  const first = content.split('\n')[0];
+  return first.split(',');
 };
 
-//The following two unfilled functions are for filtering options to pass to the UI,
-// which will be done after alpha release
-export function uiToCSV_object2(content){
-  var object = [];
+function getTypes(content, offsets) {
+  const firstDataRow = content.split('\n')[2];
+  const firstDataArr = firstDataRow.split(',');
+  const types = {};
 
-  return object;
-};
+  //for the column values, test what type each is. Could be string, date, or number
+  Object.entries(offsets).map(offset => {
+    if (Date.parse(firstDataArr[offset[1]]))
+      types[offset[0]] = 'date';
+    else if (!isNaN(firstDataArr[offset[1]]))
+      types[offset[0]] = 'number';
+    else
+      types[offset[0]] = 'string';
+  });
 
-export function uiToCSV_object3(content){
-  var object = [];
-
-  return object;
-};
-
-//Returns first object for CSV --> 3DV
-//USES GLOBAL: userSelect
-function parserTo3DV_object_old(content){
-
-  var select1 = userSelect[0], 
-      select2 = userSelect[1],
-      select3 = userSelect[2];
-
-  var type1 = "string", 
-      type2 = "timestamp/string",
-      type3 = "string";
-
-  var xIndices = [],
-      yIndices = [],
-      zIndices = [];
-
-  var contentArray = content.split('\n');
-  var contentArrayLength = contentArray.length;
-
-  var xOffset = contentArray[0].split(',').indexOf(userSelect[0]);
-  var yOffset = contentArray[0].split(',').indexOf(userSelect[1]);
-  var zOffset = contentArray[0].split(',').indexOf(userSelect[2]);
-
-  for(var i = 1; i < contentArrayLength; i++){
-    var rowArray = contentArray[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-    if ( xIndices.indexOf(rowArray[xOffset]) == -1 ){
-      xIndices.push(rowArray[xOffset]);
-    }
-    if ( yIndices.indexOf(rowArray[yOffset]) == -1 ){
-      yIndices.push(rowArray[yOffset]);
-    }
-    if ( zIndices.indexOf(rowArray[zOffset]) == -1 ){
-      zIndices.push(rowArray[zOffset]);
-    }
-  }
-
-  var text = '{"xColumn":{"title":"'+select1+'","type":"'+type1+'","indexes":'+JSON.stringify(xIndices)+'},"yColumn":{"title":"'+select2+'","type":"'+type2+'","indexes": '+JSON.stringify(yIndices)+'},"zColumn":{"title":"'+select3+'","type":"'+type3+'","indexes":'+JSON.stringify(zIndices)+'},';
-  //console.log(text)
-  //var object = JSON.parse(text);
-
-  //return object;
-  return text;
-};
+  return types;
+}
 
 //Returns second object for CSV --> 3DV
 //USES GLOBAL: userSelect
-export function parserTo3DV_object(content){
+export function get3dvObject(content, columns) {
 
-  var object1_text = parserTo3DV_object_old(content);
+  const contentArray = content.split('\n');
 
-  var object = [];
-  var text = '"data":[';
-  var contentArray = content.split('\n');
-  var contentArrayLength = contentArray.length;
+  const indices = { x: [], y: [], z: [] };
 
-  var xTemp, xOffset = contentArray[0].split(',').indexOf(userSelect[0]);
-  var yTemp, yOffset = contentArray[0].split(',').indexOf(userSelect[1]);
-  var zTemp, zOffset = contentArray[0].split(',').indexOf(userSelect[2]);
-  var textTemp = "";
+  const offsets = {
+    x: contentArray[0].split(',').indexOf(columns.x),
+    y: contentArray[0].split(',').indexOf(columns.y),
+    z: contentArray[0].split(',').indexOf(columns.z)
+  };
 
-  for (var i = 1; i < contentArrayLength; i++){
-    //var subdataTemp = {};
-    var rowArray = contentArray[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-    var rowArrayLength = rowArray.length;
+  const types = getTypes(content, offsets);
 
-    //TODO: identify bad elements
-    if(rowArray[0].indexOf('"') > -1){
-      rowArray[0] = rowArray[0].substring(1, rowArray[0].length - 1);
+  const maximums = { x: null, y: null, z: null };
+  const minimums = { x: null, y: null, z: null };
+  
+  const data = [];
+
+  for(let i = 1; i < contentArray.length; i++){
+    let rowArray = contentArray[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+    const tempVals = {x: null, y: null, z: null};
+    Object.keys(indices).map(key => {
+      if (types[key] === 'date') {
+        const val = Date.parse(rowArray[offsets[key]]);
+        tempVals[key] = val;
+        if (val > maximums[key] || !maximums[key])
+          maximums[key] = val;
+        else if (val < minimums[key] || ! minimums[key])
+          minimums[key] = val;
+      }
+
+      else if (types[key] === 'number') {
+        const val = rowArray[offsets[key]];
+        tempVals[key] = val;
+        if (val > maximums[key] || !maximums[key])
+          maximums[key] = val;
+        else if (val < minimums[key] || ! minimums[key])
+          minimums[key] = val;
+      }
+
+      else {
+        //set start max and mins
+        if (!maximums[key] && !minimums[key]) {
+          maximums[key] = 0;
+          minimums[key] = 0;
+        }
+
+        const existingIndex = indices[key].indexOf(rowArray[offsets[key]]);
+
+        if (existingIndex === -1) {
+          indices[key].push(rowArray[offsets[key]]);
+          maximums[key]++;
+          tempVals[key] = maximums[key];
+        } else {
+          tempVals[key] = existingIndex;
+        }
+      }
+    });
+    
+
+    //if any elements are missing in the user's chosen columns, skip the data point
+    if(tempVals.x === -1 || tempVals.y === -1 || tempVals.z === -1){
+      continue;
     }
-
-    xTemp = rowArray[xOffset], yTemp = rowArray[yOffset], zTemp = rowArray[zOffset];
-    textTemp += '{"x":"'+xTemp+'","y":"'+yTemp+'","z":"'+zTemp+'"}';
 
     //TODO: subdata
 
-    if(i != (contentArrayLength - 1)){
-      textTemp += ",";
-    }
+    data.push(tempVals);
   }
-  
-  text = object1_text + text + textTemp + "]}";
-  object = JSON.parse(text);
 
-  return text;
+  const finalObject = {
+    xColumn: {
+      name: columns.x,
+      type: types.x,
+      indices: indices.x,
+      max: maximums.x,
+      min: minimums.x
+    },
+    yColumn: {
+      name: columns.y,
+      type: types.y,
+      indices: indices.y,
+      max: maximums.y,
+      min: minimums.y
+    },
+    zColumn: {
+      name: columns.z,
+      type: types.z,
+      indices: indices.z,
+      max: maximums.z,
+      min: minimums.z
+    },
+    data
+  }
+
+  return finalObject;
 };
