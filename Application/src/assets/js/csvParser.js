@@ -101,21 +101,21 @@ export function get3dvObject(content, columns) {
     xColumn: {
       name: columns.x,
       type: types.x,
-      indexes: indices.x,
+      indices: indices.x,
       max: maximums.x,
       min: minimums.x
     },
     yColumn: {
       name: columns.y,
       type: types.y,
-      indexes: indices.y,
+      indices: indices.y,
       max: maximums.y,
       min: minimums.y
     },
     zColumn: {
       name: columns.z,
       type: types.z,
-      indexes: indices.z,
+      indices: indices.z,
       max: maximums.z,
       min: minimums.z
     },
