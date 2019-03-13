@@ -68,8 +68,8 @@ class App extends Component {
 		this.state = {
 			value: false,
 			selected: '',
-      selected2: '',
-      selected3: '',
+      		selected2: '',
+      		selected3: '',
 			xaxis: null,
 			yaxis: null,
 			zaxis: null,
@@ -95,7 +95,6 @@ class App extends Component {
 		if ((this.state.xaxis == this.state.yaxis)||(this.state.yaxis == this.state.zaxis)||(this.state.xaxis == this.state.zaxis)) {
 			return (
 				<div>
-				<button className = "notreadybutton">Filter</button><br/>
 				<button className = "notreadybutton">Render</button><br/>
 				<button className = "notreadybutton">Download</button><br/>
 				</div>
@@ -104,7 +103,6 @@ class App extends Component {
 		if ((this.state.xaxis == null)||(this.state.yaxis == null)||(this.state.zaxis == null)) {
 			return (
 				<div>
-				<button className = "notreadybutton">Filter</button><br/>
 				<button className = "notreadybutton">Render</button><br/>
 				<button className = "notreadybutton">Download</button><br/>
 				</div>
@@ -113,7 +111,6 @@ class App extends Component {
 		else {
 			return (
 				<div>
-				<button className = "button">Filter</button><br/>
 				<button className = "button">Render</button><br/>
 				<button className = "button">Download</button><br/>
 				</div>
@@ -223,7 +220,7 @@ class App extends Component {
         return (
           <div className = "cameramenucontainer">
              <form className ="dropdowncameramenu">
-             jjjjjjjjjjjjjjjjjjjjjjjjjjj
+             Camera Options
              </form>
           </div>
         );
@@ -239,15 +236,15 @@ class App extends Component {
 	render() {
 		return (
 			<div>
-				<div className="topbox">
-				<center><div className="boxaroundlogo">
-				<img src={logo} className="mainlogo" height = 'auto' width = '110px'/><br/>
-				</div></center></div>
+			<div className="topbox">
+			<center><div className="boxaroundlogo">
+			<img src={logo} className="mainlogo" height = 'auto' width = '110px'/><br/>
+			</div></center></div>
 
             <button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>
-         		<img src={hamburger} className="hamburgerimg" width = '26px' height = 'auto'/>
-         		</button><br/>
-         		{this.toggleMenu()}
+         	<img src={hamburger} className="hamburgerimg" width = '26px' height = 'auto'/>
+         	</button><br/>
+         	{this.toggleMenu()}
 
             <button className='helpmenubutton' onClick={() => this.setState({checked2:!this.state.checked2})}>
             <img src={helpimg} className="helpimg" width = '26px' height = 'auto'/>
@@ -259,7 +256,7 @@ class App extends Component {
             </button><br/>
             {this.toggleCameraMenu()}
 
-         		<ThreeContainer />
+         	<ThreeContainer />
     		</div>
 		);
 	}
