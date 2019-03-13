@@ -17,6 +17,19 @@ import logo from './assets/img/logo.png';
 
 class App extends Component {
 
+	exportImage = () => {
+		var canvas = document.getElementById('visualizer');
+		var image = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+		var link = document.createElement('a');
+		link.download = "canvas-screenshot.jpeg";
+		link.target = "_blank";
+		link.href = image;
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+		console.log(link);
+	}
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -61,7 +74,7 @@ class App extends Component {
 				<div>
 				<button className="button">Filter</button><br/>
 				<button className="button" onClick={() => this.props.updateGraphData(get3dvObject(this.state.file, columns))}>Render</button><br/>
-				<button className="button">Download</button><br/>
+				<button className="button" onClick={() => this.exportImage()}>Download</button><br/>
 				</div>
 			)
 		}
