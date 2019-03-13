@@ -1,154 +1,125 @@
-//userSelect are dummy variables for CSVParser ---> 3DV
-const userSelect = [
- 'IOC', 'Date', 'Country Code'
-];
-
 //Return the first line of the CSV file as an array
 //INPUT: contents of entire CSV file
 //OUTPUT: div = ['row1_col1', 'row1_col2', ..., 'row1_colN']
-export function uiToCSV_titles(content){
-  var str = content;
-  var first = str.split('\n')[0];
-  var div = first.split(',');
-  return div;
+export function getTitles(content){
+  const first = content.split('\n')[0];
+  return first.split(',');
 };
 
-//The following two unfilled functions are for filtering options to pass to the UI,
-// which will be done after alpha release
-export function uiToCSV_object2(content){
-  var object = [];
+function getTypes(content, offsets) {
+  const firstDataRow = content.split('\n')[2];
+  const firstDataArr = firstDataRow.split(',');
+  const types = {};
 
-  return object;
-};
+  //for the column values, test what type each is. Could be string, date, or number
+  Object.entries(offsets).map(offset => {
+    if (Date.parse(firstDataArr[offset[1]]))
+      types[offset[0]] = 'date';
+    else if (!isNaN(firstDataArr[offset[1]]))
+      types[offset[0]] = 'number';
+    else
+      types[offset[0]] = 'string';
+  });
 
-export function uiToCSV_object3(content){
-  var object = [];
-
-  return object;
-};
-
-//Returns first object for CSV --> 3DV
-//USES GLOBAL: userSelect
-function parserTo3DV_object_old(content){
-
-  var select1 = userSelect[0], 
-      select2 = userSelect[1],
-      select3 = userSelect[2];
-
-  var type1 = "string", 
-      type2 = "timestamp/string",
-      type3 = "string";
-
-  var xIndices = [],
-      yIndices = [],
-      zIndices = [];
-
-  var xMax = 0,
-      yMax = 0,
-      zMax = 0;
-
-  var contentArray = content.split('\n');
-  var contentArrayLength = contentArray.length;
-
-  var xOffset = contentArray[0].split(',').indexOf(userSelect[0]);
-  var yOffset = contentArray[0].split(',').indexOf(userSelect[1]);
-  var zOffset = contentArray[0].split(',').indexOf(userSelect[2]);
-
-  for(var i = 1; i < contentArrayLength; i++){
-    var rowArray = contentArray[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-    if ( xIndices.indexOf(rowArray[xOffset]) == -1 ){
-      xIndices.push(rowArray[xOffset]);
-    }
-    if ( yIndices.indexOf(rowArray[yOffset]) == -1 ){
-      yIndices.push(rowArray[yOffset]);
-    }
-    if ( zIndices.indexOf(rowArray[zOffset]) == -1 ){
-      zIndices.push(rowArray[zOffset]);
-    }
-  }
-
-  var json1 = 
-  { "xColumn": {
-      "name": select1,
-      "type": type1,
-      "indexes": xIndices,
-      "max": xIndices.length
-    },
-    "yColumn": {
-      "name": select2,
-      "type": type2,
-      "indexes": yIndices,
-      "max": yIndices.length
-    },
-    "zColumn": {
-      "name": select3,
-      "type": type3,
-      "indexes": zIndices,
-      "max": zIndices.length
-    },
-
+  return types;
 }
-
-  return json1;
-};
 
 //Returns second object for CSV --> 3DV
 //USES GLOBAL: userSelect
-export function parserTo3DV_object(content, columns){
+export function get3dvObject(content, columns) {
 
+  const contentArray = content.split('\n');
 
+  const indices = { x: [], y: [], z: [] };
 
-  var json1 = parserTo3DV_object_old(content);
+  const offsets = {
+    x: contentArray[0].split(',').indexOf(columns.x),
+    y: contentArray[0].split(',').indexOf(columns.y),
+    z: contentArray[0].split(',').indexOf(columns.z)
+  };
 
-  var object = [];
-  var contentArray = content.split('\n');
-  var contentArrayLength = contentArray.length;
+  const types = getTypes(content, offsets);
 
-  var xTemp, xOffset = contentArray[0].split(',').indexOf(userSelect[0]);
-  var yTemp, yOffset = contentArray[0].split(',').indexOf(userSelect[1]);
-  var zTemp, zOffset = contentArray[0].split(',').indexOf(userSelect[2]);
-  var tempObjList = [];
+  const maximums = { x: null, y: null, z: null };
+  const minimums = { x: null, y: null, z: null };
+  
+  const data = [];
 
-  var xIndixes = json1["xColumn"]["indexes"];
-  var yIndixes = json1["yColumn"]["indexes"];
-  var zIndixes = json1["zColumn"]["indexes"];
+  for(let i = 1; i < contentArray.length; i++){
+    let rowArray = contentArray[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+    const tempVals = {x: null, y: null, z: null};
+    Object.keys(indices).map(key => {
+      if (types[key] === 'date') {
+        const val = Date.parse(rowArray[offsets[key]]);
+        tempVals[key] = val;
+        if (val > maximums[key] || !maximums[key])
+          maximums[key] = val;
+        else if (val < minimums[key] || ! minimums[key])
+          minimums[key] = val;
+      }
 
-  for (var i = 1; i < contentArrayLength; i++){
-    var rowArray = contentArray[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-    var rowArrayLength = rowArray.length;
-    //TODO: identify bad elements
-    if(rowArray[0].indexOf('"') > -1){
-      rowArray[0] = rowArray[0].substring(1, rowArray[0].length - 1);
-    }
+      else if (types[key] === 'number') {
+        const val = rowArray[offsets[key]];
+        tempVals[key] = val;
+        if (val > maximums[key] || !maximums[key])
+          maximums[key] = val;
+        else if (val < minimums[key] || ! minimums[key])
+          minimums[key] = val;
+      }
 
-    xTemp = xIndixes.indexOf(rowArray[xOffset]), 
-    yTemp = yIndixes.indexOf(rowArray[yOffset]), 
-    zTemp = zIndixes.indexOf(rowArray[zOffset]);
+      else {
+        //set start max and mins
+        if (!maximums[key] && !minimums[key]) {
+          maximums[key] = 0;
+          minimums[key] = 0;
+        }
 
-    if(xTemp == -1 || yTemp == -1 || zTemp == -1){
+        const existingIndex = indices[key].indexOf(rowArray[offsets[key]]);
+
+        if (existingIndex === -1) {
+          indices[key].push(rowArray[offsets[key]]);
+          maximums[key]++;
+          tempVals[key] = maximums[key];
+        } else {
+          tempVals[key] = existingIndex;
+        }
+      }
+    });
+    
+
+    //if any elements are missing in the user's chosen columns, skip the data point
+    if(tempVals.x === -1 || tempVals.y === -1 || tempVals.z === -1){
       continue;
     }
 
-    var tempSubData = 
-    {
-
-    };
-
-    var tempJson = 
-    {
-      "x": xTemp,
-      "y": yTemp,
-      "z": zTemp
-    };
-
-    tempObjList.push(tempJson);
     //TODO: subdata
 
+    data.push(tempVals);
   }
 
-  var finalObject = {
-    ...json1,
-    "data": tempObjList
+  const finalObject = {
+    xColumn: {
+      name: columns.x,
+      type: types.x,
+      indices: indices.x,
+      max: maximums.x,
+      min: minimums.x
+    },
+    yColumn: {
+      name: columns.y,
+      type: types.y,
+      indices: indices.y,
+      max: maximums.y,
+      min: minimums.y
+    },
+    zColumn: {
+      name: columns.z,
+      type: types.z,
+      indices: indices.z,
+      max: maximums.z,
+      min: minimums.z
+    },
+    data
   }
 
   return finalObject;
