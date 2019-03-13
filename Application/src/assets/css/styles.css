@@ -53,6 +53,7 @@ body {
 }
 
 .notreadybutton {
+	position: relative;
 	font-family: Tahoma, Geneva, sans-serif;
 	font-size: 12;
 	width: 200px;
@@ -71,20 +72,39 @@ body {
 	cursor: not-allowed;
 }
 
-.menubutton {
+.selectedfile {
 	font-family: Tahoma, Geneva, sans-serif;
 	font-size: 12;
-	box-shadow: 2px 2px 2px grey;
-	display: block;
+	margin-left: 10px;
+	width: 200px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.filename {
+	font-style: italic;
+}
+
+.hamburgerimg {
 	cursor: pointer;
-	height: 30px;
-	width: 30px;
-	border-radius: 50%;
-	border: 2px solid #f09bbb;
-	background-color: #EBEBEE;
 	position: fixed;
-	top: 5px;
-	left: 5px;
+	top: 7px;
+	left: 7px;
+}
+
+.helpimg{
+	cursor: pointer;
+	position: fixed;
+	top: 7px;
+	right: 7px;
+}
+
+.camera{
+	cursor: pointer;
+	position: fixed;
+	top: 7px;
+	right: 45px;
 }
 
 .menucontainer {
@@ -95,6 +115,28 @@ body {
 	box-shadow: 10px 10px 5px lightgrey;
 	position: fixed;
 	left: 0px;
+	top: 42px;
+}
+
+.helpmenucontainer {
+	float: left;
+	padding: 2px;
+	outline: 2px solid black;
+	background-color: white;
+	box-shadow: 10px 10px 5px lightgrey;
+	position: fixed;
+	right: 0px;
+	top: 42px;
+}
+
+.cameramenucontainer {
+	float: left;
+	padding: 2px;
+	outline: 2px solid black;
+	background-color: white;
+	box-shadow: 10px 10px 5px lightgrey;
+	position: fixed;
+	right: 0px;
 	top: 42px;
 }
 
@@ -156,7 +198,56 @@ body {
 	-webkit-overflow-scrolling: touch;
 }
 
+.dropdown-helpmenu {
+	background-color: white;
+	border: 1px solid #ccc;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+	box-sizing: border-box;
+	margin-top: -1px;
+	max-height: 200px;
+	overflow-y: auto;
+	position: absolute;
+	top: 100%;
+	width: 100%;
+	z-index: 1000;
+	-webkit-overflow-scrolling: touch;
+}
+
+.dropdown-cameramenu {
+	background-color: white;
+	border: 1px solid #ccc;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+	box-sizing: border-box;
+	margin-top: -1px;
+	max-height: 200px;
+	overflow-y: auto;
+	position: absolute;
+	top: 100%;
+	width: 100%;
+	z-index: 1000;
+	-webkit-overflow-scrolling: touch;
+}
+
 .dropdown-menu .dropdown-group > .dropdown-title{
+	padding: 4px 5px;
+	color: rgba(51, 51, 51, 1);
+	font-weight: bold;
+	text-transform: capitalize;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+
+.dropdown-helpmenu .dropdown-group > .dropdown-title{
+	padding: 4px 5px;
+	color: rgba(51, 51, 51, 1);
+	font-weight: bold;
+	text-transform: capitalize;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+
+.dropdown-cameramenu .dropdown-group > .dropdown-title{
 	padding: 4px 5px;
 	color: rgba(51, 51, 51, 1);
 	font-weight: bold;
