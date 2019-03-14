@@ -14,9 +14,27 @@ import "./assets/css/styles.css";
 
 // FILES //
 import logo from './assets/img/logo.png';
+import hamburger from './assets/img/hamburger.png';
+import helpimg from './assets/img/helpimg.png';
+import camera from './assets/img/camera.png';
 
 class App extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			xaxis: null,
+			yaxis: null,
+			zaxis: null,
+			options: [],
+			csvfilename: null
+		};
+		this.onSelect = this.onSelect.bind(this);
+	}
 
+	componentDidMount() {
+		document.title=process.env.TITLE;
+    }
+    
 	exportImage = () => {
 		var canvas = document.getElementById('visualizer');
 		var image = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
@@ -27,30 +45,13 @@ class App extends Component {
 		document.body.appendChild(link);
 		link.click();
 		document.body.removeChild(link);
-		console.log(link);
 	}
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			xaxis: null,
-			yaxis: null,
-			zaxis: null,
-			options: [],
-			file: null
-		};
-		this.onSelect = this.onSelect.bind(this);
-	}
-	
-  onSelect (option, e) {
+    onSelect (option, e) {
 		this.setState({
 			...this.state,
 			[option]: e.value
 		})
-	}
-
-	componentDidMount() {
-		document.title=process.env.TITLE;
 	}
 
 	renderReady(){
@@ -84,66 +85,121 @@ class App extends Component {
 		event.stopPropagation();
 		event.preventDefault();
 		var file = event.target.files[0];
-
-		var reader = new FileReader();
-		reader.onload = (event) => {
-			this.setState({
-				...this.state,
-				file: event.target.result,
-				options: getTitles(event.target.result)
-			});
-		};
-		reader.readAsText(file);
+        var reader = new FileReader();
+        reader.onload = (event) => {
+            this.setState({
+                ...this.state,
+                file: event.target.result,
+                options: getTitles(event.target.result),
+                fileName: file.name
+            });
+        };
+        reader.readAsText(file);
 	}
 
 	fileDialogue(){
 		return (
 		<div>
-			<input 
-				className="fileinput"
-				type="file"
-				ref={(ref) => this.upload = ref}
-				onChange={this.onChangeFile.bind(this)}
+			<input
+				className = "fileinput"
+                type = "file"
+                accept="csv"
+				ref = {(ref) => this.upload = ref}
+				onChange = {this.onChangeFile.bind(this)}
 			/>
-			<button 
+			<button
 				className = "button"
-				onClick={()=>{this.upload.click()}}
+				onClick = {() => {this.upload.click()}}
 			>Upload File</button>
 		</div>
 		)
 	}
 
-	toggleMenu(){
-		if (this.state.checked) {
-				return (
-					<div className = "menucontainer">
-						 {this.fileDialogue()}
-						 <form className ="dropdownmenu">
-						 X-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('xaxis', e)} value={this.state.xaxis} placeholder="..." /><br/>
-						 Y-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('yaxis', e)} value={this.state.yaxis} placeholder="..." /><br/>
-						 Z-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('zaxis', e)} value={this.state.zaxis} placeholder="..." />
-						 </form>
-						 {this.renderReady()}
-					</div>
-				);
+	renderDataMenu(){
+		if (this.state.dataMenu) {
+            return (
+                <div className = "menucontainer">
+                    {this.fileDialogue()}
+                    {this.state.fileName ? <div className = "selectedfile">Uploaded File: {this.state.fileName}</div> : null}
+                    <form className ="dropdownmenu">
+                    X-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('xaxis', e)} value={this.state.xaxis} placeholder="..." /><br/>
+                    Y-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('yaxis', e)} value={this.state.yaxis} placeholder="..." /><br/>
+                    Z-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('zaxis', e)} value={this.state.zaxis} placeholder="..." />
+                    </form>
+                    {this.renderReady()}
+                </div>
+            );
 		}
 		return (
 			<div></div>
 		);
 	}
 
+    renderHelpMenu(){
+        if (this.state.helpMenu) {
+            return (
+                <div className = "helpmenucontainer">
+                    <form className ="dropdownhelpmenu">
+                    This is a 3D visulization application called DIVA.<br/>
+                    It lets the user upload a CSV file to visualize the<br/>
+                    3D visualization of the data objects in the file.<br/> <br/>
+                    To use this web application use the following steps:<br/>
+                    1.Click on this button <img src={hamburger} className="hamburgerimg2" height = 'auto' width = '12px'/> which is on the top left most <br/>
+                    side of the menu. This will pop up a window <br/>
+                    with different options.<br/> <br/>
+                    2. By pressing the Upload file button you can upload <br/>
+                    a CSV file, after which it is uploaded the user can  <br/>
+                    see the file name right beneath it.<br/><br/>
+                    3.The user then select the data variables for X axis,<br/>
+                    Y axis and Z axis repectively.<br/><br/>
+                    4.By clicking on the render button after that the user <br/>
+                    can visualize a 3D interactive visualixation, which can <br/>
+                    then be filtered using the filter button or dowloaded <br/>
+                    using the dowload button.
+                    </form>
+                </div>
+            );
+        }
+        return (
+            <div></div>
+        );
+    }
+
+    renderCameraMenu(){
+        if (this.state.cameraMenu) {
+            return (
+                <div className = "cameramenucontainer">
+                    <form className ="dropdowncameramenu">
+                    Camera Options
+                    </form>
+                </div>
+            );
+        }
+        return (
+            <div></div>
+        );
+    }
+
+
 	render() {
-		const buttonText = this.state.checked ? '-' : '+';
 		return (
-				<div>
-				<div className="topbox">
-				 <center><div className="boxaroundlogo">
-				 <img src={logo} className="mainlogo" width = '100px' height = 'auto'/><br/>
-				 </div></center></div>
-				 <button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>{buttonText}</button><br/>
-         {this.toggleMenu()}
-         <ThreeContainer />
-				</div>
+			<div>
+			<div className="topbox">
+			<center><div className="boxaroundlogo">
+			<img src={logo} className="mainlogo" height = 'auto' width = '110px'/><br/>
+			</div></center></div>
+
+         	<img src={hamburger} className="hamburgerimg" onClick={() => this.setState({dataMenu:!this.state.dataMenu})} width = '26px' height = 'auto'/>
+         	{this.renderDataMenu()}
+
+            <img src={helpimg} className="helpimg" onClick={() => this.setState({helpMenu:!this.state.helpMenu})} width = '26px' height = 'auto'/>
+            {this.renderHelpMenu()}
+
+            <img src={camera} className="camera" onClick={() => this.setState({cameraMenu:!this.state.cameraMenu})} width = '26px' height = 'auto'/>
+            {this.renderCameraMenu()}
+
+         	<ThreeContainer />
+    		</div>
 		);
 	}
 }
