@@ -1,11 +1,15 @@
 import SceneManager from './SceneManager';
 
 export default (container, graphData) => {
-    const canvas = createCanvas(document, container);
+    let canvas = document.getElementById('visualizer');
+    if (!canvas) {
+        canvas = createCanvas(document, container);
+        canvas.id = 'visualizer';
+    }
     const sceneManager = new SceneManager(canvas, graphData);
 
-    let canvasHalfWidth;
     let canvasHalfHeight;
+    let canvasHalfWidth;
 
     bindEventListeners();
     render();
@@ -38,4 +42,6 @@ export default (container, graphData) => {
         requestAnimationFrame(render);
         sceneManager.update();
     }
+
+    return canvas;
 }

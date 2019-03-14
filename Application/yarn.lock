@@ -6273,6 +6273,18 @@ three.meshline@^1.2.0:
   resolved "https://registry.yarnpkg.com/three.meshline/-/three.meshline-1.2.0.tgz#89a0c9d67d8062e5649dc0ac9aa16f14e7c199b5"
   integrity sha512-E7s9xwgjUhQWIvXBMIdCOIvpT1qV9UlntzaaJTWzJvYtvI2ZvVsX8EM8FxoiG5aptXuKbp5osnvcJCCkYOjmBA==
 
+three.textsprite@^19.0.0:
+  version "19.0.0"
+  resolved "https://registry.yarnpkg.com/three.textsprite/-/three.textsprite-19.0.0.tgz#79fc12a013cbe54b6c783f0c0f3bca890d6c9527"
+  integrity sha512-rQyHrVdh+SpeDQGvAunpGeq4YPKHy45oxNsYnFDqkDsriY7UAIMdv/btkTn7mRyq2KiEPs9uS9G74U4NZBkVNA==
+  dependencies:
+    three.texttexture "^19.0.0"
+
+three.texttexture@^19.0.0:
+  version "19.0.0"
+  resolved "https://registry.yarnpkg.com/three.texttexture/-/three.texttexture-19.0.0.tgz#a60f04b491fd50888151de6465f68191b17b862e"
+  integrity sha512-p+OKMk7NNMt8LYj+eUmhy+PQd0eBGncU0SSLIbOTH9zUDSBaIsk8j9FLHgc5+oXjqDlPHLfZZ+l+ita2fs+XWQ==
+
 three@^0.100.0:
   version "0.100.0"
   resolved "https://registry.yarnpkg.com/three/-/three-0.100.0.tgz#262841c0b7d88ebd62af73f28d9f578963b3aa00"
