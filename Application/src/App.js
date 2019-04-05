@@ -73,7 +73,7 @@ class App extends Component {
 			}
 			return (
 				<div>
-				<button className="button">Filter</button><br/>
+				<button className="button" onClick={() => this.setState({filterMenu:!this.state.filterMenu})}>Filter</button><br/>{this.renderFilterOptions()}
 				<button className="button" onClick={() => this.props.updateGraphData(get3dvObject(this.state.file, columns))}>Render</button><br/>
 				<button className="button" onClick={() => this.exportImage()}>Download</button><br/>
 				</div>
@@ -180,6 +180,16 @@ class App extends Component {
         );
     }
 
+    renderFilterOptions(){
+    	if (this.state.filterMenu) {
+    		console.log("ree2");
+    		return (
+    			<div className = "filtercontainer">
+    			stuff goes here
+    			</div>
+    		);
+    	}
+    }
 
 	render() {
 		return (
