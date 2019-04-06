@@ -16,13 +16,40 @@ body {
 	background-color: #f09bbb;
 	border: 1px solid black;
 	border-radius: 6px;
-	color: white;
-	margin: 10px;
 	margin-top: 3px;
 	margin-bottom: 3px;
 	text-align: center;
 	text-decoration: none;
 	cursor: pointer;
+}
+
+.uidropbutton {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 16;
+	height: 40px;
+	width: 200px;
+	border: 0px;
+	background-color: #EBEBEB;
+	text-align: left;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.uidropbuttonoff {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 16;
+	height: 40px;
+	width: 200px;
+	border: 0px;
+	background-color: #EBEBEB;
+	text-align: left;
+	text-decoration: none;
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+.addLine {
+	border: 1px solid black;
 }
 
 .dropdownmenu {
@@ -52,31 +79,11 @@ body {
 	height: 40px;
 }
 
-.notreadybutton {
-	position: relative;
-	font-family: Tahoma, Geneva, sans-serif;
-	font-size: 12;
-	width: 200px;
-	height: 35px;
-	background-color: #f09bbb;
-	border: none;
-	border-radius: 6px;
-	color: white;
-	margin: 10px;
-	margin-top: 3px;
-	margin-bottom: 3px;
-	text-align: center;
-	text-decoration: none;
-	cursor: pointer;
-	opacity: 0.6;
-	cursor: not-allowed;
-}
-
 .selectedfile {
 	font-family: Tahoma, Geneva, sans-serif;
 	font-size: 12;
 	margin-left: 10px;
-	width: 200px;
+	width: 190px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
@@ -109,13 +116,13 @@ body {
 
 .menucontainer {
 	float: left;
-	padding: 2px;
 	outline: 2px solid black;
 	background-color: white;
-	box-shadow: 10px 10px 5px lightgrey;
+	box-shadow: 6px 6px 3px lightgrey;
 	position: fixed;
 	left: 0px;
 	top: 42px;
+	padding: 0px 0px 0px 0px;
 }
 
 .helpmenucontainer {
@@ -129,16 +136,6 @@ body {
 	top: 42px;
 }
 
-.cameramenucontainer {
-	float: left;
-	padding: 2px;
-	outline: 2px solid black;
-	background-color: white;
-	box-shadow: 10px 10px 5px lightgrey;
-	position: fixed;
-	right: 0px;
-	top: 42px;
-}
 
 .dropdown-root {
 	position: relative;

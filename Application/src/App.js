@@ -28,6 +28,11 @@ class App extends Component {
 			options: [],
 			csvfilename: null
 		};
+		this.storedvars = {
+			xaxis: null,
+			yaxis: null,
+			zaxis: null
+		}
 		this.onSelect = this.onSelect.bind(this);
 	}
 
@@ -59,9 +64,13 @@ class App extends Component {
 				(!this.state.xaxis) || (!this.state.yaxis) || (!this.state.zaxis)) {
 			return (
 				<div>
-				<button className="notreadybutton">Filter</button><br/>
-				<button className="notreadybutton">Render</button><br/>
-				<button className="notreadybutton">Download</button><br/>
+					<button className="uidropbuttonoff">File Filter Options</button><br/>
+					<div className="addLine"></div>
+                    {this.renderFileFilter()}
+					<button className="uidropbuttonoff">Graphical Options</button><br/>
+					<div className="addLine"></div>
+                	{this.renderGraphicalOptions()}
+					<button className="uidropbuttonoff">Download Image</button><br/>
 				</div>
 			)
 		}
@@ -71,11 +80,21 @@ class App extends Component {
 				y: this.state.yaxis,
 				z: this.state.zaxis
 			}
+			if ((this.storedvars.xaxis != this.state.xaxis) || (this.storedvars.yaxis != this.state.yaxis) || (this.storedvars.zaxis != this.state.zaxis)){
+				this.storedvars.xaxis = this.state.xaxis;
+				this.storedvars.yaxis = this.state.yaxis;
+				this.storedvars.zaxis = this.state.zaxis;
+				this.props.updateGraphData(get3dvObject(this.state.file, columns));
+			}
 			return (
 				<div>
-				<button className="button" onClick={() => this.setState({filterMenu:!this.state.filterMenu})}>Filter</button><br/>{this.renderFilterOptions()}
-				<button className="button" onClick={() => this.props.updateGraphData(get3dvObject(this.state.file, columns))}>Render</button><br/>
-				<button className="button" onClick={() => this.exportImage()}>Download</button><br/>
+					<button className="uidropbutton" onClick={() => this.setState({fileFilter:!this.state.fileFilter})}>File Filter Options</button><br/>
+					<div className="addLine"></div>
+                    {this.renderFileFilter()}
+					<button className="uidropbutton" onClick={() => this.setState({graphicOptions:!this.state.graphicOptions})}>Graphical Options</button><br/>
+					<div className="addLine"></div>
+                    {this.renderGraphicalOptions()}
+					<button className="uidropbutton" onClick={() => this.exportImage()}>Download Image</button><br/>
 				</div>
 			)
 		}
@@ -115,18 +134,53 @@ class App extends Component {
 		)
 	}
 
+	renderSelectFile(){
+		if (this.state.selectFile) {
+			return (
+				<div>
+					{this.fileDialogue()}
+            	    {this.state.fileName ? <div className = "selectedfile">Selected File: {this.state.fileName}</div> : null}
+            	    <form className ="dropdownmenu">
+            	    X-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('xaxis', e)} value={this.state.xaxis} placeholder="..." /><br/>
+            	    Y-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('yaxis', e)} value={this.state.yaxis} placeholder="..." /><br/>
+             	    Z-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('zaxis', e)} value={this.state.zaxis} placeholder="..." />
+              	  	</form>
+					<div className="addLine"></div>
+				</div>
+			)
+		}
+	}
+
+	renderFileFilter(){
+		if (this.state.fileFilter) {
+			return (
+				<div>
+					filtering options
+					<div className="addLine"></div>
+				</div>
+			)
+		}
+	}
+
+	renderGraphicalOptions(){
+		if (this.state.graphicOptions) {
+			return (
+				<div>
+					graphic options
+					<div className="addLine"></div>
+				</div>
+			)
+		}
+	}
+
 	renderDataMenu(){
 		if (this.state.dataMenu) {
             return (
                 <div className = "menucontainer">
-                    {this.fileDialogue()}
-                    {this.state.fileName ? <div className = "selectedfile">Selected File: {this.state.fileName}</div> : null}
-                    <form className ="dropdownmenu">
-                    X-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('xaxis', e)} value={this.state.xaxis} placeholder="..." /><br/>
-                    Y-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('yaxis', e)} value={this.state.yaxis} placeholder="..." /><br/>
-                    Z-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('zaxis', e)} value={this.state.zaxis} placeholder="..." />
-                    </form>
-                    {this.renderReady()}
+					<button className="uidropbutton" onClick={() => this.setState({selectFile:!this.state.selectFile})}>Select File</button><br/>
+					<div className="addLine"></div>
+                   	{this.renderSelectFile()}
+                   	{this.renderReady()}
                 </div>
             );
 		}
@@ -165,32 +219,6 @@ class App extends Component {
         );
     }
 
-    renderCameraMenu(){
-        if (this.state.cameraMenu) {
-            return (
-                <div className = "cameramenucontainer">
-                    <form className ="dropdowncameramenu">
-                    Camera Options
-                    </form>
-                </div>
-            );
-        }
-        return (
-            <div></div>
-        );
-    }
-
-    renderFilterOptions(){
-    	if (this.state.filterMenu) {
-    		console.log("ree2");
-    		return (
-    			<div className = "filtercontainer">
-    			stuff goes here
-    			</div>
-    		);
-    	}
-    }
-
 	render() {
 		return (
 			<div>
@@ -204,9 +232,6 @@ class App extends Component {
 
             <img src={helpimg} className="helpimg" onClick={() => this.setState({helpMenu:!this.state.helpMenu})} width = '26px' height = 'auto'/>
             {this.renderHelpMenu()}
-
-            <img src={camera} className="camera" onClick={() => this.setState({cameraMenu:!this.state.cameraMenu})} width = '26px' height = 'auto'/>
-            {this.renderCameraMenu()}
 
          	<ThreeContainer />
     		</div>
