@@ -129,7 +129,7 @@ class App extends Component {
 			<button
 				className = "button"
 				onClick = {() => {this.upload.click()}}
-			>Select File</button>
+			>Choose File</button>
 		</div>
 		)
 	}
