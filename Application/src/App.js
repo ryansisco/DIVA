@@ -8,6 +8,7 @@ import { updateGraphData } from './redux/actions';
 import Dropdown from 'react-dropdown';
 import { getTitles, get3dvObject } from "./assets/js/csvParser.js";
 import ThreeContainer from './components/DataVisualization/ThreeContainer';
+import { SketchPicker } from 'react-color'
 
 // CSS //
 import "./assets/css/styles.css";
@@ -161,6 +162,17 @@ class App extends Component {
 		}
 	}
 
+colorChange(){
+	 const handleColorChange = ({ hex }) => console.log(hex)
+	 return (
+    <div>
+      <SketchPicker
+        color="#333"
+        onChangeComplete={ handleColorChange }
+      />
+    </div>
+	)
+}
 	renderGraphicalOptions(){
 		if (this.state.graphicOptions) {
 			return (
@@ -169,6 +181,13 @@ class App extends Component {
 						className = "button"
 						onClick = {() => {this.setState()}}
 					>Camera Reset</button>
+				<div>
+				{this.colorChange()}
+					<button
+						className = "button"
+						onClick = {() => {this.setState()}}
+					>Color</button>
+					</div>
 					<div className="addLine"></div>
 				</div>
 			)
