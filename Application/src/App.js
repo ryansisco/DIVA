@@ -16,7 +16,6 @@ import "./assets/css/styles.css";
 import logo from './assets/img/logo.png';
 import hamburger from './assets/img/hamburger.png';
 import helpimg from './assets/img/helpimg.png';
-import camera from './assets/img/camera.png';
 
 class App extends Component {
 	constructor(props) {
@@ -39,7 +38,7 @@ class App extends Component {
 	componentDidMount() {
 		document.title=process.env.TITLE;
     }
-    
+
 	exportImage = () => {
 		var canvas = document.getElementById('visualizer');
 		var image = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
@@ -166,7 +165,10 @@ class App extends Component {
 		if (this.state.graphicOptions) {
 			return (
 				<div>
-					graphic options
+					<button
+						className = "button"
+						onClick = {() => {this.setState()}}
+					>Camera Reset</button>
 					<div className="addLine"></div>
 				</div>
 			)
