@@ -2,11 +2,13 @@
     "name": "DIVA",
     "version": "1.0.0",
     "main": "index.html",
-    "homepage": "./",
+    "homepage": "https://ryansisco.github.io/DIVA/",
     "repository": "https://github.com/ryansisco/DIVA",
     "private": true,
     "scripts": {
         "start": "webpack-dev-server --mode development --open",
+        "predeploy": "yarn run build",
+        "deploy": "gh-pages -d build",
         "build": "webpack --mode production"
     },
     "devDependencies": {
@@ -27,6 +29,7 @@
     "dependencies": {
         "dotenv-webpack": "^1.6.0",
         "file-loader": "^3.0.1",
+        "gh-pages": "^2.0.1",
         "image-webpack-loader": "^4.6.0",
         "react": "^16.5.2",
         "react-dom": "^16.5.2",

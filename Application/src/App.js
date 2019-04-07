@@ -22,18 +22,25 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			xaxis: null,
-			yaxis: null,
-			zaxis: null,
+			axes: {
+				x: null,
+				y: null,
+				z: null
+			},
 			options: [],
 			csvfilename: null
 		};
-		this.onSelect = this.onSelect.bind(this);
 	}
 
 	componentDidMount() {
 		document.title=process.env.TITLE;
-    }
+	}
+	
+	componentDidUpdate(prevProps, prevState) {
+		if (prevState.axes !== this.state.axes && this.state.axes.x && this.state.axes.y && this.state.axes.z) {
+			this.props.updateGraphData(get3dvObject(this.state.file, this.state.axes));
+		}
+	}
     
 	exportImage = () => {
 		var canvas = document.getElementById('visualizer');
@@ -47,35 +54,42 @@ class App extends Component {
 		document.body.removeChild(link);
 	}
 
-    onSelect (option, e) {
+    onSelect = (option, e) => {
 		this.setState({
 			...this.state,
-			[option]: e.value
+			axes: {
+				...this.state.axes,
+				[option]: e.value
+			}
 		})
 	}
 
 	renderReady(){
-		if ((this.state.xaxis === this.state.yaxis) || (this.state.yaxis === this.state.zaxis) || (this.state.xaxis === this.state.zaxis) ||
-				(!this.state.xaxis) || (!this.state.yaxis) || (!this.state.zaxis)) {
+		const axes = this.state.axes;
+		if ((axes.x === axes.y) || (axes.y === axes.z) || (axes.x === axes.z) ||
+				(!axes.x) || (!axes.y) || (!axes.z)) {
 			return (
 				<div>
-				<button className="notreadybutton">Filter</button><br/>
-				<button className="notreadybutton">Render</button><br/>
-				<button className="notreadybutton">Download</button><br/>
+					<button className="uidropbuttonoff">File Filter Options</button><br/>
+					<div className="addLine"></div>
+                    {this.renderFileFilter()}
+					<button className="uidropbuttonoff">Graphical Options</button><br/>
+					<div className="addLine"></div>
+                	{this.renderGraphicalOptions()}
+					<button className="uidropbuttonoff">Download Image</button><br/>
 				</div>
 			)
 		}
 		else {
-			const columns = {
-				x: this.state.xaxis,
-				y: this.state.yaxis,
-				z: this.state.zaxis
-			}
 			return (
 				<div>
-				<button className="button">Filter</button><br/>
-				<button className="button" onClick={() => this.props.updateGraphData(get3dvObject(this.state.file, columns))}>Render</button><br/>
-				<button className="button" onClick={() => this.exportImage()}>Download</button><br/>
+					<button className="uidropbutton" onClick={() => this.setState({fileFilter:!this.state.fileFilter})}>File Filter Options</button><br/>
+					<div className="addLine"></div>
+                    {this.renderFileFilter()}
+					<button className="uidropbutton" onClick={() => this.setState({graphicOptions:!this.state.graphicOptions})}>Graphical Options</button><br/>
+					<div className="addLine"></div>
+                    {this.renderGraphicalOptions()}
+					<button className="uidropbutton" onClick={() => this.exportImage()}>Download Image</button><br/>
 				</div>
 			)
 		}
@@ -110,23 +124,58 @@ class App extends Component {
 			<button
 				className = "button"
 				onClick = {() => {this.upload.click()}}
-			>Upload File</button>
+			>Choose File</button>
 		</div>
 		)
+	}
+
+	renderSelectFile(){
+		if (this.state.selectFile) {
+			return (
+				<div>
+					{this.fileDialogue()}
+            	    {this.state.fileName ? <div className = "selectedfile">Selected File: {this.state.fileName}</div> : null}
+            	    <form className ="dropdownmenu">
+            	    X-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('x', e)} value={this.state.axes.x} placeholder="..." /><br/>
+            	    Y-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('y', e)} value={this.state.axes.y} placeholder="..." /><br/>
+             	    Z-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('z', e)} value={this.state.axes.z} placeholder="..." />
+              	  	</form>
+					<div className="addLine"></div>
+				</div>
+			)
+		}
+	}
+
+	renderFileFilter(){
+		if (this.state.fileFilter) {
+			return (
+				<div>
+					filtering options
+					<div className="addLine"></div>
+				</div>
+			)
+		}
+	}
+
+	renderGraphicalOptions(){
+		if (this.state.graphicOptions) {
+			return (
+				<div>
+					graphic options
+					<div className="addLine"></div>
+				</div>
+			)
+		}
 	}
 
 	renderDataMenu(){
 		if (this.state.dataMenu) {
             return (
                 <div className = "menucontainer">
-                    {this.fileDialogue()}
-                    {this.state.fileName ? <div className = "selectedfile">Uploaded File: {this.state.fileName}</div> : null}
-                    <form className ="dropdownmenu">
-                    X-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('xaxis', e)} value={this.state.xaxis} placeholder="..." /><br/>
-                    Y-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('yaxis', e)} value={this.state.yaxis} placeholder="..." /><br/>
-                    Z-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('zaxis', e)} value={this.state.zaxis} placeholder="..." />
-                    </form>
-                    {this.renderReady()}
+					<button className="uidropbutton" onClick={() => this.setState({selectFile:!this.state.selectFile})}>Select File</button><br/>
+					<div className="addLine"></div>
+                   	{this.renderSelectFile()}
+                   	{this.renderReady()}
                 </div>
             );
 		}
@@ -147,8 +196,8 @@ class App extends Component {
                     1.Click on this button <img src={hamburger} className="hamburgerimg2" height = 'auto' width = '12px'/> which is on the top left most <br/>
                     side of the menu. This will pop up a window <br/>
                     with different options.<br/> <br/>
-                    2. By pressing the Upload file button you can upload <br/>
-                    a CSV file, after which it is uploaded the user can  <br/>
+                    2. By pressing the Select File button you can choose <br/>
+                    a CSV file, after which it is selected the user can  <br/>
                     see the file name right beneath it.<br/><br/>
                     3.The user then select the data variables for X axis,<br/>
                     Y axis and Z axis repectively.<br/><br/>
@@ -165,22 +214,6 @@ class App extends Component {
         );
     }
 
-    renderCameraMenu(){
-        if (this.state.cameraMenu) {
-            return (
-                <div className = "cameramenucontainer">
-                    <form className ="dropdowncameramenu">
-                    Camera Options
-                    </form>
-                </div>
-            );
-        }
-        return (
-            <div></div>
-        );
-    }
-
-
 	render() {
 		return (
 			<div>
@@ -194,9 +227,6 @@ class App extends Component {
 
             <img src={helpimg} className="helpimg" onClick={() => this.setState({helpMenu:!this.state.helpMenu})} width = '26px' height = 'auto'/>
             {this.renderHelpMenu()}
-
-            <img src={camera} className="camera" onClick={() => this.setState({cameraMenu:!this.state.cameraMenu})} width = '26px' height = 'auto'/>
-            {this.renderCameraMenu()}
 
          	<ThreeContainer />
     		</div>
