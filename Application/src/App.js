@@ -17,6 +17,7 @@ import logo from './assets/img/logo.png';
 import hamburger from './assets/img/hamburger.png';
 import helpimg from './assets/img/helpimg.png';
 import camera from './assets/img/camera.png';
+import dropdownico from './assets/img/dropdown.png';
 
 class App extends Component {
 	constructor(props) {
@@ -62,37 +63,6 @@ class App extends Component {
 				[option]: e.value
 			}
 		})
-	}
-
-	renderReady(){
-		const axes = this.state.axes;
-		if ((axes.x === axes.y) || (axes.y === axes.z) || (axes.x === axes.z) ||
-				(!axes.x) || (!axes.y) || (!axes.z)) {
-			return (
-				<div>
-					<button className="uidropbuttonoff">File Filter Options</button><br/>
-					<div className="addLine"></div>
-                    {this.renderFileFilter()}
-					<button className="uidropbuttonoff">Graphical Options</button><br/>
-					<div className="addLine"></div>
-                	{this.renderGraphicalOptions()}
-					<button className="uidropbuttonoff">Download Image</button><br/>
-				</div>
-			)
-		}
-		else {
-			return (
-				<div>
-					<button className="uidropbutton" onClick={() => this.setState({fileFilter:!this.state.fileFilter})}>File Filter Options</button><br/>
-					<div className="addLine"></div>
-                    {this.renderFileFilter()}
-					<button className="uidropbutton" onClick={() => this.setState({graphicOptions:!this.state.graphicOptions})}>Graphical Options</button><br/>
-					<div className="addLine"></div>
-                    {this.renderGraphicalOptions()}
-					<button className="uidropbutton" onClick={() => this.exportImage()}>Download Image</button><br/>
-				</div>
-			)
-		}
 	}
 
 	onChangeFile = (event) =>{
@@ -168,14 +138,39 @@ class App extends Component {
 		}
 	}
 
+	icocheck(myString, myVar){
+		if (myVar) {
+			return (
+				<div>
+				{myString}
+				<img src={dropdownico} className="dropdownicoU" align="right"/>
+				</div>
+			)
+		}
+		else {
+			return (
+				<div>
+				{myString}
+				<img src={dropdownico} className="dropdownicoD" align="right"/>
+				</div>
+			)
+		}
+	}
+
 	renderDataMenu(){
 		if (this.state.dataMenu) {
             return (
                 <div className = "menucontainer">
-					<button className="uidropbutton" onClick={() => this.setState({selectFile:!this.state.selectFile})}>Select File</button><br/>
+					<button className="uidropbutton" onClick={() => this.setState({selectFile:!this.state.selectFile})}>{this.icocheck("Select File", this.state.selectFile)}</button><br/>
 					<div className="addLine"></div>
                    	{this.renderSelectFile()}
-                   	{this.renderReady()}
+                   	<button className="uidropbutton" onClick={() => this.setState({fileFilter:!this.state.fileFilter})}>{this.icocheck("File Filter Options", this.state.fileFilter)}</button><br/>
+					<div className="addLine"></div>
+                    {this.renderFileFilter()}
+					<button className="uidropbutton" onClick={() => this.setState({graphicOptions:!this.state.graphicOptions})}>{this.icocheck("Graphic Options", this.state.graphicOptions)}</button><br/>
+					<div className="addLine"></div>
+                    {this.renderGraphicalOptions()}
+					<button className="uidropbutton" onClick={() => this.exportImage()}>Download Image</button><br/>
                 </div>
             );
 		}

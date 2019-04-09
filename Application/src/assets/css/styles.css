@@ -21,20 +21,21 @@ body {
 	background-color: #EBEBEB;
 	text-align: left;
 	text-decoration: none;
+	padding: 3px;
 	cursor: pointer;
 }
 
-.uidropbuttonoff {
-	font-family: Tahoma, Geneva, sans-serif;
-	font-size: 16;
-	height: 40px;
-	width: 200px;
-	border: 0px;
-	background-color: #EBEBEB;
-	text-align: left;
-	text-decoration: none;
-	cursor: not-allowed;
-	opacity: 0.6;
+.dropdownicoD {
+	height: 20px;
+	width: auto;
+	align-self: right;
+	transform: rotate(180deg);
+}
+
+.dropdownicoU {
+	height: 20px;
+	width: auto;
+	align-self: right;
 }
 
 .addLine {
