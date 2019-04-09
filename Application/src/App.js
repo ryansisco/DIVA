@@ -43,7 +43,7 @@ class App extends Component {
 			this.props.updateGraphData(get3dvObject(this.state.file, this.state.axes));
 		}
 	}
-    
+	
 	exportImage = () => {
 		var canvas = document.getElementById('visualizer');
 		var image = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
@@ -56,7 +56,7 @@ class App extends Component {
 		document.body.removeChild(link);
 	}
 
-    onSelect = (option, e) => {
+	onSelect = (option, e) => {
 		this.setState({
 			...this.state,
 			axes: {
@@ -70,16 +70,16 @@ class App extends Component {
 		event.stopPropagation();
 		event.preventDefault();
 		var file = event.target.files[0];
-        var reader = new FileReader();
-        reader.onload = (event) => {
-            this.setState({
-                ...this.state,
-                file: event.target.result,
-                options: getTitles(event.target.result),
-                fileName: file.name
-            });
-        };
-        reader.readAsText(file);
+		var reader = new FileReader();
+		reader.onload = (event) => {
+			this.setState({
+				...this.state,
+				file: event.target.result,
+				options: getTitles(event.target.result),
+				fileName: file.name
+			});
+		};
+		reader.readAsText(file);
 	}
 
 	fileDialogue(){
@@ -87,8 +87,8 @@ class App extends Component {
 		<div>
 			<input
 				className = "fileinput"
-                type = "file"
-                accept="csv"
+				type = "file"
+				accept="csv"
 				ref = {(ref) => this.upload = ref}
 				onChange = {this.onChangeFile.bind(this)}
 			/>
@@ -105,12 +105,12 @@ class App extends Component {
 			return (
 				<div>
 					{this.fileDialogue()}
-            	    {this.state.fileName ? <div className = "selectedfile">Selected File: {this.state.fileName}</div> : null}
-            	    <form className ="dropdownmenu">
-            	    X-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('x', e)} value={this.state.axes.x} placeholder="..." /><br/>
-            	    Y-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('y', e)} value={this.state.axes.y} placeholder="..." /><br/>
-             	    Z-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('z', e)} value={this.state.axes.z} placeholder="..." />
-              	  	</form>
+					{this.state.fileName ? <div className = "selectedfile">Selected File: {this.state.fileName}</div> : null}
+					<form className ="dropdownmenu">
+					X-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('x', e)} value={this.state.axes.x} placeholder="..." /><br/>
+					Y-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('y', e)} value={this.state.axes.y} placeholder="..." /><br/>
+					Z-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('z', e)} value={this.state.axes.z} placeholder="..." />
+					</form>
 					<div className="addLine"></div>
 				</div>
 			)
@@ -121,7 +121,37 @@ class App extends Component {
 		if (this.state.fileFilter) {
 			return (
 				<div>
-					filtering options
+					{/* CALL TO COLLECT "IF OCCURS ONCE" Data */}
+					X-Axis:<br/>
+					<button>Ascending</button>
+					<button>Decending</button>
+					<button>Original</button>
+					<form> {/* I need to set overflow for this in CSS so it is scrollable */}
+						<input type="checkbox"/> Option 1
+						<input type="checkbox"/> Option 2 <br/>
+						<input type="checkbox"/> Option 3
+						<input type="checkbox"/> Option 4 <br/>
+					</form>
+					Y-Axis:<br/>
+					<button>Ascending</button>
+					<button>Decending</button>
+					<button>Original</button>
+					<form> {/* I need to set overflow for this in CSS so it is scrollable */}
+						<input type="checkbox"/> Option 1
+						<input type="checkbox"/> Option 2 <br/>
+						<input type="checkbox"/> Option 3
+						<input type="checkbox"/> Option 4 <br/>
+					</form>
+					Z-Axis:<br/>
+					<button>Ascending</button>
+					<button>Decending</button>
+					<button>Original</button>
+					<form> {/* I need to set overflow for this in CSS so it is scrollable */}
+						<input type="checkbox"/> Option 1
+						<input type="checkbox"/> Option 2 <br/>
+						<input type="checkbox"/> Option 3
+						<input type="checkbox"/> Option 4 <br/>
+					</form>
 					<div className="addLine"></div>
 				</div>
 			)
@@ -160,55 +190,61 @@ class App extends Component {
 
 	renderDataMenu(){
 		if (this.state.dataMenu) {
-            return (
-                <div className = "menucontainer">
+			return (
+				<div className = "menucontainer">
 					<button className="uidropbutton" onClick={() => this.setState({selectFile:!this.state.selectFile})}>{this.icocheck("Select File", this.state.selectFile)}</button><br/>
 					<div className="addLine"></div>
-                   	{this.renderSelectFile()}
-                   	<button className="uidropbutton" onClick={() => this.setState({fileFilter:!this.state.fileFilter})}>{this.icocheck("File Filter Options", this.state.fileFilter)}</button><br/>
+					{this.renderSelectFile()}
+					<button className="uidropbutton" onClick={() => this.setState({fileFilter:!this.state.fileFilter})}>{this.icocheck("File Filter Options", this.state.fileFilter)}</button><br/>
 					<div className="addLine"></div>
-                    {this.renderFileFilter()}
+					{this.renderFileFilter()}
 					<button className="uidropbutton" onClick={() => this.setState({graphicOptions:!this.state.graphicOptions})}>{this.icocheck("Graphic Options", this.state.graphicOptions)}</button><br/>
 					<div className="addLine"></div>
-                    {this.renderGraphicalOptions()}
+					{this.renderGraphicalOptions()}
 					<button className="uidropbutton" onClick={() => this.exportImage()}>Download Image</button><br/>
-                </div>
-            );
+				</div>
+			);
 		}
 		return (
 			<div></div>
 		);
 	}
 
-    renderHelpMenu(){
-        if (this.state.helpMenu) {
-            return (
-                <div className = "helpmenucontainer">
-                    <form className ="dropdownhelpmenu">
-                    This is a 3D visulization application called DIVA.<br/>
-                    It lets the user upload a CSV file to visualize the<br/>
-                    3D visualization of the data objects in the file.<br/> <br/>
-                    To use this web application use the following steps:<br/>
-                    1.Click on this button <img src={hamburger} className="hamburgerimg2" height = 'auto' width = '12px'/> which is on the top left most <br/>
-                    side of the menu. This will pop up a window <br/>
-                    with different options.<br/> <br/>
-                    2. By pressing the Select File button you can choose <br/>
-                    a CSV file, after which it is selected the user can  <br/>
-                    see the file name right beneath it.<br/><br/>
-                    3.The user then select the data variables for X axis,<br/>
-                    Y axis and Z axis repectively.<br/><br/>
-                    4.By clicking on the render button after that the user <br/>
-                    can visualize a 3D interactive visualixation, which can <br/>
-                    then be filtered using the filter button or dowloaded <br/>
-                    using the dowload button.
-                    </form>
-                </div>
-            );
-        }
-        return (
-            <div></div>
-        );
-    }
+	renderHelpMenu(){
+		if (this.state.helpMenu) {
+			return (
+				<div className = "helpmenucontainer">
+					<form className ="dropdownhelpmenu">
+					This is a 3D visulization application called Data Interactive
+					Visualization Application, or DIVA. DIVA was designed in order
+					to give security experts a better understanding of different
+					malware and how they are spreading. DIVA allows you to take
+					data and generate creative 3D models in order to gather
+					assumptions, correlations, and predictions of malware.<br/><br/>
+					To use this web application use the following steps:<br/>
+					<ol>
+						<li>Click on this button <img src={hamburger} className="hamburgerimg2" height = 'auto' width = '12px'/> which is on the top left most
+						side of the menu. This will show a dropdown menu with options.</li>
+						<li>Choose the <b>"Select File"</b> menu to get started with your file. This
+						will allow you to pick a local file, and choose the X, Y, and Z axes.
+						At this point, the visualization will automatically render.</li>
+						<li>On the <b>"File Filter Options"</b> menu, your file will have populated a 
+						field full of your rows for each axis. You can choose what you would like to
+						include in your data. You will also have the option to sort each axis.</li>
+						<li><b>"Graphic Options"</b> allows you to choose different colors, patterns, and visualization
+						options for your data.</li>
+						<li>Once you are satisfied with your graph, you can choose <b>"Download"</b> and a screen grab of
+						the graph in its current position.</li>
+					</ol>
+					
+					</form>
+				</div>
+			);
+		}
+		return (
+			<div></div>
+		);
+	}
 
 	render() {
 		return (
@@ -218,14 +254,14 @@ class App extends Component {
 			<img src={logo} className="mainlogo" height = 'auto' width = '110px'/><br/>
 			</div></center></div>
 
-         	<img src={hamburger} className="hamburgerimg" onClick={() => this.setState({dataMenu:!this.state.dataMenu})} width = '26px' height = 'auto'/>
-         	{this.renderDataMenu()}
+			<img src={hamburger} className="hamburgerimg" onClick={() => this.setState({dataMenu:!this.state.dataMenu})} width = '26px' height = 'auto'/>
+			{this.renderDataMenu()}
 
-            <img src={helpimg} className="helpimg" onClick={() => this.setState({helpMenu:!this.state.helpMenu})} width = '26px' height = 'auto'/>
-            {this.renderHelpMenu()}
+			<img src={helpimg} className="helpimg" onClick={() => this.setState({helpMenu:!this.state.helpMenu})} width = '26px' height = 'auto'/>
+			{this.renderHelpMenu()}
 
-         	<ThreeContainer />
-    		</div>
+			<ThreeContainer />
+			</div>
 		);
 	}
 }

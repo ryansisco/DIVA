@@ -14,14 +14,15 @@ body {
 
 .uidropbutton {
 	font-family: Tahoma, Geneva, sans-serif;
-	font-size: 16;
+	font-size: 18;
 	height: 40px;
-	width: 200px;
+	width: inherit;
 	border: 0px;
 	background-color: #EBEBEB;
 	text-align: left;
 	text-decoration: none;
 	padding: 3px;
+	padding-left: 8px;
 	cursor: pointer;
 }
 
@@ -114,6 +115,7 @@ body {
 	position: fixed;
 	left: 0px;
 	top: 42px;
+	width: 240px;
 	padding: 0px 0px 0px 0px;
 }
 
@@ -126,6 +128,7 @@ body {
 	position: fixed;
 	right: 0px;
 	top: 42px;
+	max-width: 300px;
 }
 
 
