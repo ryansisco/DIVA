@@ -26,16 +26,18 @@ body {
 }
 
 .dropdownicoD {
-	height: 20px;
+	height: 23px;
 	width: auto;
 	align-self: right;
-	transform: rotate(180deg);
+	margin-right: 5px;
 }
 
 .dropdownicoU {
-	height: 20px;
+	height: 23px;
 	width: auto;
 	align-self: right;
+	margin-right: 5px;
+	transform: rotate(180deg);
 }
 
 .addLine {

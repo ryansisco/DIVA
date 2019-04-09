@@ -18,6 +18,7 @@ import hamburger from './assets/img/hamburger.png';
 import helpimg from './assets/img/helpimg.png';
 import camera from './assets/img/camera.png';
 import dropdownico from './assets/img/dropdown.png';
+import chevron from './assets/img/chevron.png';
 
 class App extends Component {
 	constructor(props) {
@@ -143,7 +144,7 @@ class App extends Component {
 			return (
 				<div>
 				{myString}
-				<img src={dropdownico} className="dropdownicoU" align="right"/>
+				<img src={chevron} className="dropdownicoU" align="right"/>
 				</div>
 			)
 		}
@@ -151,7 +152,7 @@ class App extends Component {
 			return (
 				<div>
 				{myString}
-				<img src={dropdownico} className="dropdownicoD" align="right"/>
+				<img src={chevron} className="dropdownicoD" align="right"/>
 				</div>
 			)
 		}
