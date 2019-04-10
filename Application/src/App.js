@@ -122,19 +122,14 @@ class App extends Component {
 		console.log(event.target.value);
 	}
 
-	checkall(mystring){
+	checkAllToggle(mystring, myoption){
 		var items = document.getElementsByName(mystring);
 		for (var i = 0; i < items.length; i++) {
 			if (items[i].type == 'checkbox')
-				items[i].checked = true;
+				console.log(myoption);
+				items[i].checked = myoption;
 		}
-	}
-	uncheckall(mystring){
-		var items = document.getElementsByName(mystring);
-		for (var i = 0; i < items.length; i++) {
-			if (items[i].type == 'checkbox')
-				items[i].checked = false;
-		}
+		this.forceUpdate();
 	}
 
 	renderFileFilter(){
@@ -149,8 +144,8 @@ class App extends Component {
 						<input type="radio" value="Ascending" name="order"/> Ascending
 						<input type="radio" value="Descending" name="order"/> Descending
 					</div>
-					<button className="toggleall" onClick={() => this.checkall("xaxisvars")}>Check All</button>
-					<button className="toggleall" onClick={() => this.uncheckall("xaxisvars")}>Uncheck All</button>
+					<button className="toggleall" onClick={() => this.checkAllToggle("xaxisvars", "true")}>Check All</button>
+					<button className="toggleall" onClick={() => this.checkAllToggle("xaxisvars", "false")}>Uncheck All</button>
 					<form className="filteroptions">
 						<label><input type="checkbox" name="xaxisvars"/> Option 1</label>
 						<label><input type="checkbox" name="xaxisvars"/> Option 2</label>
@@ -165,8 +160,8 @@ class App extends Component {
 						<input type="radio" value="Ascending" name="order2"/> Ascending
 						<input type="radio" value="Descending" name="order2"/> Descending
 					</div>
-					<button className="toggleall" onClick={() => this.checkall("yaxisvars")}>Check All</button>
-					<button className="toggleall" onClick={() => this.uncheckall("yaxisvars")}>Uncheck All</button>
+					<button className="toggleall" onClick={() => this.checkAllToggle("yaxisvars", "true")}>Check All</button>
+					<button className="toggleall" onClick={() => this.checkAllToggle("yaxisvars", "false")}>Uncheck All</button>
 					<form className="filteroptions">
 						<label><input type="checkbox" name="yaxisvars"/> Option 1</label>
 						<label><input type="checkbox" name="yaxisvars"/> Option 2</label>
@@ -184,8 +179,8 @@ class App extends Component {
 						<input type="radio" value="Ascending" name="order3"/> Ascending
 						<input type="radio" value="Descending" name="order3"/> Descending
 					</div>
-					<button className="toggleall" onClick={() => this.checkall("zaxisvars")}>Check All</button>
-					<button className="toggleall" onClick={() => this.uncheckall("zaxisvars")}>Uncheck All</button>
+					<button className="toggleall" onClick={() => this.checkAllToggle("zaxisvars", "true")}>Check All</button>
+					<button className="toggleall" onClick={() => this.checkAllToggle("zaxisvars", "false")}>Uncheck All</button>
 					<form className="filteroptions">
 						<label><input type="checkbox" name="zaxisvars"/> Option 1</label>
 						<label><input type="checkbox" name="zaxisvars"/> Option 2</label>
