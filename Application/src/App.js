@@ -117,12 +117,21 @@ class App extends Component {
 		}
 	}
 
+	chooseOrder(event){
+		console.log(event.target.value);
+	}
+
 	renderFileFilter(){
 		if (this.state.fileFilter) {
 			return (
 				<div>
 					{/* CALL TO COLLECT "IF OCCURS ONCE" Data */}
 					X-Axis:<br/>
+					<div onChange={this.chooseOrder.bind(this)}>
+						<input type="radio" value="Original" defaultChecked name="order"/> Original
+						<input type="radio" value="Ascending" name="order"/> Ascending
+						<input type="radio" value="Descending" name="order"/> Descending
+					</div>
 					<button>Ascending</button>
 					<button>Decending</button>
 					<button>Original</button>
@@ -133,9 +142,11 @@ class App extends Component {
 						<input type="checkbox"/> Option 4 <br/>
 					</form>
 					Y-Axis:<br/>
-					<button>Ascending</button>
-					<button>Decending</button>
-					<button>Original</button>
+					<div onChange={this.chooseOrder.bind(this)}>
+						<input type="radio" value="Original" defaultChecked name="order2"/> Original
+						<input type="radio" value="Ascending" name="order2"/> Ascending
+						<input type="radio" value="Descending" name="order2"/> Descending
+					</div>
 					<form> {/* I need to set overflow for this in CSS so it is scrollable */}
 						<input type="checkbox"/> Option 1
 						<input type="checkbox"/> Option 2 <br/>
@@ -143,9 +154,11 @@ class App extends Component {
 						<input type="checkbox"/> Option 4 <br/>
 					</form>
 					Z-Axis:<br/>
-					<button>Ascending</button>
-					<button>Decending</button>
-					<button>Original</button>
+					<div onChange={this.chooseOrder.bind(this)}>
+						<input type="radio" value="Original" defaultChecked name="order3"/> Original
+						<input type="radio" value="Ascending" name="order3"/> Ascending
+						<input type="radio" value="Descending" name="order3"/> Descending
+					</div>
 					<form> {/* I need to set overflow for this in CSS so it is scrollable */}
 						<input type="checkbox"/> Option 1
 						<input type="checkbox"/> Option 2 <br/>
