@@ -121,6 +121,21 @@ class App extends Component {
 		console.log(event.target.value);
 	}
 
+	checkall(mystring){
+		var items = document.getElementsByName(mystring);
+		for (var i = 0; i < items.length; i++) {
+			if (items[i].type == 'checkbox')
+				items[i].checked = true;
+		}
+	}
+	uncheckall(mystring){
+		var items = document.getElementsByName(mystring);
+		for (var i = 0; i < items.length; i++) {
+			if (items[i].type == 'checkbox')
+				items[i].checked = false;
+		}
+	}
+
 	renderFileFilter(){
 		if (this.state.fileFilter) {
 			return (
@@ -133,11 +148,13 @@ class App extends Component {
 						<input type="radio" value="Ascending" name="order"/> Ascending
 						<input type="radio" value="Descending" name="order"/> Descending
 					</div>
+					<button className="toggleall" onClick={() => this.checkall("xaxisvars")}>Check All</button>
+					<button className="toggleall" onClick={() => this.uncheckall("xaxisvars")}>Uncheck All</button>
 					<form className="filteroptions"> {/* I need to set overflow for this in CSS so it is scrollable */}
-						<label><input type="checkbox"/> Option 1</label>
-						<label><input type="checkbox"/> Option 2</label>
-						<label><input type="checkbox"/> Option 3</label>
-						<label><input type="checkbox"/> Option 4</label>
+						<label><input type="checkbox" name="xaxisvars"/> Option 1</label>
+						<label><input type="checkbox" name="xaxisvars"/> Option 2</label>
+						<label><input type="checkbox" name="xaxisvars"/> Option 3</label>
+						<label><input type="checkbox" name="xaxisvars"/> Option 4</label>
 					</form>
 					</div>
 					<div className="sortandfilt">
@@ -147,14 +164,16 @@ class App extends Component {
 						<input type="radio" value="Ascending" name="order2"/> Ascending
 						<input type="radio" value="Descending" name="order2"/> Descending
 					</div>
+					<button className="toggleall" onClick={() => this.checkall("yaxisvars")}>Check All</button>
+					<button className="toggleall" onClick={() => this.uncheckall("yaxisvars")}>Uncheck All</button>
 					<form className="filteroptions"> {/* I need to set overflow for this in CSS so it is scrollable */}
-						<label><input type="checkbox"/> Option 1</label>
-						<label><input type="checkbox"/> Option 2</label>
-						<label><input type="checkbox"/> Option 3</label>
-						<label><input type="checkbox"/> Option 4</label>
-						<label><input type="checkbox"/> Option 5</label>
-						<label><input type="checkbox"/> Option 6</label>
-						<label><input type="checkbox"/> Option 7</label>
+						<label><input type="checkbox" name="yaxisvars"/> Option 1</label>
+						<label><input type="checkbox" name="yaxisvars"/> Option 2</label>
+						<label><input type="checkbox" name="yaxisvars"/> Option 3</label>
+						<label><input type="checkbox" name="yaxisvars"/> Option 4</label>
+						<label><input type="checkbox" name="yaxisvars"/> Option 5</label>
+						<label><input type="checkbox" name="yaxisvars"/> Option 6</label>
+						<label><input type="checkbox" name="yaxisvars"/> Option 7</label>
 					</form>
 					</div>
 					<div className="sortandfilt">
@@ -164,19 +183,21 @@ class App extends Component {
 						<input type="radio" value="Ascending" name="order3"/> Ascending
 						<input type="radio" value="Descending" name="order3"/> Descending
 					</div>
+					<button className="toggleall" onClick={() => this.checkall("zaxisvars")}>Check All</button>
+					<button className="toggleall" onClick={() => this.uncheckall("zaxisvars")}>Uncheck All</button>
 					<form className="filteroptions"> {/* I need to set overflow for this in CSS so it is scrollable */}
-						<label><input type="checkbox"/> Option 1</label>
-						<label><input type="checkbox"/> Option 2</label>
-						<label><input type="checkbox"/> Option 3</label>
-						<label><input type="checkbox"/> Option 4</label>
-						<label><input type="checkbox"/> Option 5</label>
-						<label><input type="checkbox"/> Option 6</label>
-						<label><input type="checkbox"/> Option 7</label>
-						<label><input type="checkbox"/> Option 8</label>
-						<label><input type="checkbox"/> Option 9</label>
-						<label><input type="checkbox"/> Option 10</label>
-						<label><input type="checkbox"/> Option 11</label>
-						<label><input type="checkbox"/> Option 12</label>
+						<label><input type="checkbox" name="zaxisvars"/> Option 1</label>
+						<label><input type="checkbox" name="zaxisvars"/> Option 2</label>
+						<label><input type="checkbox" name="zaxisvars"/> Option 3</label>
+						<label><input type="checkbox" name="zaxisvars"/> Option 4</label>
+						<label><input type="checkbox" name="zaxisvars"/> Option 5</label>
+						<label><input type="checkbox" name="zaxisvars"/> Option 6</label>
+						<label><input type="checkbox" name="zaxisvars"/> Option 7</label>
+						<label><input type="checkbox" name="zaxisvars"/> Option 8</label>
+						<label><input type="checkbox" name="zaxisvars"/> Option 9</label>
+						<label><input type="checkbox" name="zaxisvars"/> Option 10</label>
+						<label><input type="checkbox" name="zaxisvars"/> Option 11</label>
+						<label><input type="checkbox" name="zaxisvars"/> Option 12</label>
 					</form>
 					</div>
 					<div className="addLine"></div>
