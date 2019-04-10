@@ -48,7 +48,7 @@ class App extends Component {
 		var canvas = document.getElementById('visualizer');
 		var image = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
 		var link = document.createElement('a');
-		link.download = "canvas-screenshot.jpeg";
+		link.download = this.state.csvfilename+".jpeg";
 		link.target = "_blank";
 		link.href = image;
 		document.body.appendChild(link);
@@ -76,7 +76,8 @@ class App extends Component {
 				...this.state,
 				file: event.target.result,
 				options: getTitles(event.target.result),
-				fileName: file.name
+				fileName: file.name,
+				csvfilename: file.name
 			});
 		};
 		reader.readAsText(file);
@@ -150,7 +151,7 @@ class App extends Component {
 					</div>
 					<button className="toggleall" onClick={() => this.checkall("xaxisvars")}>Check All</button>
 					<button className="toggleall" onClick={() => this.uncheckall("xaxisvars")}>Uncheck All</button>
-					<form className="filteroptions"> {/* I need to set overflow for this in CSS so it is scrollable */}
+					<form className="filteroptions">
 						<label><input type="checkbox" name="xaxisvars"/> Option 1</label>
 						<label><input type="checkbox" name="xaxisvars"/> Option 2</label>
 						<label><input type="checkbox" name="xaxisvars"/> Option 3</label>
@@ -166,7 +167,7 @@ class App extends Component {
 					</div>
 					<button className="toggleall" onClick={() => this.checkall("yaxisvars")}>Check All</button>
 					<button className="toggleall" onClick={() => this.uncheckall("yaxisvars")}>Uncheck All</button>
-					<form className="filteroptions"> {/* I need to set overflow for this in CSS so it is scrollable */}
+					<form className="filteroptions">
 						<label><input type="checkbox" name="yaxisvars"/> Option 1</label>
 						<label><input type="checkbox" name="yaxisvars"/> Option 2</label>
 						<label><input type="checkbox" name="yaxisvars"/> Option 3</label>
@@ -185,7 +186,7 @@ class App extends Component {
 					</div>
 					<button className="toggleall" onClick={() => this.checkall("zaxisvars")}>Check All</button>
 					<button className="toggleall" onClick={() => this.uncheckall("zaxisvars")}>Uncheck All</button>
-					<form className="filteroptions"> {/* I need to set overflow for this in CSS so it is scrollable */}
+					<form className="filteroptions">
 						<label><input type="checkbox" name="zaxisvars"/> Option 1</label>
 						<label><input type="checkbox" name="zaxisvars"/> Option 2</label>
 						<label><input type="checkbox" name="zaxisvars"/> Option 3</label>
@@ -200,6 +201,7 @@ class App extends Component {
 						<label><input type="checkbox" name="zaxisvars"/> Option 12</label>
 					</form>
 					</div>
+					<button className="Rerender"> Save Options </button>
 					<div className="addLine"></div>
 				</div>
 			)
