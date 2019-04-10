@@ -199,7 +199,7 @@ renderColorZ(){
 	const handleColorChange = ({ hex }) => console.log(hex);
 	if (this.state.colorZ){
 		return(
-			<div>
+			<div className = "menucontainer">
 	      <SketchPicker
 	        color="#333"
 	        onChangeComplete={ handleColorChange }
@@ -220,12 +220,12 @@ renderColorZ(){
 					</div>
 
 					<div>
-				  <button className="button"onClick = {() => {this.setState({colorX:!this.state.colroX})}}> X-Axis</button>
+				  <button className="button"onClick = {() => {this.setState({colorX:!this.state.colorX})}}> X-Axis</button>
 					{this.renderColorX()}
 			   	<button className="button"onClick = {() => {this.setState({colorY:!this.state.colorY})}}> Y-Axis</button>
 					{this.renderColorY()}
-				  <button className="button"onClick = {() => {this.setState({colorY:!this.state.colorY})}}> Z-Axis</button>
-					{this.renderColorZ()}
+				  <button className="button"onClick = {() => {this.setState({colorZ:!this.state.colorZ})}}> Z-Axis</button>
+				 {this.renderColorZ()}
 					</div>
 
 					<div className="addLine"></div>
