@@ -107,13 +107,6 @@ body {
 	right: 7px;
 }
 
-.camera{
-	cursor: pointer;
-	position: fixed;
-	top: 7px;
-	right: 45px;
-}
-
 .menucontainer {
 	float: left;
 	outline: 2px solid black;
@@ -210,21 +203,6 @@ body {
 	-webkit-overflow-scrolling: touch;
 }
 
-.dropdown-cameramenu {
-	background-color: white;
-	border: 1px solid #ccc;
-	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
-	box-sizing: border-box;
-	margin-top: -1px;
-	max-height: 200px;
-	overflow-y: auto;
-	position: absolute;
-	top: 100%;
-	width: 100%;
-	z-index: 1000;
-	-webkit-overflow-scrolling: touch;
-}
-
 .dropdown-menu .dropdown-group > .dropdown-title{
 	padding: 4px 5px;
 	color: rgba(51, 51, 51, 1);
@@ -234,17 +212,7 @@ body {
 	margin-bottom: 3px;
 }
 
-
 .dropdown-helpmenu .dropdown-group > .dropdown-title{
-	padding: 4px 5px;
-	color: rgba(51, 51, 51, 1);
-	font-weight: bold;
-	text-transform: capitalize;
-	margin-top: 3px;
-	margin-bottom: 3px;
-}
-
-.dropdown-cameramenu .dropdown-group > .dropdown-title{
 	padding: 4px 5px;
 	color: rgba(51, 51, 51, 1);
 	font-weight: bold;

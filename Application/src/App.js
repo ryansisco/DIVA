@@ -8,8 +8,9 @@ import { updateGraphData } from './redux/actions';
 import Dropdown from 'react-dropdown';
 import { getTitles, get3dvObject } from "./assets/js/csvParser.js";
 import ThreeContainer from './components/DataVisualization/ThreeContainer';
-import { SketchPicker } from 'react-color'
-
+import { SketchPicker } from 'react-color';
+import Slider, {Range} from 'rc-slider';
+import 'rc-slider/assets/index.css';
 // CSS //
 import "./assets/css/styles.css";
 
@@ -162,36 +163,79 @@ class App extends Component {
 		}
 	}
 
-colorChange(){
-	 const handleColorChange = ({ hex }) => console.log(hex)
-	 return (
-    <div>
-      <SketchPicker
-        color="#333"
-        onChangeComplete={ handleColorChange }
-      />
-    </div>
-	)
+renderColorX(){
+	const handleColorChange = ({ hex }) => console.log(hex);
+	if (this.state.colorX){
+		return(
+			<div>
+	      <SketchPicker
+	        color="#333"
+	        onChangeComplete={ handleColorChange }
+	      />
+				<button className = "button" onClick = {() => {this.setState()}}> Change Color </button>
+				<Slider />
+	    </div>
+		);
+	}
+}
+
+renderColorY(){
+	const handleColorChange = ({ hex }) => console.log(hex);
+	if (this.state.colorY){
+		return(
+			<div>
+	      <SketchPicker
+	        color="#333"
+	        onChangeComplete={ handleColorChange }
+	      />
+				<button className = "button" onClick = {() => {this.setState()}}> Change Color </button>
+				<Slider />
+	    </div>
+		);
+	}
+}
+
+renderColorZ(){
+	const handleColorChange = ({ hex }) => console.log(hex);
+	if (this.state.colorZ){
+		return(
+			<div>
+	      <SketchPicker
+	        color="#333"
+	        onChangeComplete={ handleColorChange }
+	      />
+				<button className = "button" onClick = {() => {this.setState()}}> Change Color </button>
+				<Slider />
+	    </div>
+		);
+	}
 }
 	renderGraphicalOptions(){
 		if (this.state.graphicOptions) {
 			return (
 				<div>
-					<button
-						className = "button"
-						onClick = {() => {this.setState()}}
-					>Camera Reset</button>
-				<div>
-				{this.colorChange()}
-					<button
-						className = "button"
-						onClick = {() => {this.setState()}}
-					>Color</button>
+
+					<div>
+					<button className = "button" onClick = {() => {this.setState()}}> Camera Reset </button>
 					</div>
+
+					<div>
+				  <button className="button"onClick = {() => {this.setState({colorX:!this.state.colroX})}}> X-Axis</button>
+					{this.renderColorX()}
+			   	<button className="button"onClick = {() => {this.setState({colorY:!this.state.colorY})}}> Y-Axis</button>
+					{this.renderColorY()}
+				  <button className="button"onClick = {() => {this.setState({colorY:!this.state.colorY})}}> Z-Axis</button>
+					{this.renderColorZ()}
+					</div>
+
 					<div className="addLine"></div>
+
 				</div>
-			)
+			);
 		}
+		return (
+			<div></div>
+		);
 	}
 
 	renderDataMenu(){
