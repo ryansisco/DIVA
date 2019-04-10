@@ -132,9 +132,6 @@ class App extends Component {
 						<input type="radio" value="Ascending" name="order"/> Ascending
 						<input type="radio" value="Descending" name="order"/> Descending
 					</div>
-					<button>Ascending</button>
-					<button>Decending</button>
-					<button>Original</button>
 					<form> {/* I need to set overflow for this in CSS so it is scrollable */}
 						<input type="checkbox"/> Option 1
 						<input type="checkbox"/> Option 2 <br/>
