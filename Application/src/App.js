@@ -126,42 +126,59 @@ class App extends Component {
 			return (
 				<div>
 					{/* CALL TO COLLECT "IF OCCURS ONCE" Data */}
+					<div className="sortandfilt">
 					X-Axis:<br/>
 					<div onChange={this.chooseOrder.bind(this)}>
 						<input type="radio" value="Original" defaultChecked name="order"/> Original
 						<input type="radio" value="Ascending" name="order"/> Ascending
 						<input type="radio" value="Descending" name="order"/> Descending
 					</div>
-					<form> {/* I need to set overflow for this in CSS so it is scrollable */}
-						<input type="checkbox"/> Option 1
-						<input type="checkbox"/> Option 2 <br/>
-						<input type="checkbox"/> Option 3
-						<input type="checkbox"/> Option 4 <br/>
+					<form className="filteroptions"> {/* I need to set overflow for this in CSS so it is scrollable */}
+						<label><input type="checkbox"/> Option 1</label>
+						<label><input type="checkbox"/> Option 2</label>
+						<label><input type="checkbox"/> Option 3</label>
+						<label><input type="checkbox"/> Option 4</label>
 					</form>
+					</div>
+					<div className="sortandfilt">
 					Y-Axis:<br/>
 					<div onChange={this.chooseOrder.bind(this)}>
 						<input type="radio" value="Original" defaultChecked name="order2"/> Original
 						<input type="radio" value="Ascending" name="order2"/> Ascending
 						<input type="radio" value="Descending" name="order2"/> Descending
 					</div>
-					<form> {/* I need to set overflow for this in CSS so it is scrollable */}
-						<input type="checkbox"/> Option 1
-						<input type="checkbox"/> Option 2 <br/>
-						<input type="checkbox"/> Option 3
-						<input type="checkbox"/> Option 4 <br/>
+					<form className="filteroptions"> {/* I need to set overflow for this in CSS so it is scrollable */}
+						<label><input type="checkbox"/> Option 1</label>
+						<label><input type="checkbox"/> Option 2</label>
+						<label><input type="checkbox"/> Option 3</label>
+						<label><input type="checkbox"/> Option 4</label>
+						<label><input type="checkbox"/> Option 5</label>
+						<label><input type="checkbox"/> Option 6</label>
+						<label><input type="checkbox"/> Option 7</label>
 					</form>
+					</div>
+					<div className="sortandfilt">
 					Z-Axis:<br/>
 					<div onChange={this.chooseOrder.bind(this)}>
 						<input type="radio" value="Original" defaultChecked name="order3"/> Original
 						<input type="radio" value="Ascending" name="order3"/> Ascending
 						<input type="radio" value="Descending" name="order3"/> Descending
 					</div>
-					<form> {/* I need to set overflow for this in CSS so it is scrollable */}
-						<input type="checkbox"/> Option 1
-						<input type="checkbox"/> Option 2 <br/>
-						<input type="checkbox"/> Option 3
-						<input type="checkbox"/> Option 4 <br/>
+					<form className="filteroptions"> {/* I need to set overflow for this in CSS so it is scrollable */}
+						<label><input type="checkbox"/> Option 1</label>
+						<label><input type="checkbox"/> Option 2</label>
+						<label><input type="checkbox"/> Option 3</label>
+						<label><input type="checkbox"/> Option 4</label>
+						<label><input type="checkbox"/> Option 5</label>
+						<label><input type="checkbox"/> Option 6</label>
+						<label><input type="checkbox"/> Option 7</label>
+						<label><input type="checkbox"/> Option 8</label>
+						<label><input type="checkbox"/> Option 9</label>
+						<label><input type="checkbox"/> Option 10</label>
+						<label><input type="checkbox"/> Option 11</label>
+						<label><input type="checkbox"/> Option 12</label>
 					</form>
+					</div>
 					<div className="addLine"></div>
 				</div>
 			)

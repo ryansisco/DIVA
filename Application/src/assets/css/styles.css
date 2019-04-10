@@ -35,7 +35,7 @@ body {
 
 .dropdownicoU {
 	height: 23px;
-	width: auto;
+	width: inherit;
 	align-self: right;
 	margin-right: 5px;
 	transform: rotate(180deg);
@@ -43,6 +43,16 @@ body {
 
 .addLine {
 	border: 1px solid black;
+}
+
+.filteroptions{
+	border: 1px solid lightgrey;
+	display: grid;
+	grid-template-columns: 50% 50%;
+	align-self: right;
+	max-height: 60px;
+	overflow-y: auto; 
+	text-align: left;
 }
 
 .dropdownmenu {
