@@ -203,14 +203,51 @@ class App extends Component {
 		}
 	}
 
-	renderGraphicalOptions(){
-		if (this.state.graphicOptions) {
-			return (
+	renderColorX(){
+	const handleColorChange = ({ hex }) => console.log(hex);
+	if (this.state.colorX){
+		return(
+			<div>
+	      	<SketchPicker
+	        	color="#333"
+	        	onChangeComplete={ handleColorChange }
+	      	/>
+				<button className = "button" onClick = {() => {this.setState()}}> Change Color </button>
+				<Slider />
+	    		</div>
+			);
+		}
+	}
+
+	renderColorY(){
+		const handleColorChange = ({ hex }) => console.log(hex);
+		if (this.state.colorY){
+			return(
 				<div>
-					graphic options
-					<div className="addLine"></div>
-				</div>
-			)
+	    	  	<SketchPicker
+	        	color="#333"
+	    	    onChangeComplete={ handleColorChange }
+		      />
+				<button className = "button" onClick = {() => {this.setState()}}> Change Color </button>
+				<Slider />
+	   	 	</div>
+			);
+		}
+	}
+
+	renderColorZ(){
+		const handleColorChange = ({ hex }) => console.log(hex);
+		if (this.state.colorZ){
+			return(
+				<div className = "menucontainer">
+		      <SketchPicker
+		        color="#333"
+		        onChangeComplete={ handleColorChange }
+		      />
+					<button className = "button" onClick = {() => {this.setState()}}> Change Color </button>
+					<Slider />
+		    </div>
+			);
 		}
 	}
 
@@ -247,6 +284,34 @@ class App extends Component {
 					<div className="addLine"></div>
 					{this.renderGraphicalOptions()}
 					<button className="uidropbutton" onClick={() => this.exportImage()}>Download Image</button><br/>
+				</div>
+			);
+		}
+		return (
+			<div></div>
+		);
+	}
+
+	renderGraphicalOptions(){
+		if (this.state.graphicOptions) {
+			return (
+				<div>
+
+					<div>
+					<button className = "button" onClick = {() => {this.setState()}}> Camera Reset </button>
+					</div>
+
+					<div>
+				  <button className="button"onClick = {() => {this.setState({colorX:!this.state.colorX})}}> X-Axis</button>
+					{this.renderColorX()}
+			   	<button className="button"onClick = {() => {this.setState({colorY:!this.state.colorY})}}> Y-Axis</button>
+					{this.renderColorY()}
+				  <button className="button"onClick = {() => {this.setState({colorZ:!this.state.colorZ})}}> Z-Axis</button>
+				 {this.renderColorZ()}
+					</div>
+
+					<div className="addLine"></div>
+
 				</div>
 			);
 		}
