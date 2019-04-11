@@ -8,6 +8,9 @@ import { updateGraphData } from './redux/actions';
 import Dropdown from 'react-dropdown';
 import { getTitles, get3dvObject } from "./assets/js/csvParser.js";
 import ThreeContainer from './components/DataVisualization/ThreeContainer';
+import { SketchPicker } from 'react-color';
+import Slider, {Range} from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
 // CSS //
 import "./assets/css/styles.css";
