@@ -6,7 +6,7 @@ import { updateGraphData } from './redux/actions';
 
 // COMPONENTS //
 import Dropdown from 'react-dropdown';
-import { getTitles, get3dvObject } from "./assets/js/csvParser.js";
+import { getTitles, get3dvObjectSort, get3dvObject} from "./assets/js/csvParser.js";
 import ThreeContainer from './components/DataVisualization/ThreeContainer';
 
 // CSS //
@@ -74,7 +74,7 @@ class App extends Component {
 			return (
 				<div>
 				<button className="button">Filter</button><br/>
-				<button className="button" onClick={() => this.props.updateGraphData(get3dvObject(this.state.file, columns))}>Render</button><br/>
+				<button className="button" onClick={() => this.props.updateGraphData(get3dvObjectSort(this.state.file, columns))}>Render</button><br/>
 				<button className="button" onClick={() => this.exportImage()}>Download</button><br/>
 				</div>
 			)
