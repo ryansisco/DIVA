@@ -33,6 +33,9 @@ class App extends Component {
 				z: null
 			},
 			options: [],
+			xRows: [],
+			yRows: [],
+			zRows: [],
 			csvfilename: null
 		};
 	}
@@ -66,6 +69,9 @@ class App extends Component {
 				...this.state.axes,
 				[option]: e.value
 			}
+			/* xRows: getRows(event.target.result),
+				yRows: getRows(event.target.result),
+				zRows: getRows(event.target.result) */
 		})
 	}
 
