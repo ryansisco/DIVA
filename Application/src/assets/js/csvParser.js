@@ -6,6 +6,34 @@ export function getTitles(content){
   return first.split(',');
 };
 
+export function getRows(content, title){
+
+  const contentArray = content.split('\n');
+  const titleRow = contentArray[0].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+  const offset = titleRow.indexOf(title)
+
+  var checkboxArray = [];
+
+  if (offset === -1)
+    return [];
+
+  for(let i = 1; i < contentArray.length; i++){
+    let rowArray = contentArray[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+
+    var rowElement = rowArray[offset];
+    var fixedRowElement = rowElement.replace(/['"]+/g, '');
+    fixedRowElement = fixedRowElement.replace(",", ".");
+
+    if (checkboxArray.indexOf(fixedRowElement) === -1){
+      checkboxArray.push(fixedRowElement);
+    }
+
+  }
+
+  return checkboxArray.sort();
+};
+
+
 function getTypes(content, offsets) {
   const firstDataRow = content.split('\n')[2];
   const firstDataArr = firstDataRow.split(',');
@@ -171,12 +199,6 @@ export function get3dvObjectSort(content, columns) {
   console.log(finalObject);
   return finalObject;
 };
-
-
-
-
-
-
 
 
 
