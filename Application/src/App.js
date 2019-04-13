@@ -6,7 +6,7 @@ import { updateGraphData } from './redux/actions';
 
 // COMPONENTS //
 import Dropdown from 'react-dropdown';
-import { getTitles, get3dvObject } from "./assets/js/csvParser.js";
+import { getTitles, get3dvObjectSort, get3dvObject} from "./assets/js/csvParser.js";
 import ThreeContainer from './components/DataVisualization/ThreeContainer';
 import { SketchPicker } from 'react-color';
 import Slider, {Range} from 'rc-slider';
@@ -373,8 +373,8 @@ class App extends Component {
 		})
 	}
 
-	renderFileFilter(){
-		if (this.state.fileFilter) {
+renderFileFilter() {
+	if (this.state.fileFilter) {
 			return (
 				<div>
 				<div className="sortandfilt">
