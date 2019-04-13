@@ -79,7 +79,8 @@ onSelect = (option, e) => {
 		},
 		rows: {
 			...this.state.rows,
-			[option]: getTitles(this.state.file) /* getRows(this.state.file, this.state.axes.option)*/
+			[option]: getTitles(this.state.file)
+			/* getRows(this.state.file, this.state.axes.option)*/
 		},
 		filteredRows: {
 			...this.state.rows,
@@ -156,6 +157,29 @@ checkAllToggle(mystring, myoption){
 	}
 }
 
+produceCheckboxes(myRow, rowName){
+	if (typeof(myRow) != "object") {
+		return(
+			<div>
+			<form className="filteroptions">
+			<label key='0'><input type="checkbox" name={rowName}/> {myRow} </label>
+			</form>
+			</div>
+		)
+	}
+	else{
+		return(
+			<div>
+			<form className="filteroptions">
+			{(Object.values(myRow)).map((rowoptions, index) =>
+			<label key={index}><input type="checkbox" name={rowName}/> {rowoptions} </label>)}
+			</form>
+			</div>
+		)
+
+	}
+}
+
 renderFileFilter(){
 	if (this.state.fileFilter) {
 		return (
@@ -169,11 +193,7 @@ renderFileFilter(){
 			</div>
 			<button className="toggleall" onClick={() => this.checkAllToggle("xaxisvars", "true")}>Check All</button>
 			<button className="toggleall" onClick={() => this.checkAllToggle("xaxisvars", "false")}>Uncheck All</button>
-			<form className="filteroptions">
-			{(Object.values(this.state.rows.x)).map((rowoptions, index) =>
-				<label key={index}><input type="checkbox" name="xaxisvars"/> {rowoptions} </label>
-				)}
-			</form>
+			{this.produceCheckboxes(this.state.rows.x, "xaxisvars")}
 			</div>
 			<div className="sortandfilt">
 			Y-Axis:<br/>
@@ -184,11 +204,7 @@ renderFileFilter(){
 			</div>
 			<button className="toggleall" onClick={() => this.checkAllToggle("yaxisvars", "true")}>Check All</button>
 			<button className="toggleall" onClick={() => this.checkAllToggle("yaxisvars", "false")}>Uncheck All</button>
-			<form className="filteroptions">
-			{(Object.values(this.state.rows.y)).map((rowoptions, index) =>
-				<label key={index}><input type="checkbox" name="yaxisvars"/> {rowoptions} </label>
-				)}
-			</form>
+			{this.produceCheckboxes(this.state.rows.y, "yaxisvars")}
 			</div>
 			<div className="sortandfilt">
 			Z-Axis:<br/>
@@ -199,11 +215,7 @@ renderFileFilter(){
 			</div>
 			<button className="toggleall" onClick={() => this.checkAllToggle("zaxisvars", "true")}>Check All</button>
 			<button className="toggleall" onClick={() => this.checkAllToggle("zaxisvars", "false")}>Uncheck All</button>
-			<form className="filteroptions">
-			{(Object.values(this.state.rows.z)).map((rowoptions, index) =>
-				<label key={index}><input type="checkbox" name="zaxisvars"/> {rowoptions} </label>
-				)}
-			</form>
+			{this.produceCheckboxes(this.state.rows.z, "zaxisvars")}
 			</div>
 			<button className="Rerender"> Save Options </button>
 			<div className="addLine"></div>
