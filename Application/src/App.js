@@ -373,8 +373,23 @@ class App extends Component {
 		})
 	}
 
-renderFileFilter() {
-	if (this.state.fileFilter) {
+	sendFilteredData(x, xOrder, xRows, y, yOrder, yRows, z, zOrder, zRows) {
+		var mySortObject = {
+			"x": x,
+			"x_sort": xOrder,
+			"x_filter": xRows,
+			"y": y,
+			"y_sort": yOrder,
+			"y_filter": yRows,
+			"z": z,
+			"z_sort": zOrder,
+			"z_filter": zRows
+		}
+		this.props.updateGraphData(get3dvObject(this.state.file, this.state.axes));
+	}
+
+	renderFileFilter() {
+		if (this.state.fileFilter) {
 			return (
 				<div>
 				<div className="sortandfilt">
@@ -398,7 +413,7 @@ renderFileFilter() {
 				<input type="radio" value="Descending" name="order3" onChange={() => this.sortedType("Descending", "zOrder")} checked ={this.state.zOrder === "Descending"}/> Descending
 				{this.produceCheckboxes(this.state.rows.z, "zaxisvars")}
 				</div>
-				<button className="Rerender" onClick={() => console.log((this.state.axes.x), (this.state.xOrder),(this.state.filteredRows.x),(this.state.axes.y), (this.state.yOrder),(this.state.filteredRows.y),(this.state.axes.z), (this.state.zOrder),(this.state.filteredRows.z))}> Save Options </button>
+				<button className="Rerender" onClick={() => this.sendFilteredData((this.state.axes.x), (this.state.xOrder),(this.state.filteredRows.x),(this.state.axes.y), (this.state.yOrder),(this.state.filteredRows.y),(this.state.axes.z), (this.state.zOrder),(this.state.filteredRows.z))}> Save Options </button>
 				<div className="addLine"></div>
 				</div>
 				)
