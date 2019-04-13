@@ -6,7 +6,7 @@ import { updateGraphData } from './redux/actions';
 
 // COMPONENTS //
 import Dropdown from 'react-dropdown';
-import { getTitles, get3dvObjectSort, get3dvObject} from "./assets/js/csvParser.js";
+import { getTitles, get3dvObjectSort, get3dvObject, getRows} from "./assets/js/csvParser.js";
 import ThreeContainer from './components/DataVisualization/ThreeContainer';
 import { SketchPicker } from 'react-color';
 import Slider, {Range} from 'rc-slider';
@@ -82,12 +82,12 @@ class App extends Component {
 			},
 			rows: {
 				...this.state.rows,
-				[option]: getTitles(this.state.file)
+				[option]: getRows(this.state.file, e.value)
 				/* getRows(this.state.file, this.state.axes.option)*/
 			},
 			filteredRows: {
 				...this.state.filteredRows,
-				[option]: getTitles(this.state.file) /* getRows(this.state.file, this.state.axes.option)*/
+				[option]: getRows(this.state.file, e.value) /* getRows(this.state.file, this.state.axes.option)*/
 			}
 		})
 	}

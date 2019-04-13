@@ -21,11 +21,11 @@ export function getRows(content, title){
     let rowArray = contentArray[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
 
     var rowElement = rowArray[offset];
-    var fixedRowElement = rowElement.replace(/['"]+/g, '');
-    fixedRowElement = fixedRowElement.replace(",", ".");
+    // var fixedRowElement = rowElement.replace(/['"]+/g, '');
+    // fixedRowElement = fixedRowElement.replace(",", ".");
 
-    if (checkboxArray.indexOf(fixedRowElement) === -1){
-      checkboxArray.push(fixedRowElement);
+    if (checkboxArray.indexOf(rowElement) === -1){
+      checkboxArray.push(rowElement);
     }
 
   }
