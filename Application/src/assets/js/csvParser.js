@@ -277,20 +277,25 @@ export function get3dvObjectSort(content, columns, sortingObject) {
 
   var tempSortReturn;
   // sort indices.x by user input
-  tempSortReturn = sortData(indices.x, data, sort["x"], "x");
-  indices.x = tempSortReturn["sortedIndices"];
-  data = tempSortReturn["newData"];
+  if (types["x"] !== "date") {
+    tempSortReturn = sortData(indices.x, data, sort["x"], "x");
+    indices.x = tempSortReturn["sortedIndices"];
+    data = tempSortReturn["newData"];
+  }
 
   // sort indices.y by user input
-  tempSortReturn = sortData(indices.y, data, sort["y"], "y");
-  indices.y = tempSortReturn["sortedIndices"];
-  data = tempSortReturn["newData"];
+  if (types["y"] !== "date") {
+    tempSortReturn = sortData(indices.y, data, sort["y"], "y");
+    indices.y = tempSortReturn["sortedIndices"];
+    data = tempSortReturn["newData"];
+  }
 
   // sort indices.z by user input
-  tempSortReturn = sortData(indices.z, data, sort["z"], "z");
-  indices.z = tempSortReturn["sortedIndices"];
-  data = tempSortReturn["newData"];
-
+  if (types["z"] !== "date") {
+    tempSortReturn = sortData(indices.z, data, sort["z"], "z");
+    indices.z = tempSortReturn["sortedIndices"];
+    data = tempSortReturn["newData"];
+  }
 
   const finalObject = {
     xColumn: {
@@ -396,20 +401,26 @@ export function get3dvObject(content, columns) {
   }
 
   var tempSortReturn;
-  // sort indices.x in ascending order
-  tempSortReturn = sortData(indices.x, data, "Ascending", "x");
-  indices.x = tempSortReturn["sortedIndices"];
-  data = tempSortReturn["newData"];
+  // sort indices.x by user input
+  if (types["x"] !== "date") {
+    tempSortReturn = sortData(indices.x, data, "Ascending", "x");
+    indices.x = tempSortReturn["sortedIndices"];
+    data = tempSortReturn["newData"];
+  }
 
-  // sort indices.y in ascending order
-  tempSortReturn = sortData(indices.y, data, "Ascending", "y");
-  indices.y = tempSortReturn["sortedIndices"];
-  data = tempSortReturn["newData"];
+  // sort indices.y by user input
+  if (types["y"] !== "date") {
+    tempSortReturn = sortData(indices.y, data, "Ascending", "y");
+    indices.y = tempSortReturn["sortedIndices"];
+    data = tempSortReturn["newData"];
+  }
 
-  // sort indices.z in ascending order
-  tempSortReturn = sortData(indices.z, data, "Ascending", "z");
-  indices.z = tempSortReturn["sortedIndices"];
-  data = tempSortReturn["newData"];
+  // sort indices.z by user input
+  if (types["z"] !== "date") {
+    tempSortReturn = sortData(indices.z, data, "Ascending", "z");
+    indices.z = tempSortReturn["sortedIndices"];
+    data = tempSortReturn["newData"];
+  }
 
   const finalObject = {
     xColumn: {
