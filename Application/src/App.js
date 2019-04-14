@@ -456,7 +456,7 @@ class App extends Component {
 		const handleColorChange = ({ hex }) => console.log(hex);
 		if (this.state.colorZ){
 			return(
-				<div className = "menucontainer">
+				<div>
 				<SketchPicker
 				color="#333"
 				onChangeComplete={ handleColorChange }
@@ -518,13 +518,14 @@ class App extends Component {
 				<button className = "button" onClick = {() => {this.setState()}}> Camera Reset </button>
 				</div>
 
-				<div>
-				<button className="button"onClick = {() => {this.setState({colorX:!this.state.colorX})}}> X-Axis</button>
+				<div className = "graphicOptionsBox">
+				<button className="button"onClick = {() => {this.setState({colorX:!this.state.colorX})}}>{this.state.axes.x}</button>
+				<button className="button"onClick = {() => {this.setState({colorY:!this.state.colorY})}}>{this.state.axes.y}</button>
+				<button className="button"onClick = {() => {this.setState({colorZ:!this.state.colorZ})}}>{this.state.axes.z}</button>
 				{this.renderColorX()}
-				<button className="button"onClick = {() => {this.setState({colorY:!this.state.colorY})}}> Y-Axis</button>
 				{this.renderColorY()}
-				<button className="button"onClick = {() => {this.setState({colorZ:!this.state.colorZ})}}> Z-Axis</button>
 				{this.renderColorZ()}
+
 				</div>
 
 				<div className="addLine"></div>

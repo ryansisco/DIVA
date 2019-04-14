@@ -25,6 +25,11 @@ body {
 	pointer-events: none;
 }
 
+.graphicOptionsBox {
+	max-width: inherit;
+	overflow: auto;
+}
+
 .uidropbutton {
 	font-family: Tahoma, Geneva, sans-serif;
 	font-size: 18;
