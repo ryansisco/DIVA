@@ -42,9 +42,9 @@ class App extends Component {
 				y: [],
 				z: []
 			},
-			xOrder: "Original",
-			yOrder: "Original",
-			zOrder: "Original",
+			xOrder: "Ascending",
+			yOrder: "Ascending",
+			zOrder: "Ascending",
 			options: [],
 			csvfilename: null
 		};
@@ -366,9 +366,6 @@ class App extends Component {
 	sortedType(howToSort, columnType){
 		this.setState({
 			...this.state,
-			xOrder: "Original",
-			yOrder: "Original",
-			zOrder: "Original",
 			[columnType]: howToSort
 		})
 	}
@@ -394,21 +391,18 @@ class App extends Component {
 				<div>
 				<div className="sortandfilt">
 				X-Axis:<br/>
-				<input type="radio" value="Original" name="order" onChange={() => this.sortedType("Original", "xOrder")} checked ={this.state.xOrder === "Original"}/> Original
 				<input type="radio" value="Ascending" name="order" onChange={() => this.sortedType("Ascending", "xOrder")} checked ={this.state.xOrder === "Ascending"}/> Ascending
 				<input type="radio" value="Descending" name="order" onChange={() => this.sortedType("Descending", "xOrder")} checked ={this.state.xOrder === "Descending"}/> Descending
 				{this.produceCheckboxes(this.state.rows.x, "xaxisvars")}
 				</div>
 				<div className="sortandfilt">
 				Y-Axis:<br/>
-				<input type="radio" value="Original" name="order2" onChange={() => this.sortedType("Original", "yOrder")} checked ={this.state.yOrder === "Original"}/> Original
 				<input type="radio" value="Ascending" name="order2" onChange={() => this.sortedType("Ascending", "yOrder")} checked ={this.state.yOrder === "Ascending"}/> Ascending
 				<input type="radio" value="Descending" name="order2" onChange={() => this.sortedType("Descending", "yOrder")} checked ={this.state.yOrder === "Descending"}/> Descending
 				{this.produceCheckboxes(this.state.rows.y, "yaxisvars")}
 				</div>
 				<div className="sortandfilt">
 				Z-Axis:<br/>
-				<input type="radio" value="Original" name="order3" onChange={() => this.sortedType("Original", "zOrder")} checked ={this.state.zOrder === "Original"}/> Original
 				<input type="radio" value="Ascending" name="order3" onChange={() => this.sortedType("Ascending", "zOrder")} checked ={this.state.zOrder === "Ascending"}/> Ascending
 				<input type="radio" value="Descending" name="order3" onChange={() => this.sortedType("Descending", "zOrder")} checked ={this.state.zOrder === "Descending"}/> Descending
 				{this.produceCheckboxes(this.state.rows.z, "zaxisvars")}
