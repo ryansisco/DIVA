@@ -200,6 +200,10 @@ export function get3dvObjectSort(content, columns, sortingObject) {
   for(let i = 1; i < contentArray.length; i++){ //for each line in the CSV file...
     let rowArray = contentArray[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); //split by commas
     const tempVals = {x: null, y: null, z: null}; //create a temp {x,y,z} object
+
+    if ((rowArray.filter(Boolean)).length === 0)
+      continue;
+
     Object.keys(indices).map(key => {
 
       //Strip off any beginning/end double-quotes and replace "," with "."
