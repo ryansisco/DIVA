@@ -385,7 +385,7 @@ class App extends Component {
 			"z_sort": zOrder,
 			"z_filter": zRows
 		}
-		this.props.updateGraphData(get3dvObject(this.state.file, this.state.axes));
+		this.props.updateGraphData(get3dvObjectSort(this.state.file, this.state.axes, mySortObject));
 	}
 
 	renderFileFilter() {
