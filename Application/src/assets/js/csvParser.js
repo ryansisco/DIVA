@@ -71,6 +71,11 @@ export function getRows(content, title){
   // loop through every row in the CSV file, adding unique elements to output array
   for(let i = 1; i < contentArray.length; i++){
     let rowArray = contentArray[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+    
+    // test for empty lines
+    var emptyTest = rowArray.filter(Boolean);
+    if (emptyTest.length === 0)
+      continue;
 
     // obtain single column element of the given row
     var rowElement = rowArray[offset];
@@ -199,8 +204,12 @@ export function get3dvObjectSort(content, columns, sortingObject) {
 
       //Strip off any beginning/end double-quotes and replace "," with "."
       strChanges[key] = rowArray[offsets[key]];
-      strChanges[key] = strChanges[key].replace(/['"]+/g, '');
-      strChanges[key] = strChanges[key].replace(",", ".");
+      if(strChanges[key].indexOf("\"") > 0){
+        strChanges[key] = strChanges[key].replace(/['"]+/g, '');
+      }
+      if(strChanges[key].indexOf(",") > 0){
+        strChanges[key] = strChanges[key].replace(",", ".");
+      }
 
       if (types[key] === 'date') {
         const val = Date.parse(rowArray[offsets[key]]);
