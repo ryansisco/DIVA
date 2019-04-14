@@ -261,7 +261,7 @@ export function get3dvObjectSort(content, columns, sortingObject) {
     });
     
     //if the data from csv doesn't exist within filter information, don't plot it
-    if( filter["x"].indexOf(strChanges["x"]) === -1 && filter["y"].indexOf(strChanges["y"]) == -1 && filter["z"].indexOf(strChanges["z"]) == -1){
+    if( filter["x"].indexOf(strChanges["x"]) === -1 && filter["y"].indexOf(strChanges["y"]) === -1 && filter["z"].indexOf(strChanges["z"]) === -1){
       continue;
     }
 
@@ -276,21 +276,21 @@ export function get3dvObjectSort(content, columns, sortingObject) {
   }
 
   var tempSortReturn;
-  if (sort["x"] != "Original"){
-    tempSortReturn = sortData(indices.x, data, sort["x"], "x");
-    indices.x = tempSortReturn["sortedIndices"];
-    data = tempSortReturn["newData"];
-  }
-  else if (sort["y"] != "Original"){
-    tempSortReturn = sortData(indices.y, data, sort["y"], "y");
-    indices.y = tempSortReturn["sortedIndices"];
-    data = tempSortReturn["newData"];
-  }
-  else if (sort["z"] != "Original"){
-    tempSortReturn = sortData(indices.z, data, sort["z"], "z");
-    indices.z = tempSortReturn["sortedIndices"];
-    data = tempSortReturn["newData"];
-  }
+  // sort indices.x by user input
+  tempSortReturn = sortData(indices.x, data, sort["x"], "x");
+  indices.x = tempSortReturn["sortedIndices"];
+  data = tempSortReturn["newData"];
+
+  // sort indices.y by user input
+  tempSortReturn = sortData(indices.y, data, sort["y"], "y");
+  indices.y = tempSortReturn["sortedIndices"];
+  data = tempSortReturn["newData"];
+
+  // sort indices.z by user input
+  tempSortReturn = sortData(indices.z, data, sort["z"], "z");
+  indices.z = tempSortReturn["sortedIndices"];
+  data = tempSortReturn["newData"];
+
 
   const finalObject = {
     xColumn: {
@@ -341,7 +341,7 @@ export function get3dvObject(content, columns) {
   const maximums = { x: null, y: null, z: null };
   const minimums = { x: null, y: null, z: null };
   
-  const data = []; //initialize the data array
+  var data = []; //initialize the data array
 
   for(let i = 1; i < contentArray.length; i++){ //for each line in the CSV file...
     let rowArray = contentArray[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); //split by commas
@@ -394,6 +394,22 @@ export function get3dvObject(content, columns) {
 
     data.push(tempVals);
   }
+
+  var tempSortReturn;
+  // sort indices.x in ascending order
+  tempSortReturn = sortData(indices.x, data, "Ascending", "x");
+  indices.x = tempSortReturn["sortedIndices"];
+  data = tempSortReturn["newData"];
+
+  // sort indices.y in ascending order
+  tempSortReturn = sortData(indices.y, data, "Ascending", "y");
+  indices.y = tempSortReturn["sortedIndices"];
+  data = tempSortReturn["newData"];
+
+  // sort indices.z in ascending order
+  tempSortReturn = sortData(indices.z, data, "Ascending", "z");
+  indices.z = tempSortReturn["sortedIndices"];
+  data = tempSortReturn["newData"];
 
   const finalObject = {
     xColumn: {
