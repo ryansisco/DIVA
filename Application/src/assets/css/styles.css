@@ -27,6 +27,7 @@ body {
 
 .graphicOptionsBox {
 	max-width: inherit;
+	max-height: 200px;
 	overflow: auto;
 }
 
