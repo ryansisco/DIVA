@@ -4,6 +4,8 @@ import { bindActionCreators } from "redux";
 
 import { get3dvObjectSort } from '../assets/js/csvParser.js';
 
+import { updateGraphData } from '../redux/actions'
+
 let state = {
     filteredRows: {
         x: [],
@@ -75,6 +77,7 @@ class FileFilter extends Component {
 	}
 
 	sendFilteredData(x, xOrder, xRows, y, yOrder, yRows, z, zOrder, zRows) {
+        const graphData = this.props.graphData.data;
 		var sortObject = {
 			"x": x,
 			"x_sort": xOrder,
@@ -86,7 +89,12 @@ class FileFilter extends Component {
 			"z_sort": zOrder,
 			"z_filter": zRows
         }
-		this.props.updateGraphData(get3dvObjectSort(this.props.file, this.state.rows, sortObject));
+        const columns = {
+            x: graphData.xColumn.name,
+            y: graphData.yColumn.name,
+            z: graphData.zColumn.name
+        }
+		this.props.updateGraphData(get3dvObjectSort(this.props.file, columns, sortObject));
     }
     
     checkAllToggle(mystring, myoption){
@@ -242,6 +250,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+    updateGraphData
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(FileFilter);

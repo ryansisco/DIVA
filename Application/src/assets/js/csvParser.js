@@ -205,8 +205,6 @@ export function get3dvObjectSort(content, columns, sortingObject) {
       continue;
 
     Object.keys(indices).map(key => {
-      console.log(offsets[key]);
-      console.log(rowArray[offsets[key]])
       //Strip off any beginning/end double-quotes and replace "," with "."
       strChanges[key] = rowArray[offsets[key]];
       if(strChanges[key].indexOf("\"") > 0){

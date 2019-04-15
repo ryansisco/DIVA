@@ -75,9 +75,9 @@ class GraphicOptions extends Component {
 				</div>
 
 				<div className = "graphicOptionsBox">
-				<button className="button"onClick = {() => {this.setState({colorX:!this.state.colorX})}}>{graphData ? graphData.xColumn.name : 'X'}</button>
-				<button className="button"onClick = {() => {this.setState({colorY:!this.state.colorY})}}>{graphData ? graphData.yColumn.name : 'Y'}</button>
-				<button className="button"onClick = {() => {this.setState({colorZ:!this.state.colorZ})}}>{graphData ? graphData.zColumn.name : 'Z'}</button>
+				<button className="button"onClick = {() => {this.setState({colorX:!this.state.colorX})}}>{graphData.xColumn ? graphData.xColumn.name : 'X'}</button>
+				<button className="button"onClick = {() => {this.setState({colorY:!this.state.colorY})}}>{graphData.yColumn ? graphData.yColumn.name : 'Y'}</button>
+				<button className="button"onClick = {() => {this.setState({colorZ:!this.state.colorZ})}}>{graphData.zColumn ? graphData.zColumn.name : 'Z'}</button>
 				{this.renderColorX()}
 				{this.renderColorY()}
 				{this.renderColorZ()}
