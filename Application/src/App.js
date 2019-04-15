@@ -70,7 +70,7 @@ export default class App extends Component {
 			</div></center></div>
 
 			<img src={hamburger} className="hamburgerimg" onClick={() => this.setState({dataMenu:!this.state.dataMenu})} width = '26px' height = 'auto'/>
-			<DataMenu />
+			{this.state.dataMenu ? <DataMenu /> : null }
 
 			<img src={helpimg} className="helpimg" onClick={() => this.setState({helpMenu:!this.state.helpMenu})} width = '26px' height = 'auto'/>
 			{this.renderHelpMenu()}
