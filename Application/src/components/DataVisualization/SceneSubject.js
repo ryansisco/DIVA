@@ -18,44 +18,45 @@ function makeText(scene, text, textSize, x, y, z){
 	scene.add(sprite)
 }
 
+function makeLine( geo, clr, graph ){
+	const res = new THREE.Vector2(window.innerWidth, window.innerHeight);
+	const g = new MeshLine.MeshLine();
+	g.setGeometry(geo);
+
+	const material = new MeshLine.MeshLineMaterial({
+		useMap: false,
+		color: new THREE.Color(clr),
+		opacity: 1,
+		resolution: res,
+		sizeAttenuation: true,
+		lineWidth: 0.001 * SCALE
+	});
+
+	const mesh = new THREE.Mesh(g.geometry, material);
+	graph.add(mesh);
+}
+
 export default (scene, graphData) => {
 	// SET UP AXES
-	var res = new THREE.Vector2(window.innerWidth, window.innerHeight);
 	var graph = new THREE.Object3D();
 	scene.add(graph);
 
-  var line = new THREE.Geometry();
   
-  function makeLine( geo, clr ){
-		var g = new MeshLine.MeshLine();
-		g.setGeometry(geo);
-		
-		var material = new MeshLine.MeshLineMaterial({
-			useMap: false,
-			color: new THREE.Color(clr),
-			opacity: 1,
-			resolution: res,
-			sizeAttenuation: true,
-			lineWidth: 0.001 * SCALE
-		});
-		
-		var mesh = new THREE.Mesh(g.geometry, material);
-		graph.add(mesh);
-  }
   
-	line.vertices.push( new THREE.Vector3( SCALE, 0, 0) );
-	line.vertices.push( new THREE.Vector3( 0, 0, 0) );
-	makeLine(line, '#ff0000');
+  	const xaxis = new THREE.Geometry();
+	xaxis.vertices.push( new THREE.Vector3( SCALE, 0, 0) );
+	xaxis.vertices.push( new THREE.Vector3( 0, 0, 0) );
+	makeLine(xaxis, '#ff0000', graph);
 	
-	var line = new THREE.Geometry();
-	line.vertices.push( new THREE.Vector3( 0, SCALE, 0) );
-	line.vertices.push( new THREE.Vector3( 0, 0, 0) );
-	makeLine(line, '#00ff00');
+	var yaxis = new THREE.Geometry();
+	yaxis.vertices.push( new THREE.Vector3( 0, SCALE, 0) );
+	yaxis.vertices.push( new THREE.Vector3( 0, 0, 0) );
+	makeLine(yaxis, '#00ff00', graph);
 	
-	var line = new THREE.Geometry();
-	line.vertices.push( new THREE.Vector3( 0, 0, -1 * SCALE) );
-	line.vertices.push( new THREE.Vector3( 0, 0, 0) );
-	makeLine(line, '#0000ff');
+	var zaxis = new THREE.Geometry();
+	zaxis.vertices.push( new THREE.Vector3( 0, 0, -1 * SCALE) );
+	zaxis.vertices.push( new THREE.Vector3( 0, 0, 0) );
+	makeLine(zaxis, '#0000ff', graph);
 
 	const formatString = (i, max, min, indices) => {
 		return indices[Math.round((i/SCALE * (max - min)) + min)];
@@ -168,19 +169,23 @@ export default (scene, graphData) => {
 					var line = new THREE.Geometry();
 					line.vertices.push(new THREE.Vector3(tickInfo.from.x, tickInfo.from.y, tickInfo.from.z));
 					line.vertices.push(new THREE.Vector3(tickInfo.to.x, tickInfo.to.y, tickInfo.to.z));
-					makeLine(line, tickInfo.color);
+					makeLine(line, tickInfo.color, graph);
 					makeText(scene, String(i + axis.min), 0.015 * SCALE, textOffset.x, textOffset.y, textOffset.z);
 				}
 				break;
 			case 'string':
-				for (let i = 0; i <= axis.max; i++) {
-					const per = i/axis.max;
+				const incrementAmount = axis.max >= 10 ? (axis.max - (axis.max % 10)) / 10 : 1;
+				const incrementTo = axis.max >= 10 ?  axis.max - (axis.max % 10) : axis.max;
+				console.log(axis.name);
+				console.log(incrementAmount, axis.max)
+				for (let i = 0; i < incrementTo; i+=incrementAmount) {
+					const per = i/incrementTo;
 					const textOffset = offsetText(axisKey, per);
 					const tickInfo = offsetTick(axisKey, per);
 					var line = new THREE.Geometry();
 					line.vertices.push(new THREE.Vector3(tickInfo.from.x, tickInfo.from.y, tickInfo.from.z));
 					line.vertices.push(new THREE.Vector3(tickInfo.to.x, tickInfo.to.y, tickInfo.to.z));
-					makeLine(line, tickInfo.color)
+					makeLine(line, tickInfo.color, graph)
 					makeText(scene, axis.indices[i], 0.015 * SCALE, textOffset.x, textOffset.y, textOffset.z);
 				}
 		}
@@ -207,15 +212,15 @@ export default (scene, graphData) => {
 		return -1 * SCALE * (val - graphData.zColumn.min) / (graphData.zColumn.max - graphData.zColumn.min);
 	}
 
-  graphData.data.forEach(value => {
-    pointsGeometery.vertices.push(new THREE.Vector3(formatX(value.x), formatY(value.y), formatZ(value.z)));
-  });
 
-  const pointsMaterial = new THREE.PointsMaterial({ color: 0xFF0000, size: 0.01 * SCALE });
-
-  const points = new THREE.Points(pointsGeometery, pointsMaterial);
-
-	scene.add(points);
+	graphData.data.forEach(value => {
+		
+		var geometry = new THREE.SphereGeometry( 5, 32, 32 );
+		var material = new THREE.MeshBasicMaterial( {color: 0xff0000} );
+		var sphere = new THREE.Mesh( geometry, material );
+		sphere.position.set(formatX(value.x), formatY(value.y), formatZ(value.z));
+		scene.add( sphere );
+	});
 	// END OF GRAPH DATA
 
 
