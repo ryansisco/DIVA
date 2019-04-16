@@ -32,7 +32,7 @@ function ipSort( ipAddressArray, order ) {
     allElements = isIP.concat(isNotIP.sort());
   }
   else if (order === "Descending"){
-    allElements = ((isIP.sort()).reverse()).concat((isNotIP.sort()).reverse());
+    allElements = (isIP.reverse()).concat((isNotIP.sort()).reverse());
   }
   // return both arrays of IP addresses / non-IP addresses
   return allElements;
