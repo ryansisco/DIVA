@@ -6,6 +6,7 @@ import { get3dvObjectSort } from '../assets/js/csvParser.js';
 
 import { updateGraphData } from '../redux/actions'
 
+let firstUpdate = true;
 let state = {
     filteredRows: {
         x: [],
@@ -35,7 +36,9 @@ class FileFilter extends Component {
 
     componentDidMount() {
         const graphData = this.props.graphData.data;
-        if (this.props.graphData.type === 'GRAPH_UPDATE') {
+        if (firstUpdate) {
+            
+            firstUpdate = false;
             this.setState({
                 filteredRows: {
                     x: graphData.xColumn.indices,
@@ -180,13 +183,13 @@ class FileFilter extends Component {
             }
         }
         else {
-            var newarray = [...this.state.filteredRows[x]];
+            var newarray = [...this.state.filteredRows[axis]];
             newarray.push(rowoptions);
             this.setState({
                 ...this.state,
                 filteredRows: {
                     ...this.state.filteredRows,
-                    [x]: newarray
+                    [axis]: newarray
                 }
             })
         }

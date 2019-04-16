@@ -4,9 +4,11 @@ import { SketchPicker } from 'react-color';
 import { bindActionCreators } from "redux";
 
 let state = {
-	x: null,
-	y: null,
-	z: null
+	color: {
+		x: null,
+		y: null,
+		z: null
+	}
 }
 
 class GraphicOptions extends Component {
@@ -18,6 +20,16 @@ class GraphicOptions extends Component {
 	
 	componentWillUnmount() {
 		state = this.state;
+	}
+
+	toggleColorMenu = toggledAxis => {
+        const newState = this.state;
+        Object.keys(newState).map(axis => {
+            if (axis === toggledAxis) {
+                newState[axis] = !newState[axis];
+            }
+        })
+        this.setState(newState);
 	}
 
 	renderColorX(){
@@ -71,13 +83,13 @@ class GraphicOptions extends Component {
             <div>
 
 				<div>
-				<button className = "button" onClick = {() => {this.setState()}}> Camera Reset </button>
+				<button className = "button"> Camera Reset </button>
 				</div>
 
 				<div className = "graphicOptionsBox">
-				<button className="button"onClick = {() => {this.setState({colorX:!this.state.colorX})}}>{graphData.xColumn ? graphData.xColumn.name : 'X'}</button>
-				<button className="button"onClick = {() => {this.setState({colorY:!this.state.colorY})}}>{graphData.yColumn ? graphData.yColumn.name : 'Y'}</button>
-				<button className="button"onClick = {() => {this.setState({colorZ:!this.state.colorZ})}}>{graphData.zColumn ? graphData.zColumn.name : 'Z'}</button>
+				<button className="button"onClick = {() => this.toggleColorMenu('x')}>{graphData.xColumn ? graphData.xColumn.name : 'X'}</button>
+				<button className="button"onClick = {() => this.toggleColorMenu('y')}>{graphData.yColumn ? graphData.yColumn.name : 'Y'}</button>
+				<button className="button"onClick = {() => this.toggleColorMenu('z')}>{graphData.zColumn ? graphData.zColumn.name : 'Z'}</button>
 				{this.renderColorX()}
 				{this.renderColorY()}
 				{this.renderColorZ()}
