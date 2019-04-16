@@ -31,8 +31,21 @@ class FileFilter extends Component {
 
     componentDidMount() {
         const graphData = this.props.graphData.data;
-        if (firstUpdate) {
-            
+        if (firstUpdate && this.props.graphData.type === 'GRAPH_UPDATE') {
+            firstUpdate = false;
+            this.setState({
+                filteredRows: {
+                    x: graphData.xColumn.indices,
+                    y: graphData.yColumn.indices,
+                    z: graphData.zColumn.indices
+                }
+            })  
+        }
+    }
+
+    componentDidUpdate() {
+        const graphData = this.props.graphData.data;
+        if (firstUpdate && this.props.graphData.type === 'GRAPH_UPDATE') {
             firstUpdate = false;
             this.setState({
                 filteredRows: {
@@ -153,25 +166,26 @@ class FileFilter extends Component {
 
     render() {
         const graphData = this.props.graphData.data;
+        const graphDataReady = this.props.graphData.type === 'GRAPH_UPDATE';
         return (
             <div>
 				<div className="sortandfilt">
 				X-Axis:<br/>
 				<input type="radio" value="Ascending" name="order" onChange={() => this.sortedType("Ascending", "xOrder")} checked ={this.state.xOrder === "Ascending"}/> Ascending
 				<input type="radio" value="Descending" name="order" onChange={() => this.sortedType("Descending", "xOrder")} checked ={this.state.xOrder === "Descending"}/> Descending
-				{this.produceCheckboxes("x")}
+				{graphDataReady ? this.produceCheckboxes("x") : null}
 				</div>
 				<div className="sortandfilt">
 				Y-Axis:<br/>
 				<input type="radio" value="Ascending" name="order2" onChange={() => this.sortedType("Ascending", "yOrder")} checked ={this.state.yOrder === "Ascending"}/> Ascending
 				<input type="radio" value="Descending" name="order2" onChange={() => this.sortedType("Descending", "yOrder")} checked ={this.state.yOrder === "Descending"}/> Descending
-				{this.produceCheckboxes("y")}
+				{graphDataReady ? this.produceCheckboxes("y") : null}
 				</div>
 				<div className="sortandfilt">
 				Z-Axis:<br/>
 				<input type="radio" value="Ascending" name="order3" onChange={() => this.sortedType("Ascending", "zOrder")} checked ={this.state.zOrder === "Ascending"}/> Ascending
 				<input type="radio" value="Descending" name="order3" onChange={() => this.sortedType("Descending", "zOrder")} checked ={this.state.zOrder === "Descending"}/> Descending
-				{this.produceCheckboxes("z")}
+				{graphDataReady ? this.produceCheckboxes("z") : null}
 				</div>
 				<button className="Rerender" onClick={() => this.sendFilteredData((graphData.xColumn.indices), (this.state.xOrder),(this.state.filteredRows.x),(graphData.yColumn.indices), (this.state.yOrder),(this.state.filteredRows.y),(graphData.zColumn.indices), (this.state.zOrder),(this.state.filteredRows.z))}> Save Options </button>
 				<div className="addLine"></div>
