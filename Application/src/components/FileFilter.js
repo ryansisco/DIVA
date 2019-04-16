@@ -13,11 +13,6 @@ let state = {
         y: [],
         z: []
     },
-    rows: {
-        x: [],
-        y: [],
-        z: []
-    },
     xOrder: "Ascending",
     yOrder: "Ascending",
     zOrder: "Ascending"
@@ -44,31 +39,8 @@ class FileFilter extends Component {
                     x: graphData.xColumn.indices,
                     y: graphData.yColumn.indices,
                     z: graphData.zColumn.indices
-                },
-                rows: {
-                    x: graphData.xColumn.indices,
-                    y: graphData.yColumn.indices,
-                    z: graphData.zColumn.indices
                 }
             })  
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        const graphData = this.props.graphData.data;
-        if (graphData !== prevProps.graphData.data) {
-            this.setState({
-                filteredRows: {
-                    x: graphData.xColumn.indices,
-                    y: graphData.yColumn.indices,
-                    z: graphData.zColumn.indices
-                },
-                rows: {
-                    x: graphData.xColumn.indices,
-                    y: graphData.yColumn.indices,
-                    z: graphData.zColumn.indices
-                }
-            })
         }
     }
 
@@ -100,69 +72,26 @@ class FileFilter extends Component {
 		this.props.updateGraphData(get3dvObjectSort(this.props.file, columns, sortObject));
     }
     
-    checkAllToggle(mystring, myoption){
-		if (myoption == "false"){
-			if (mystring == "xaxisvars"){
-				this.setState({
-					...this.state,
-					filteredRows: {
-						...this.state.filteredRows,
-						x: []
-					}
-				})
-			}
-			if (mystring == "yaxisvars"){
-				this.setState({
-					...this.state,
-					filteredRows: {
-						...this.state.filteredRows,
-						y: []
-					}
-				})
-			}
-			if (mystring == "zaxisvars"){
-				this.setState({
-					...this.state,
-					filteredRows: {
-						...this.state.filteredRows,
-						z: []
-					}
-				})
-			}
-		}
-		if (myoption == "true"){
-			if (mystring == "xaxisvars"){
-				var newarray = [...this.state.rows.x];
-				this.setState({
-					...this.state,
-					filteredRows: {
-						...this.state.filteredRows,
-						x: newarray
-					}
-				})
-			}
-			if (mystring == "yaxisvars"){
-				var newarray = [...this.state.rows.y];
-				this.setState({
-					...this.state,
-					filteredRows: {
-						...this.state.filteredRows,
-						y: newarray
-					}
-				})
-			}
-			if (mystring == "zaxisvars"){
-				var newarray = [...this.state.rows.z];
-				this.setState({
-					...this.state,
-					filteredRows: {
-						...this.state.filteredRows,
-						z: newarray
-					}
-				})
-			}
-		}
-	}
+    checkAll = axis => {
+        const axisColumnString = axis + 'Column';
+        var newarray = [...this.props.graphData.data[axisColumnString].indices ];
+        this.setState({
+            ...this.state,
+            filteredRows: {
+                ...this.state.filteredRows,
+                [axis]: newarray
+            }
+        })
+    }
+    
+    uncheckAll = axis => {
+        this.setState({
+            filteredRows: {
+                ...this.state.filteredRows,
+                [axis]: []
+            }
+        })
+    }
 
     modifyArray(axis, rowoptions) {
         if (this.state.filteredRows[axis].includes(rowoptions)) {
@@ -196,11 +125,13 @@ class FileFilter extends Component {
 	}
 
 	produceCheckboxes(axis){
-		if (typeof(this.state.rows[axis]) != "object") {
+        const graphData = this.props.graphData.data;
+        const axisColumnString = axis + 'Column';
+		if (typeof(graphData[axisColumnString].indices) != "object") {
 			return(
 				<div>
-                    <button className="toggleAllGrey" onClick={() => this.checkAllToggle(axis, "true")}>Check All</button>
-                    <button className="toggleallgrey" onClick={() => this.checkAllToggle(axis, "false")}>Uncheck All</button>
+                    <button className="toggleAllGrey" onClick={() => this.checkAll(axis, "true")}>Check All</button>
+                    <button className="toggleallgrey" onClick={() => this.uncheckAll(axis)}>Uncheck All</button>
                     <form className="filteroptions">
                     <label key='0'><input type="checkbox" className="permchecked" name={axis} checked/> {myRow} </label>
                     </form>
@@ -209,10 +140,10 @@ class FileFilter extends Component {
 		} else {
             return (
                 <div>
-                <button className="toggleAll" onClick={() => this.checkAllToggle(axis, "true")}>Check All</button>
-                <button className="toggleAll" onClick={() => this.checkAllToggle(axis, "false")}>Uncheck All</button>
+                <button className="toggleAll" onClick={() => this.checkAll(axis, "true")}>Check All</button>
+                <button className="toggleAll" onClick={() => this.uncheckAll(axis)}>Uncheck All</button>
                 <form className="filteroptions">
-                {(Object.values(this.state.rows[axis])).map((rowoptions, index) =>
+                {Object.values(graphData[axisColumnString].indices).map((rowoptions, index) =>
                     <label key={index}><input type="checkbox" name={axis} checked={this.state.filteredRows[axis].includes(rowoptions)} onChange={() => this.modifyArray(axis, rowoptions)}/> {rowoptions} </label>)}
                 </form>
                 </div>
@@ -221,6 +152,7 @@ class FileFilter extends Component {
 	}
 
     render() {
+        const graphData = this.props.graphData.data;
         return (
             <div>
 				<div className="sortandfilt">
@@ -241,7 +173,7 @@ class FileFilter extends Component {
 				<input type="radio" value="Descending" name="order3" onChange={() => this.sortedType("Descending", "zOrder")} checked ={this.state.zOrder === "Descending"}/> Descending
 				{this.produceCheckboxes("z")}
 				</div>
-				<button className="Rerender" onClick={() => this.sendFilteredData((this.state.rows.x), (this.state.xOrder),(this.state.filteredRows.x),(this.state.rows.y), (this.state.yOrder),(this.state.filteredRows.y),(this.state.rows.z), (this.state.zOrder),(this.state.filteredRows.z))}> Save Options </button>
+				<button className="Rerender" onClick={() => this.sendFilteredData((graphData.xColumn.indices), (this.state.xOrder),(this.state.filteredRows.x),(graphData.yColumn.indices), (this.state.yOrder),(this.state.filteredRows.y),(graphData.zColumn.indices), (this.state.zOrder),(this.state.filteredRows.z))}> Save Options </button>
 				<div className="addLine"></div>
             </div>
         );
