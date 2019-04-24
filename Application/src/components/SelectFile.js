@@ -83,7 +83,7 @@ class SelectFile extends Component {
         return (
             <div>
 				<div>
-                <input className = "fileinput" type = "file" accept="csv" ref = {(ref) => this.upload = ref} onChange = {this.onChangeFile.bind(this)} />
+                <input className = "fileinput" type = "file" accept=".csv" ref = {(ref) => this.upload = ref} onChange = {this.onChangeFile.bind(this)} />
                 <button className = "button" onClick = {() => {this.upload.click()}}>Choose File</button>
 			    </div>
 				{this.state.fileName ? <div className = "selectedfile">Selected File: {this.state.fileName}</div> : null}
