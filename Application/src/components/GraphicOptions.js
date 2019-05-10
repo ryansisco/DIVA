@@ -5,9 +5,9 @@ import { bindActionCreators } from "redux";
 
 let state = {
 	color: {
-		x: null,
-		y: null,
-		z: null
+		x: [],
+		y: [],
+		z: []
 	}
 }
 
@@ -17,7 +17,7 @@ class GraphicOptions extends Component {
 
         this.state = state;
 	}
-	
+
 	componentWillUnmount() {
 		state = this.state;
 	}
@@ -84,6 +84,8 @@ class GraphicOptions extends Component {
 
 				<div>
 				<button className = "button"> Camera Reset </button>
+				<button className = "button"> Enable Rotate</button>
+				<button className = "button"> Background Color</button>
 				</div>
 
 				<div className = "graphicOptionsBox">
