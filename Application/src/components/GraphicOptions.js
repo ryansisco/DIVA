@@ -7,7 +7,8 @@ let state = {
 	color: {
 		x: [],
 		y: [],
-		z: []
+		z: [],
+		Background: []
 	}
 }
 
@@ -77,6 +78,21 @@ class GraphicOptions extends Component {
 		}
 	}
 
+	renderColorBackground(){
+		const handleColorChange = ({ hex }) => console.log(hex);
+		if (this.state.colorBackground){
+			return(
+				<div>
+				<SketchPicker
+				color="#333"
+				onChangeComplete={ handleColorChange }
+				/>
+				<button className = "button" onClick = {() => {this.setState()}}> Change Color </button>
+				</div>
+				);
+		}
+	}
+
     render() {
 		const graphData = this.props.graphData.data;
         return (
@@ -86,6 +102,7 @@ class GraphicOptions extends Component {
 				<button className = "button"> Camera Reset </button>
 				<button className = "button"> Enable Rotate</button>
 				<button className = "button"> Background Color</button>
+				{this.renderColorBackground()}
 				</div>
 
 				<div className = "graphicOptionsBox">
