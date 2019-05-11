@@ -249,9 +249,19 @@ export default (scene, graphData, camera) => {
 	
   var group = new THREE.Object3D();
   
+  // POINTS DATA
+  graphData.data.forEach(value => {		
+	var geometry = new THREE.SphereGeometry( 5, 32, 32 );
+	var material = new THREE.MeshBasicMaterial( {color: 0xff0000} );
+	var sphere = new THREE.Mesh( geometry, material );
+	sphere.position.set(formatX(value.x), formatY(value.y), formatZ(value.z));
+	scene.add( sphere );
+  });	
+  
+  //BLOB DATA
   graphData.data.forEach((value) => {
 	var moonGlow = new THREE.Mesh( sphereGeom, material );
-    moonGlow.position.set(formatX(value.x), formatY(value.y), formatZ(value.z));
+        moonGlow.position.set(formatX(value.x), formatY(value.y), formatZ(value.z));
 	group.add(moonGlow)
   });
   	
