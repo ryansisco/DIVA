@@ -5,11 +5,15 @@ import { bindActionCreators } from "redux";
 
 let state = {
 	color: {
-		x: [],
+		x: null,
 		y: [],
 		z: [],
 		Background: []
 	}
+	//Camera:{
+			//reset:1
+			//rotate:1
+	//}
 }
 
 class GraphicOptions extends Component {
@@ -19,19 +23,22 @@ class GraphicOptions extends Component {
         this.state = state;
 	}
 
+/* Eli code/
 	componentWillUnmount() {
 		state = this.state;
 	}
 
 	toggleColorMenu = toggledAxis => {
-        const newState = this.state;
-        Object.keys(newState).map(axis => {
+				const newState = this.state;
+				Object.keys(newState).map(axis => {
             if (axis === toggledAxis) {
                 newState[axis] = !newState[axis];
             }
         })
-        this.setState(newState);
-	}
+        //this.setState(newState);
+				this.setState({colorX:!this.state.colorX})
+				this.setState({colorX:!this.state.colorY})
+	}*/
 
 	renderColorX(){
 		const handleColorChange = ({ hex }) => console.log(hex);
@@ -93,31 +100,34 @@ class GraphicOptions extends Component {
 		}
 	}
 
+
     render() {
-		const graphData = this.props.graphData.data;
+	//	const graphData = this.props.graphData.data;
         return (
             <div>
 
-				<div>
-				<button className = "button"> Camera Reset </button>
-				<button className = "button"> Enable Rotate</button>
-				<button className = "button"> Background Color</button>
-				{this.renderColorBackground()}
-				</div>
+						<div>
+						<button className = "button" onClick = {() => {this.setState()}}> Camera Reset </button>
+						<button className = "button" onClick = {() => {this.setState()}}> Enable Rotate </button>
+						<button className = "button" onClick = {() => {this.setState()}}> Camera Reset </button>
+						<button className = "button"> Background Color</button>
+						{this.renderColorBackground()}
+						</div>
 
-				<div className = "graphicOptionsBox">
-				<button className="button"onClick = {() => this.toggleColorMenu('x')}>{graphData.xColumn ? graphData.xColumn.name : 'X'}</button>
-				<button className="button"onClick = {() => this.toggleColorMenu('y')}>{graphData.yColumn ? graphData.yColumn.name : 'Y'}</button>
-				<button className="button"onClick = {() => this.toggleColorMenu('z')}>{graphData.zColumn ? graphData.zColumn.name : 'Z'}</button>
-				{this.renderColorX()}
-				{this.renderColorY()}
-				{this.renderColorZ()}
+						<div className = "graphicOptionsBox">
+						<button className="button"onClick = {() => {this.setState({colorX:!this.state.colorX})}}>{this.state.color.x}</button>
+						<button className="button"onClick = {() => {this.setState({colorY:!this.state.colorY})}}>{this.state.color.y}</button>
+						<button className="button"onClick = {() => {this.setState({colorZ:!this.state.colorZ})}}>{this.state.color.z}</button>
+						//<button className="button"onClick = {() => this.toggleColorMenu('x')}>{graphData.xColumn ? graphData.xColumn.name : 'X'}</button>
+						//<button className="button"onClick = {() => this.toggleColorMenu('y')}>{graphData.yColumn ? graphData.yColumn.name : 'Y'}</button>
+						//<button className="button"onClick = {() => this.toggleColorMenu('z')}>{graphData.zColumn ? graphData.zColumn.name : 'Z'}</button>
+						{this.renderColorX()}
+						{this.renderColorY()}
+						{this.renderColorZ()}
 
-				</div>
-
-				<div className="addLine"></div>
-
-            </div>
+						</div>
+						<div className="addLine"></div>
+		        </div>
         );
     }
 }
