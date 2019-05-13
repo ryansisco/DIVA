@@ -23,7 +23,7 @@ class GraphicOptions extends Component {
         this.state = state;
 	}
 
-/* Eli code/
+// Eli code/
 	componentWillUnmount() {
 		state = this.state;
 	}
@@ -38,7 +38,7 @@ class GraphicOptions extends Component {
         //this.setState(newState);
 				this.setState({colorX:!this.state.colorX})
 				this.setState({colorX:!this.state.colorY})
-	}*/
+	}
 
 	renderColorX(){
 		const handleColorChange = ({ hex }) => console.log(hex);
@@ -102,29 +102,27 @@ class GraphicOptions extends Component {
 
 
     render() {
-	//	const graphData = this.props.graphData.data;
+				const graphData = this.props.graphData.data;
         return (
             <div>
 
-						<div>
+						<div className="graphicOptionsBox">Type of Visualization<br/>
+						<input type="radio" value="Ascending" name="order" onChange= {this.state.xOrder === "Ascending"}/> Blob data
+						<input type="radio" value="Descending" name="order" onChange={this.state.xOrder === "Descending"}/> data
+						<br/>Camera<br/>
 						<button className = "button" onClick = {() => {this.setState()}}> Camera Reset </button>
-						<button className = "button" onClick = {() => {this.setState()}}> Enable Rotate </button>
-						<button className = "button" onClick = {() => {this.setState()}}> Camera Reset </button>
-						<button className = "button"> Background Color</button>
+						<input type="checkbox" value="Rotate" name="order"/> Enable Rotate
+						<br/>Color Options<br/>
+						<button className = "button" onClick = {() => {this.setState()}}> Background Color</button>
 						{this.renderColorBackground()}
-						</div>
-
-						<div className = "graphicOptionsBox">
-						<button className="button"onClick = {() => {this.setState({colorX:!this.state.colorX})}}>{this.state.color.x}</button>
-						<button className="button"onClick = {() => {this.setState({colorY:!this.state.colorY})}}>{this.state.color.y}</button>
-						<button className="button"onClick = {() => {this.setState({colorZ:!this.state.colorZ})}}>{this.state.color.z}</button>
-						//<button className="button"onClick = {() => this.toggleColorMenu('x')}>{graphData.xColumn ? graphData.xColumn.name : 'X'}</button>
-						//<button className="button"onClick = {() => this.toggleColorMenu('y')}>{graphData.yColumn ? graphData.yColumn.name : 'Y'}</button>
-						//<button className="button"onClick = {() => this.toggleColorMenu('z')}>{graphData.zColumn ? graphData.zColumn.name : 'Z'}</button>
+					  <button className="button"onClick = {() => this.toggleColorMenu('x')}>{graphData.xColumn ? graphData.xColumn.name : 'X'}</button>
+						<button className="button"onClick = {() => this.toggleColorMenu('y')}>{graphData.yColumn ? graphData.yColumn.name : 'Y'}</button>
+						<button className="button"onClick = {() => this.toggleColorMenu('z')}>{graphData.zColumn ? graphData.zColumn.name : 'Z'}</button>
 						{this.renderColorX()}
 						{this.renderColorY()}
 						{this.renderColorZ()}
-
+						<br/><br/>
+						<button className = "button" onClick = {() => {this.setState()}}> Save Options </button>
 						</div>
 						<div className="addLine"></div>
 		        </div>
