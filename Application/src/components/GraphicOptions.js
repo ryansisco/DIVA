@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { SketchPicker } from 'react-color';
 import { bindActionCreators } from "redux";
+import { updateGraphData } from '../redux/actions';
 
 let state = {
 	color: {
@@ -23,10 +24,15 @@ class GraphicOptions extends Component {
         this.state = state;
 	}
 
-// Eli code/
 	componentWillUnmount() {
 		state = this.state;
 	}
+
+	componentDidUpdate(prevProps, prevState) {
+		if (prevState.axes !== this.state.axes && this.state.axes.x && this.state.axes.y && this.state.axes.z) {
+			this.props.updateGraphData(get3dvObject(this.state.file, this.state.axes, this.state.color, this.state.BackgroundColor, this.state.LineThickness));
+		}
+		}
 
 	toggleColorMenu = toggledAxis => {
 				const newState = this.state;
@@ -110,7 +116,7 @@ class GraphicOptions extends Component {
 						<input type="radio" value="Ascending" name="order" onChange= {this.state.xOrder === "Ascending"}/> Blob data
 						<input type="radio" value="Descending" name="order" onChange={this.state.xOrder === "Descending"}/> data
 						<br/>Camera<br/>
-						<button className = "button" onClick = {() => {this.setState()}}> Camera Reset </button>
+						<input type="checkbox" value="Rotate" name="order"/> Camera Reset
 						<input type="checkbox" value="Rotate" name="order"/> Enable Rotate
 						<br/>Color Options<br/>
 						<button className = "button" onClick = {() => {this.setState()}}> Background Color</button>
@@ -121,6 +127,8 @@ class GraphicOptions extends Component {
 						{this.renderColorX()}
 						{this.renderColorY()}
 						{this.renderColorZ()}
+						<br/>Thickness<br/>
+						
 						<br/><br/>
 						<button className = "button" onClick = {() => {this.setState()}}> Save Options </button>
 						</div>
@@ -135,6 +143,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
+	updateGraphData
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(GraphicOptions);
