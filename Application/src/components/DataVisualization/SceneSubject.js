@@ -3,14 +3,14 @@ import * as MeshLine from 'three.meshline';
 import * as TextSprite from 'three.textsprite';
 import { SCALE } from './SceneManager';
 
-function makeText(scene, text, textSize, x, y, z){
+function makeText(scene, text, clr, textSize, x, y, z){
 	var sprite = new TextSprite({
 		textSize,
 		texture: {
 			text,
 			fontFamily: 'Arial, Helvetical, sans-serif',
 		},
-		material: {color: 0xffffff},
+		material: {color: clr},
 	});
 	sprite.position.x = x
 	sprite.position.y = y
@@ -20,13 +20,14 @@ function makeText(scene, text, textSize, x, y, z){
 
 export default (scene, graphData, camera) => {
 	
+	const WIDTH = 0.005 * SCALE
 	// SET UP AXES
 	var res = new THREE.Vector2(window.innerWidth, window.innerHeight);
 	var graph = new THREE.Object3D();
 	scene.add(graph);
   var line = new THREE.Geometry();
   
-  function makeLine( geo, clr ){
+  function makeLine( geo, clr, w ){
 		var g = new MeshLine.MeshLine();
 		g.setGeometry(geo);
 		
@@ -36,7 +37,7 @@ export default (scene, graphData, camera) => {
 			opacity: 1,
 			resolution: res,
 			sizeAttenuation: true,
-			lineWidth: 0.001 * SCALE
+			lineWidth: w
 		});
 		
 		var mesh = new THREE.Mesh(g.geometry, material);
@@ -45,17 +46,17 @@ export default (scene, graphData, camera) => {
   
 	line.vertices.push( new THREE.Vector3( SCALE, 0, 0) );
 	line.vertices.push( new THREE.Vector3( 0, 0, 0) );
-	makeLine(line, '#ff0000');
+	makeLine(line, '#ff0000', WIDTH);
 	
 	var line = new THREE.Geometry();
 	line.vertices.push( new THREE.Vector3( 0, SCALE, 0) );
 	line.vertices.push( new THREE.Vector3( 0, 0, 0) );
-	makeLine(line, '#00ff00');
+	makeLine(line, '#00ff00', WIDTH);
 	
 	var line = new THREE.Geometry();
 	line.vertices.push( new THREE.Vector3( 0, 0, -1 * SCALE) );
 	line.vertices.push( new THREE.Vector3( 0, 0, 0) );
-	makeLine(line, '#0000ff');
+	makeLine(line, '#0000ff', WIDTH);
 
 	const formatString = (i, max, min, indices) => {
 		return indices[Math.round((i/SCALE * (max - min)) + min)];
@@ -168,8 +169,8 @@ export default (scene, graphData, camera) => {
 					var line = new THREE.Geometry();
 					line.vertices.push(new THREE.Vector3(tickInfo.from.x, tickInfo.from.y, tickInfo.from.z));
 					line.vertices.push(new THREE.Vector3(tickInfo.to.x, tickInfo.to.y, tickInfo.to.z));
-					makeLine(line, tickInfo.color);
-					makeText(scene, String(i + axis.min), 0.015 * SCALE, textOffset.x, textOffset.y, textOffset.z);
+					makeLine(line, tickInfo.color, WIDTH);
+					makeText(scene, String(i + axis.min), 0xffffff,0.015 * SCALE, textOffset.x, textOffset.y, textOffset.z);
 				}
 				break;
 			case 'string':
@@ -180,16 +181,16 @@ export default (scene, graphData, camera) => {
 					var line = new THREE.Geometry();
 					line.vertices.push(new THREE.Vector3(tickInfo.from.x, tickInfo.from.y, tickInfo.from.z));
 					line.vertices.push(new THREE.Vector3(tickInfo.to.x, tickInfo.to.y, tickInfo.to.z));
-					makeLine(line, tickInfo.color)
-					makeText(scene, axis.indices[i], 0.015 * SCALE, textOffset.x, textOffset.y, textOffset.z);
+					makeLine(line, tickInfo.color, WIDTH)
+					makeText(scene, axis.indices[i],0xffffff, 0.015 * SCALE, textOffset.x, textOffset.y, textOffset.z);
 				}
 		}
 	});
 	
 	
-	makeText(scene, graphData.xColumn.name, .03 * SCALE, SCALE/2, 0, SCALE/5);
-	makeText(scene, graphData.yColumn.name, .03 * SCALE, -SCALE/5, SCALE/2, SCALE/5);
-	makeText(scene, graphData.zColumn.name, .03 * SCALE, -SCALE/5, 0, -SCALE/2);
+	makeText(scene, graphData.xColumn.name, 0xffffff, .03 * SCALE, SCALE/2, 0, SCALE/5);
+	makeText(scene, graphData.yColumn.name, 0xffffff, .03 * SCALE, -SCALE/5, SCALE/2, SCALE/5);
+	makeText(scene, graphData.zColumn.name, 0xffffff, .03 * SCALE, -SCALE/5, 0, -SCALE/2);
 	// END OF AXES
 	
 
@@ -207,7 +208,10 @@ export default (scene, graphData, camera) => {
 	const formatZ = val => {
 		return -1 * SCALE * (val - graphData.zColumn.min) / (graphData.zColumn.max - graphData.zColumn.min);
 	}
-
+	
+  var group = new THREE.Object3D();
+  
+  function makeBlob(group, clr, x, y, z){
 	// POINT CLOUD
 	const sphereGeom = new THREE.SphereGeometry(50, 50, 50);
 	var material = new THREE.ShaderMaterial( 
@@ -216,7 +220,7 @@ export default (scene, graphData, camera) => {
 		{ 
 			"c":   { type: "f", value: 0.0 },
 			"p":   { type: "f", value: 6.0},
-			glowColor: { type: "c", value: new THREE.Color(0x0000ff) },
+			glowColor: { type: "c", value: new THREE.Color(clr) },
 			viewVector: { type: "v3", value: camera.position }
 		},
 		vertexShader:  `
@@ -246,29 +250,45 @@ export default (scene, graphData, camera) => {
 		blending: THREE.AdditiveBlending,
 		transparent: true
 	}   );
-	
-  var group = new THREE.Object3D();
-  
-  // POINTS DATA
-  graphData.data.forEach(value => {		
-	var geometry = new THREE.SphereGeometry( 5, 32, 32 );
-	var material = new THREE.MeshBasicMaterial( {color: 0xff0000} );
-	var sphere = new THREE.Mesh( geometry, material );
-	sphere.position.set(formatX(value.x), formatY(value.y), formatZ(value.z));
-	scene.add( sphere );
-  });	
-  
-  //BLOB DATA
-  graphData.data.forEach((value) => {
 	var moonGlow = new THREE.Mesh( sphereGeom, material );
-        moonGlow.position.set(formatX(value.x), formatY(value.y), formatZ(value.z));
+    moonGlow.position.set(x, y, z);
 	group.add(moonGlow)
+  }
+  
+  
+  //Graph Blob
+  graphData.data.forEach((value) => {
+	makeBlob(group, 0x0000ff, formatX(value.x), formatY(value.y), formatZ(value.z));
+	/*var moonGlow = new THREE.Mesh( sphereGeom, material );
+    moonGlow.position.set(formatX(value.x), formatY(value.y), formatZ(value.z));
+	group.add(moonGlow)*/
   });
   	
   scene.add( group );
 
+	//Graph Scatterplot
+  	graphData.data.forEach(value => {
+		var geometry = new THREE.SphereGeometry( 5, 32, 32 );
+		var material = new THREE.MeshBasicMaterial( {color: 0xff0000} );
+		var sphere = new THREE.Mesh( geometry, material );
+		sphere.position.set(formatX(value.x), formatY(value.y), formatZ(value.z));
+		scene.add( sphere );
+	});
+  
+  //Graph linechart
+   	graphData.data.forEach(value => {
+		line.vertices.push( new THREE.Vector3( formatX(value.x), formatY(value.y), formatZ(value.z)) );
+	});
+	makeLine(line, '#ff0000', WIDTH);
 	// END OF GRAPH DATA
 
+	
+  /*
+	function STATE(graphOptions, axes, clr, bg, width){
+		Enter vis here
+		case
+	}
+  */
 	
   const speed = 0.02;
 
@@ -276,7 +296,7 @@ export default (scene, graphData, camera) => {
 	 group.traverse(function (node){
 		 if(node instanceof THREE.Mesh){
 		   node.material.uniforms.viewVector.value = new THREE.Vector3().subVectors(camera.position, node.position);
-		   //node.material.uniforms.viewVector.value.needsUpdate = true;
+		   node.material.uniforms.viewVector.value.needsUpdate = true;
 		 }
 	 });
   }
