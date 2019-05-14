@@ -1,12 +1,6 @@
 import React, { Component } from "react";
-// REDUX //
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { updateGraphData } from './redux/actions';
 
 // COMPONENTS //
-import Dropdown from 'react-dropdown';
-import { getTitles, get3dvObject } from "./assets/js/csvParser.js";
 import ThreeContainer from './components/DataVisualization/ThreeContainer';
 
 // CSS //
@@ -14,133 +8,75 @@ import "./assets/css/styles.css";
 
 // FILES //
 import logo from './assets/img/logo.png';
+import hamburger from './assets/img/hamburger.png';
+import helpimg from './assets/img/helpimg.png';
+import DataMenu from "./components/DataMenu";
 
-class App extends Component {
-
+export default class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			xaxis: null,
-			yaxis: null,
-			zaxis: null,
-			options: [],
-			file: null
+			dataMenu: false,
+			helpMenu: false
 		};
-		this.onSelect = this.onSelect.bind(this);
-	}
-	
-  onSelect (option, e) {
-		this.setState({
-			...this.state,
-			[option]: e.value
-		})
 	}
 
 	componentDidMount() {
 		document.title=process.env.TITLE;
 	}
 
-	renderReady(){
-		if ((this.state.xaxis === this.state.yaxis) || (this.state.yaxis === this.state.zaxis) || (this.state.xaxis === this.state.zaxis) ||
-				(!this.state.xaxis) || (!this.state.yaxis) || (!this.state.zaxis)) {
+	renderHelpMenu(){
+		if (this.state.helpMenu) {
 			return (
-				<div>
-				<button className="notreadybutton">Filter</button><br/>
-				<button className="notreadybutton">Render</button><br/>
-				<button className="notreadybutton">Download</button><br/>
+				<div className = "helpmenucontainer">
+				<form className ="dropdownhelpmenu">
+				This is a 3D visulization application called Data Interactive
+				Visualization Application, or DIVA. DIVA was designed in order
+				to give security experts a better understanding of different
+				malware and how they are spreading. DIVA allows you to take
+				data and generate creative 3D models in order to gather
+				assumptions, correlations, and predictions of malware.<br/><br/>
+				To use this web application use the following steps:<br/>
+				<ol>
+				<li>Click on this button <img src={hamburger} className="hamburgerimg2" height = 'auto' width = '12px'/> which is on the top left most
+				side of the menu. This will show a dropdown menu with options.</li>
+				<li>Choose the <b>"Select File"</b> menu to get started with your file. This
+				will allow you to pick a local file, and choose the X, Y, and Z axes.
+				At this point, the visualization will automatically render.</li>
+				<li>On the <b>"File Filter Options"</b> menu, your file will have populated a 
+				field full of your rows for each axis. You can choose what you would like to
+				include in your data. You will also have the option to sort each axis.</li>
+				<li><b>"Graphic Options"</b> allows you to choose different colors, patterns, and visualization
+				options for your data.</li>
+				<li>Once you are satisfied with your graph, you can choose <b>"Download"</b> and a screen grab of
+				the graph in its current position.</li>
+				</ol>
+
+				</form>
 				</div>
-			)
-		}
-		else {
-			const columns = {
-				x: this.state.xaxis,
-				y: this.state.yaxis,
-				z: this.state.zaxis
-			}
-			return (
-				<div>
-				<button className="button">Filter</button><br/>
-				<button className="button" onClick={() => this.props.updateGraphData(get3dvObject(this.state.file, columns))}>Render</button><br/>
-				<button className="button">Download</button><br/>
-				</div>
-			)
-		}
-	}
-
-	onChangeFile = (event) =>{
-		event.stopPropagation();
-		event.preventDefault();
-		var file = event.target.files[0];
-
-		var reader = new FileReader();
-		reader.onload = (event) => {
-			this.setState({
-				...this.state,
-				file: event.target.result,
-				options: getTitles(event.target.result)
-			});
-		};
-		reader.readAsText(file);
-	}
-
-	fileDialogue(){
-		return (
-		<div>
-			<input 
-				className="fileinput"
-				type="file"
-				ref={(ref) => this.upload = ref}
-				onChange={this.onChangeFile.bind(this)}
-			/>
-			<button 
-				className = "button"
-				onClick={()=>{this.upload.click()}}
-			>Upload File</button>
-		</div>
-		)
-	}
-
-	toggleMenu(){
-		if (this.state.checked) {
-				return (
-					<div className = "menucontainer">
-						 {this.fileDialogue()}
-						 <form className ="dropdownmenu">
-						 X-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('xaxis', e)} value={this.state.xaxis} placeholder="..." /><br/>
-						 Y-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('yaxis', e)} value={this.state.yaxis} placeholder="..." /><br/>
-						 Z-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('zaxis', e)} value={this.state.zaxis} placeholder="..." />
-						 </form>
-						 {this.renderReady()}
-					</div>
 				);
 		}
 		return (
 			<div></div>
-		);
+			);
 	}
 
 	render() {
-		const buttonText = this.state.checked ? '-' : '+';
 		return (
-				<div>
-				<div className="topbox">
-				 <center><div className="boxaroundlogo">
-				 <img src={logo} className="mainlogo" width = '100px' height = 'auto'/><br/>
-				 </div></center></div>
-				 <button className='menubutton' onClick={() => this.setState({checked:!this.state.checked})}>{buttonText}</button><br/>
-         {this.toggleMenu()}
-         <ThreeContainer />
-				</div>
-		);
+			<div>
+			<div className="topbox">
+			<center><div className="boxaroundlogo">
+			<img src={logo} className="mainlogo" height = 'auto' width = '110px'/><br/>
+			</div></center></div>
+
+			<img src={hamburger} className="hamburgerimg" onClick={() => this.setState({dataMenu:!this.state.dataMenu})} width = '26px' height = 'auto'/>
+			{this.state.dataMenu ? <DataMenu /> : null }
+
+			<img src={helpimg} className="helpimg" onClick={() => this.setState({helpMenu:!this.state.helpMenu})} width = '26px' height = 'auto'/>
+			{this.renderHelpMenu()}
+
+			<ThreeContainer />
+			</div>
+			);
 	}
 }
-
-const mapStateToProps = state => ({
-	graphData: state.graphData
-});
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-  updateGraphData
-}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
