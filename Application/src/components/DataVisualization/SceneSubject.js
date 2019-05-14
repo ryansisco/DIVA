@@ -3,14 +3,14 @@ import * as MeshLine from 'three.meshline';
 import * as TextSprite from 'three.textsprite';
 import { SCALE } from './SceneManager';
 
-function makeText(scene, text, textSize, x, y, z){
+function makeText(scene, text, clr, textSize, x, y, z){
 	var sprite = new TextSprite({
 		textSize,
 		texture: {
 			text,
 			fontFamily: 'Arial, Helvetical, sans-serif',
 		},
-		material: {color: 0x000000},
+		material: {color: clr},
 	});
 	sprite.position.x = x
 	sprite.position.y = y
@@ -18,45 +18,45 @@ function makeText(scene, text, textSize, x, y, z){
 	scene.add(sprite)
 }
 
-function makeLine( geo, clr, graph ){
-	const res = new THREE.Vector2(window.innerWidth, window.innerHeight);
-	const g = new MeshLine.MeshLine();
-	g.setGeometry(geo);
-
-	const material = new MeshLine.MeshLineMaterial({
-		useMap: false,
-		color: new THREE.Color(clr),
-		opacity: 1,
-		resolution: res,
-		sizeAttenuation: true,
-		lineWidth: 0.001 * SCALE
-	});
-
-	const mesh = new THREE.Mesh(g.geometry, material);
-	graph.add(mesh);
-}
-
-export default (scene, graphData) => {
+export default (scene, graphData, camera) => {
+	
+	const WIDTH = 0.005 * SCALE
 	// SET UP AXES
+	var res = new THREE.Vector2(window.innerWidth, window.innerHeight);
 	var graph = new THREE.Object3D();
 	scene.add(graph);
-
+  var line = new THREE.Geometry();
   
+  function makeLine( geo, clr, w ){
+		var g = new MeshLine.MeshLine();
+		g.setGeometry(geo);
+		
+		var material = new MeshLine.MeshLineMaterial({
+			useMap: false,
+			color: new THREE.Color(clr),
+			opacity: 1,
+			resolution: res,
+			sizeAttenuation: true,
+			lineWidth: w
+		});
+		
+		var mesh = new THREE.Mesh(g.geometry, material);
+		graph.add(mesh);
+  }
   
-  	const xaxis = new THREE.Geometry();
-	xaxis.vertices.push( new THREE.Vector3( SCALE, 0, 0) );
-	xaxis.vertices.push( new THREE.Vector3( 0, 0, 0) );
-	makeLine(xaxis, '#ff0000', graph);
+	line.vertices.push( new THREE.Vector3( SCALE, 0, 0) );
+	line.vertices.push( new THREE.Vector3( 0, 0, 0) );
+	makeLine(line, '#ff0000', WIDTH);
 	
-	var yaxis = new THREE.Geometry();
-	yaxis.vertices.push( new THREE.Vector3( 0, SCALE, 0) );
-	yaxis.vertices.push( new THREE.Vector3( 0, 0, 0) );
-	makeLine(yaxis, '#00ff00', graph);
+	var line = new THREE.Geometry();
+	line.vertices.push( new THREE.Vector3( 0, SCALE, 0) );
+	line.vertices.push( new THREE.Vector3( 0, 0, 0) );
+	makeLine(line, '#00ff00', WIDTH);
 	
-	var zaxis = new THREE.Geometry();
-	zaxis.vertices.push( new THREE.Vector3( 0, 0, -1 * SCALE) );
-	zaxis.vertices.push( new THREE.Vector3( 0, 0, 0) );
-	makeLine(zaxis, '#0000ff', graph);
+	var line = new THREE.Geometry();
+	line.vertices.push( new THREE.Vector3( 0, 0, -1 * SCALE) );
+	line.vertices.push( new THREE.Vector3( 0, 0, 0) );
+	makeLine(line, '#0000ff', WIDTH);
 
 	const formatString = (i, max, min, indices) => {
 		return indices[Math.round((i/SCALE * (max - min)) + min)];
@@ -169,36 +169,33 @@ export default (scene, graphData) => {
 					var line = new THREE.Geometry();
 					line.vertices.push(new THREE.Vector3(tickInfo.from.x, tickInfo.from.y, tickInfo.from.z));
 					line.vertices.push(new THREE.Vector3(tickInfo.to.x, tickInfo.to.y, tickInfo.to.z));
-					makeLine(line, tickInfo.color, graph);
-					makeText(scene, String(i + axis.min), 0.015 * SCALE, textOffset.x, textOffset.y, textOffset.z);
+					makeLine(line, tickInfo.color, WIDTH);
+					makeText(scene, String(i + axis.min), 0xffffff,0.015 * SCALE, textOffset.x, textOffset.y, textOffset.z);
 				}
 				break;
 			case 'string':
-				const incrementAmount = axis.max >= 10 ? (axis.max - (axis.max % 10)) / 10 : 1;
-				const incrementTo = axis.max >= 10 ?  axis.max - (axis.max % 10) : axis.max;
-				console.log(axis.name);
-				console.log(incrementAmount, axis.max)
-				for (let i = 0; i < incrementTo; i+=incrementAmount) {
-					const per = i/incrementTo;
+				for (let i = 0; i <= axis.max; i++) {
+					const per = i/axis.max;
 					const textOffset = offsetText(axisKey, per);
 					const tickInfo = offsetTick(axisKey, per);
 					var line = new THREE.Geometry();
 					line.vertices.push(new THREE.Vector3(tickInfo.from.x, tickInfo.from.y, tickInfo.from.z));
 					line.vertices.push(new THREE.Vector3(tickInfo.to.x, tickInfo.to.y, tickInfo.to.z));
-					makeLine(line, tickInfo.color, graph)
-					makeText(scene, axis.indices[i], 0.015 * SCALE, textOffset.x, textOffset.y, textOffset.z);
+					makeLine(line, tickInfo.color, WIDTH)
+					makeText(scene, axis.indices[i],0xffffff, 0.015 * SCALE, textOffset.x, textOffset.y, textOffset.z);
 				}
 		}
 	});
 	
 	
-	makeText(scene, graphData.xColumn.name, .03 * SCALE, SCALE/2, 0, SCALE/5);
-	makeText(scene, graphData.yColumn.name, .03 * SCALE, -SCALE/5, SCALE/2, SCALE/5);
-	makeText(scene, graphData.zColumn.name, .03 * SCALE, -SCALE/5, 0, -SCALE/2);
+	makeText(scene, graphData.xColumn.name, 0xffffff, .03 * SCALE, SCALE/2, 0, SCALE/5);
+	makeText(scene, graphData.yColumn.name, 0xffffff, .03 * SCALE, -SCALE/5, SCALE/2, SCALE/5);
+	makeText(scene, graphData.zColumn.name, 0xffffff, .03 * SCALE, -SCALE/5, 0, -SCALE/2);
 	// END OF AXES
 	
+
+	
 	// START OF GRAPH DATA
-	const pointsGeometery = new THREE.Geometry();
 	
 	// All points must be inbetween (0, 0, 0) and (SCALE, SCALE, SCALE). This keeps the viewbox consistent for different data being displayed.
 	// The max values will be plotted at SCALE on the respective axes. Every other point will be graphed as a percentage of the max.
@@ -211,24 +208,100 @@ export default (scene, graphData) => {
 	const formatZ = val => {
 		return -1 * SCALE * (val - graphData.zColumn.min) / (graphData.zColumn.max - graphData.zColumn.min);
 	}
+	
+  var group = new THREE.Object3D();
+  
+  function makeBlob(group, clr, x, y, z){
+	// POINT CLOUD
+	const sphereGeom = new THREE.SphereGeometry(50, 50, 50);
+	var material = new THREE.ShaderMaterial( 
+	{
+	    uniforms: 
+		{ 
+			"c":   { type: "f", value: 0.0 },
+			"p":   { type: "f", value: 6.0},
+			glowColor: { type: "c", value: new THREE.Color(clr) },
+			viewVector: { type: "v3", value: camera.position }
+		},
+		vertexShader:  `
+			uniform vec3 viewVector;
+			uniform float c;
+			uniform float p;
+			varying float intensity;
+			void main() 
+			{
+				vec3 vNormal = normalize( normalMatrix * normal );
+				vec3 vNormel = normalize( normalMatrix * viewVector );
+				intensity = pow( c - dot(vNormal, vNormel), p );
+				
+				gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+			}
+		`,
+		fragmentShader: `
+			uniform vec3 glowColor;
+			varying float intensity;
+			void main() 
+			{
+				vec3 glow = glowColor * intensity;
+				gl_FragColor = vec4( glow, 1.0 );
+			}
+		`,
+		side: THREE.BackSide,
+		blending: THREE.AdditiveBlending,
+		transparent: true
+	}   );
+	var moonGlow = new THREE.Mesh( sphereGeom, material );
+    moonGlow.position.set(x, y, z);
+	group.add(moonGlow)
+  }
+  
+  
+  //Graph Blob
+  graphData.data.forEach((value) => {
+	makeBlob(group, 0x0000ff, formatX(value.x), formatY(value.y), formatZ(value.z));
+	/*var moonGlow = new THREE.Mesh( sphereGeom, material );
+    moonGlow.position.set(formatX(value.x), formatY(value.y), formatZ(value.z));
+	group.add(moonGlow)*/
+  });
+  	
+  scene.add( group );
 
-
-	graphData.data.forEach(value => {
-		
+	//Graph Scatterplot
+  	graphData.data.forEach(value => {
 		var geometry = new THREE.SphereGeometry( 5, 32, 32 );
 		var material = new THREE.MeshBasicMaterial( {color: 0xff0000} );
 		var sphere = new THREE.Mesh( geometry, material );
 		sphere.position.set(formatX(value.x), formatY(value.y), formatZ(value.z));
 		scene.add( sphere );
 	});
+  
+  //Graph linechart
+   	graphData.data.forEach(value => {
+		line.vertices.push( new THREE.Vector3( formatX(value.x), formatY(value.y), formatZ(value.z)) );
+	});
+	makeLine(line, '#ff0000', WIDTH);
 	// END OF GRAPH DATA
 
-
+	
+  /*
+	function STATE(graphOptions, axes, clr, bg, width){
+		Enter vis here
+		case
+	}
+  */
+	
   const speed = 0.02;
 
-  function update(time) {
+  function update(camera) {
+	 group.traverse(function (node){
+		 if(node instanceof THREE.Mesh){
+		   node.material.uniforms.viewVector.value = new THREE.Vector3().subVectors(camera.position, node.position);
+		   node.material.uniforms.viewVector.value.needsUpdate = true;
+		 }
+	 });
   }
-
+  
+  
   return {
     update
   }

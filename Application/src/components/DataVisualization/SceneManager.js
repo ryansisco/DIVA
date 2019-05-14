@@ -25,7 +25,7 @@ export default (canvas, graphData) => {
 
     function buildScene() {
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color("#FFF");
+        scene.background = new THREE.Color("#000");
 
         return scene;
     }
@@ -56,7 +56,7 @@ export default (canvas, graphData) => {
 
     function createSceneSubjects(scene) {
         const sceneSubjects = [
-            new SceneSubject(scene, graphData)
+            new SceneSubject(scene, graphData, camera)
         ];
 
         return sceneSubjects;
@@ -66,7 +66,7 @@ export default (canvas, graphData) => {
         const elapsedTime = clock.getElapsedTime();
 
         for(let i=0; i<sceneSubjects.length; i++)
-            sceneSubjects[i].update(elapsedTime);
+            sceneSubjects[i].update(camera);
 
         controls.update();
         renderer.render(scene, camera);
