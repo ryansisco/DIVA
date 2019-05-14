@@ -221,6 +221,11 @@ export function get3dvObjectSort(content, columns, sortingObject) {
           maximums[key] = val;
         else if (val < minimums[key] || ! minimums[key])
           minimums[key] = val;
+                  
+        const existingIndexDate = indices[key].indexOf(rowArray[offsets[key]]);
+        if (existingIndexDate == -1){
+          indices[key].push(rowArray[offsets[key]]);
+        }
       }
 
       else if (types[key] === 'number') {
@@ -358,6 +363,11 @@ export function get3dvObject(content, columns) {
           maximums[key] = val;
         else if (val < minimums[key] || ! minimums[key])
           minimums[key] = val;
+
+        const existingIndexDate = indices[key].indexOf(rowArray[offsets[key]]);
+        if (existingIndexDate == -1){
+          indices[key].push(rowArray[offsets[key]]);
+        }
       }
 
       else if (types[key] === 'number') {
