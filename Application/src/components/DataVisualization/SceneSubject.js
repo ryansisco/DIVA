@@ -257,19 +257,16 @@ export default (scene, graphData, camera) => {
   
   
   //Graph Blob
-  graphData.data.forEach((value) => {
-	makeBlob(group, 0x0000ff, formatX(value.x), formatY(value.y), formatZ(value.z));
-	/*var moonGlow = new THREE.Mesh( sphereGeom, material );
-    moonGlow.position.set(formatX(value.x), formatY(value.y), formatZ(value.z));
-	group.add(moonGlow)*/
-  });
+  /*graphData.data.forEach((value) => {
+	makeBlob(group, 0xff00ff, formatX(value.x), formatY(value.y), formatZ(value.z));
+    });
   	
   scene.add( group );
 
 	//Graph Scatterplot
   	graphData.data.forEach(value => {
 		var geometry = new THREE.SphereGeometry( 5, 32, 32 );
-		var material = new THREE.MeshBasicMaterial( {color: 0xff0000} );
+		var material = new THREE.MeshBasicMaterial( {color: 0xff00ff} );
 		var sphere = new THREE.Mesh( geometry, material );
 		sphere.position.set(formatX(value.x), formatY(value.y), formatZ(value.z));
 		scene.add( sphere );
@@ -279,9 +276,34 @@ export default (scene, graphData, camera) => {
    	graphData.data.forEach(value => {
 		line.vertices.push( new THREE.Vector3( formatX(value.x), formatY(value.y), formatZ(value.z)) );
 	});
-	makeLine(line, '#ff0000', WIDTH);
-	// END OF GRAPH DATA
+	makeLine(line, 0xff00ff, WIDTH);*/
 
+
+  //Graph Everything
+  graphData.data.forEach(value => {
+		makeBlob(group, 0xff00ff, formatX(value.x), formatY(value.y), formatZ(value.z));
+		var geometry = new THREE.SphereGeometry( 5, 32, 32 );
+		var material = new THREE.MeshBasicMaterial( {color: 0xff00ff} );
+		var sphere = new THREE.Mesh( geometry, material );
+		sphere.position.set(formatX(value.x), 0, formatZ(value.z));
+		scene.add( sphere );
+		var geometry = new THREE.SphereGeometry( 5, 32, 32 );
+		var material = new THREE.MeshBasicMaterial( {color: 0xff00ff} );
+		var sphere = new THREE.Mesh( geometry, material );
+		sphere.position.set(0, formatY(value.y), formatZ(value.z));
+		scene.add( sphere );
+		var line = new THREE.Geometry();
+		line.vertices.push( new THREE.Vector3( 0, formatY(value.y), formatZ(value.z)) );
+		line.vertices.push( new THREE.Vector3( formatX(value.x), formatY(value.y), formatZ(value.z)) );
+		makeLine(line, 0xffffff, .1*WIDTH);
+		var line = new THREE.Geometry();
+		line.vertices.push( new THREE.Vector3( formatX(value.x), 0, formatZ(value.z)) );
+		line.vertices.push( new THREE.Vector3( formatX(value.x), formatY(value.y), formatZ(value.z)) );
+		makeLine(line, 0xffffff, .1*WIDTH);
+  });
+  scene.add(group)
+	
+	// END OF GRAPH DATA	
 	
   /*
 	function STATE(graphOptions, axes, clr, bg, width){
