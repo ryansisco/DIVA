@@ -12,9 +12,9 @@ import { updateGraphData } from '../redux/actions';
 
 let state = {
 	color: {
-		x: [],
-		y: [],
-		z: []
+		x: null,
+		y: null,
+		z: null
 	},
 	thickness:{
 		a:1,
@@ -22,10 +22,10 @@ let state = {
 		c:3
 	},
 	backgroundColor:
-		 'white'
+		 'White'
 	,
 	visualization:
-		'scater'
+		'Scatter'
 	,
 	rotaion:true,
 	axesLabels: true,
@@ -52,7 +52,7 @@ const handle = (props) => {
   );
 };
 
-const wrapperStyle = { width: 400, margin: 50 };
+const wrapperStyle = { width: 200, margin: 20 };
 
 class GraphicOptions extends Component {
     constructor(props) {
@@ -126,20 +126,6 @@ class GraphicOptions extends Component {
 		}
 	}
 
-	renderColorBackground(){
-		const handleColorChange = ({ hex }) => console.log(hex);
-		if (this.state.colorBackground){
-			return(
-				<div>
-				<SketchPicker
-				color="#333"
-				onChangeComplete={ handleColorChange }
-				/>
-				<button className = "button" onClick = {() => {this.setState()}}> Change Color </button>
-				</div>
-				);
-		}
-	}
 //this.setState({ visualization: 'cloud' })
 
     render() {
@@ -147,28 +133,35 @@ class GraphicOptions extends Component {
         return (
             <div>
 
-						<div className="graphicOptionsBox">Type of Visualization<br/>
-						<input type="radio" value="Cloud" name="order" onChange={() => this.setState( "visualization: cloud")} checked= {this.state.visualization === "cloud"}/> Cloud
-						<input type="radio" value="Scater" name="order"onChange={() => this.setState( "visualization: scatter")} checked={this.state.visualization === "Scater"}/> Scater
-						<br/><br/>Camera<br/>
+						<div className="graphicOptionsBox">  Type of Visualization<br/>
+						<input type="radio" value="Cloud" name="order" onChange={() => this.setState({ visualization: 'cloud'})} checked= {this.state.visualization === "cloud"}/> Cloud
+						<input type="radio" value="Scatter" name="order" onChange={() => this.setState({ visualization: 'scatter'})} checked={this.state.visualization === "scatter"}/> Scatter
+						</div>
+						<div className="graphicOptionsBox"><br/>Camera<br/>
 						<button className = "button" onClick = {() => {this.setState()}}> Camera Reset </button>
-						<input type="checkbox" value="Rotate" name="order"/> Enable Rotate
-						<br/><br/>Background Color<br/>
-						<input type="radio" value="Black" name="order" onChange={() => this.setState( "backgroundColor: black")} checked= {this.state.backgroundColor === "Black"}/> Black
-						<input type="radio" value="White" name="order" onChange={() => this.setState( "backgroundColor: white")}checked={this.state.backgroundColor === "White"}/> White
-						<br/><br/>Color Options<br/>
+						<input type="checkbox" value="Rotate" name="order" onChange={() => this.setState({ rotation:true})}/> Enable Rotate
+						</div>
+						<div className="graphicOptionsBox"><br/>Background Color<br/>
+						<input type="radio" value="Black" name="order" onChange={() => this.setState({backgroundColor: 'black'})} checked= {this.state.backgroundColor === "black"}/> Black
+						<input type="radio" value="White" name="order" onChange={() => this.setState({backgroundColor: 'white'})}checked={this.state.backgroundColor === "white"}/> White
+						</div>
+					  <div className="graphicOptionsBox"><br/>Color Options<br/>
 						<button className="button"onClick = {() => this.toggleColorMenu('x')}>{graphData.xColumn ? graphData.xColumn.name : 'X'}</button>
 						<button className="button"onClick = {() => this.toggleColorMenu('y')}>{graphData.yColumn ? graphData.yColumn.name : 'Y'}</button>
 						<button className="button"onClick = {() => this.toggleColorMenu('z')}>{graphData.zColumn ? graphData.zColumn.name : 'Z'}</button>
 						{this.renderColorX()}
 						{this.renderColorY()}
 						{this.renderColorZ()}
-						<br/><br/>Thickness<br/>
+						</div>
+						<div className="graphicOptionsBox"><br/>Hide<br/>
+						<input type="checkbox" value="Rotate" name="order" onChange={() => this.setState({ 	axesLabels: true})}/> Axes Labels
+						<input type="checkbox" value="Rotate" name="order" onChange={() => this.setState({ axesNames:false})}/> Axes Name
+						</div>
 						<div style={wrapperStyle}>
-							<p>Slider with fixed values</p>
-							<Slider min={20} defaultValue={20} marks={{ 20: 20, 40: 40, 100: 100 }} step={null} />
-							</div>
-						<br/><br/>
+							<p> Line Thickness</p>
+							<Slider min={1} max={5} defaultValue={1} marks={{ 1: 1, 2: 2, 3: 3, 4: 4, 5: 5 }} tipFormatter={value => `${value}%`} step={null} />
+						</div>
+						<div className="graphicOptionsBox">
 						<button className = "button" onClick = {() => {this.setState()}}> Save Options </button>
 						</div>
 						<div className="addLine"></div>
