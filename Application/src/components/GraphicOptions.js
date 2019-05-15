@@ -77,8 +77,9 @@ class GraphicOptions extends Component {
             if (axis === toggledAxis) {
                 newState[axis] = !newState[axis];
             }
-        })
+        });
         this.setState(newState);
+
 	}
 
 	renderColorX(){
@@ -133,17 +134,17 @@ class GraphicOptions extends Component {
         return (
             <div>
 
-						<div className="graphicOptionsBox">  Type of Visualization<br/>
+						<div className="sortandfilt">  Type of Visualization<br/>
 						<input type="radio" value="Cloud" name="order" onChange={() => this.setState({ visualization: 'cloud'})} checked= {this.state.visualization === "cloud"}/> Cloud
 						<input type="radio" value="Scatter" name="order" onChange={() => this.setState({ visualization: 'scatter'})} checked={this.state.visualization === "scatter"}/> Scatter
 						</div>
 						<div className="graphicOptionsBox"><br/>Camera<br/>
 						<button className = "button" onClick = {() => {this.setState()}}> Camera Reset </button>
-						<input type="checkbox" value="Rotate" name="order" onChange={() => this.setState({ rotation:true})}/> Enable Rotate
+						<input type="checkbox" value="Rotate" name="order2" onChange={() => this.setState({ rotation:true})}/> Enable Rotate
 						</div>
-						<div className="graphicOptionsBox"><br/>Background Color<br/>
-						<input type="radio" value="Black" name="order" onChange={() => this.setState({backgroundColor: 'black'})} checked= {this.state.backgroundColor === "black"}/> Black
-						<input type="radio" value="White" name="order" onChange={() => this.setState({backgroundColor: 'white'})}checked={this.state.backgroundColor === "white"}/> White
+						<div className="sortandfilt"><br/>Background Color<br/>
+						<input type="radio" value="Black" name="order3" onChange={() => this.setState({backgroundColor: 'black'})} checked= {this.state.backgroundColor === "black"}/> Black
+						<input type="radio" value="White" name="order4" onChange={() => this.setState({backgroundColor: 'white'})}checked={this.state.backgroundColor === "white"}/> White
 						</div>
 					  <div className="graphicOptionsBox"><br/>Color Options<br/>
 						<button className="button"onClick = {() => this.toggleColorMenu('x')}>{graphData.xColumn ? graphData.xColumn.name : 'X'}</button>
