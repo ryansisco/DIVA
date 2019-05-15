@@ -81,12 +81,12 @@ class SelectFile extends Component {
 
     render() {
         return (
-            <div>
+            <div className="buttonInterior">
 				<div>
-                <input className = "fileinput" type = "file" accept="csv" ref = {(ref) => this.upload = ref} onChange = {this.onChangeFile.bind(this)} />
+                <input className = "fileinput" type = "file" accept=".csv" ref = {(ref) => this.upload = ref} onChange = {this.onChangeFile.bind(this)} />
                 <button className = "button" onClick = {() => {this.upload.click()}}>Choose File</button>
 			    </div>
-				{this.state.fileName ? <div className = "selectedfile">Selected File: {this.state.fileName}</div> : null}
+				{this.state.fileName ? <div className = "selectedfile">Selected File: <a className="filename">{this.state.fileName}</a></div> : null}
 				<form className ="dropdownmenu">
 				X-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('x', e)} value={this.state.axes.x} placeholder="..." /><br/>
 				Y-Axis:<Dropdown options={this.state.options} onChange={e => this.onSelect('y', e)} value={this.state.axes.y} placeholder="..." /><br/>

@@ -110,7 +110,7 @@ class GraphicOptions extends Component {
     render() {
 				const graphData = this.props.graphData.data;
         return (
-            <div>
+            <div className="buttonInterior">
 
 						<div className="graphicOptionsBox">Type of Visualization<br/>
 						<input type="radio" value="Ascending" name="order" onChange= {this.state.xOrder === "Ascending"}/> Blob data

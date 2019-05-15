@@ -168,7 +168,7 @@ class FileFilter extends Component {
         const graphData = this.props.graphData.data;
         const graphDataReady = this.props.graphData.type === 'GRAPH_UPDATE';
         return (
-            <div>
+            <div className="buttonInterior">
 				<div className="sortandfilt">
 				X-Axis:<br/>
 				<input type="radio" value="Ascending" name="order" onChange={() => this.sortedType("Ascending", "xOrder")} checked ={this.state.xOrder === "Ascending"}/> Ascending
