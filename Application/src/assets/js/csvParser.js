@@ -256,7 +256,7 @@ export function get3dvObjectSort(content, columns, sortingObject) {
 
           indices[key].push(postStr);
           maximums[key]++;
-          tempVals[key] = maximums[key];
+          tempVals[key] = indices[key].indexOf(rowArray[offsets[key]]);
         } else {
           tempVals[key] = existingIndex;
         }
@@ -391,7 +391,7 @@ export function get3dvObject(content, columns) {
         if (existingIndex === -1) {
           indices[key].push(rowArray[offsets[key]]);
           maximums[key]++;
-          tempVals[key] = maximums[key];
+          tempVals[key] = indices[key].indexOf(rowArray[offsets[key]]);
         } else {
           tempVals[key] = existingIndex;
         }
