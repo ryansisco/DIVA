@@ -4,7 +4,7 @@ import SceneSubject from './SceneSubject';
 
 export const SCALE = 1000;
 
-export default (canvas, graphData) => {
+export default (canvas, graphData, graphicOptions) => {
 
     const clock = new THREE.Clock();
 
@@ -24,8 +24,9 @@ export default (canvas, graphData) => {
     const sceneSubjects = createSceneSubjects(scene);
 
     function buildScene() {
+        console.log(graphicOptions)
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color("#000");
+        scene.background = new THREE.Color(graphicOptions.background || 'white');
 
         return scene;
     }
@@ -56,7 +57,7 @@ export default (canvas, graphData) => {
 
     function createSceneSubjects(scene) {
         const sceneSubjects = [
-            new SceneSubject(scene, graphData, camera)
+            new SceneSubject(scene, graphData, graphicOptions, camera)
         ];
 
         return sceneSubjects;

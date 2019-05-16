@@ -1,12 +1,12 @@
 import SceneManager from './SceneManager';
 
-export default (container, graphData) => {
+export default (container, graphData, graphicOptions) => {
     let canvas = document.getElementById('visualizer');
     if (!canvas) {
         canvas = createCanvas(document, container);
         canvas.id = 'visualizer';
     }
-    const sceneManager = new SceneManager(canvas, graphData);
+    const sceneManager = new SceneManager(canvas, graphData, graphicOptions);
 
     let canvasHalfHeight;
     let canvasHalfWidth;
