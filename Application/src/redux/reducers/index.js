@@ -26,7 +26,34 @@ export const createReducer = (actionName, initialData) => {
     }
 }
 
+const initialGraphicOptions = {
+	color: {
+		x: '#FF0000',
+		y: '#00FF00',
+		z: '#0000FF',
+		d: '#ff00ff',
+		background: 'white' 
+	},
+	colorMenus:{
+		x: false,
+		y: false,
+		z: false,
+		d: false
+	},
+	thickness:{
+		a:1,
+		b:2,
+		c:3,
+		d:4,
+		e:5
+	},
+	visualization: 'scatterplot',
+	rotate: false,
+	axesLabels: true,
+	axesNames: true
+}
+
 export default combineReducers({
     graphData: createReducer('GRAPH', []),
-    graphicalOptions: createReducer('GRAPHICAL_OPTIONS', {})
+    graphicOptions: createReducer('GRAPHIC_OPTIONS', initialGraphicOptions)
 });

@@ -1,49 +1,56 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { SketchPicker } from 'react-color';
+import 'rc-slider/assets/index.css';
+import 'rc-tooltip/assets/bootstrap.css';
+import Dropdown from 'react-dropdown';
+
+import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import { updateGraphData } from '../redux/actions';
+import { updateGraphicOptions } from '../redux/actions';
 
 let state = {
-	colorMenus: {
+	color: {
+		x: '#FF0000',
+		y: '#00FF00',
+		z: '#0000FF',
+		d: '#FF00FF',
+		background: 'white' 
+	},
+	colorMenus:{
 		x: false,
 		y: false,
-		z: false
+		z: false,
+		d: false
 	},
-	color: {
-		x: null,
-		y: [],
-		z: [],
-		Background: []
-	}
-	//Camera:{
-			//reset:1
-			//rotate:1
-	//}
+	thickness:{
+		a:1,
+		b:2,
+		c:3,
+		d:4,
+		e:5
+	},
+	visualization: 'scatterplot',
+	rotate: false,
+	axesLabels: true,
+	axesNames: true
 }
 
 class GraphicOptions extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = state;
+	constructor(props) {
+		super(props);
+		this.state = state;
 	}
 
 	componentWillUnmount() {
 		state = this.state;
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-		if (prevState.axes !== this.state.axes && this.state.axes.x && this.state.axes.y && this.state.axes.z) {
-			this.props.updateGraphData(get3dvObject(this.state.file, this.state.axes, this.state.color, this.state.BackgroundColor, this.state.LineThickness));
-		}
-		}
-
 	toggleColorMenu = toggledAxis => {
 		const colorMenus = this.state.colorMenus;
-
 		if (this.state.colorMenus[toggledAxis] === true) {
-
+			Object.keys(colorMenus).map(axis => {
+				colorMenus[axis] = false;
+			})
 		} else {
 			Object.keys(colorMenus).map(axis => {
 				if (axis !== toggledAxis) {
@@ -59,91 +66,58 @@ class GraphicOptions extends Component {
 		});
 	}
 
-	renderColorX(){
-		const handleColorChange = ({ hex }) => console.log(hex);
-		if (this.state.colorX){
+	renderColorPicker(axis) {
+		if (this.state.colorMenus[axis]) {
 			return(
-				<div>
 				<SketchPicker
-				color="#333"
-				onChangeComplete={ handleColorChange }
+				color={this.state.color[axis]}
+				onChange={ clr => this.setState({ color: { ...this.state.color, [axis]: clr.hex }})}
 				/>
-				<button className = "button" onClick = {() => {this.setState()}}> Change Color </button>
-				</div>
-				);
+			);
 		}
 	}
-
-	renderColorY(){
-		const handleColorChange = ({ hex }) => console.log(hex);
-		if (this.state.colorY){
-			return(
-				<div>
-				<SketchPicker
-				color="#333"
-				onChangeComplete={ handleColorChange }
-				/>
-				<button className = "button" onClick = {() => {this.setState()}}> Change Color </button>
-				</div>
-				);
-		}
-	}
-
-	renderColorZ(){
-		const handleColorChange = ({ hex }) => console.log(hex);
-		if (this.state.colorZ){
-			return(
-				<div>
-				<SketchPicker
-				color="#333"
-				onChangeComplete={ handleColorChange }
-				/>
-				<button className = "button" onClick = {() => {this.setState()}}> Change Color </button>
-				</div>
-				);
-		}
-	}
-
-	renderColorBackground(){
-		const handleColorChange = ({ hex }) => console.log(hex);
-		if (this.state.colorBackground){
-			return(
-				<div>
-				<SketchPicker
-				color="#333"
-				onChangeComplete={ handleColorChange }
-				/>
-				<button className = "button" onClick = {() => {this.setState()}}> Change Color </button>
-				</div>
-				);
-		}
-	}
-
 
     render() {
 				const graphData = this.props.graphData.data;
         return (
-            <div className="buttonInterior">
+						<div className="buttonInterior">
 
 						<div className="graphicOptionsBox">Type of Visualization<br/>
-						<input type="radio" value="Ascending" name="order" onChange= {this.state.xOrder === "Ascending"}/> Blob data
-						<input type="radio" value="Descending" name="order" onChange={this.state.xOrder === "Descending"}/> data
-						<br/>Camera<br/>
-						<input type="checkbox" value="Rotate" name="order"/> Camera Reset
-						<input type="checkbox" value="Rotate" name="order"/> Enable Rotate
-						<br/>Color Options<br/>
-						<button className = "button" onClick = {() => {this.setState()}}> Background Color</button>
-						{this.renderColorBackground()}
-					  <button className="button"onClick = {() => this.toggleColorMenu('x')}>{graphData.xColumn ? graphData.xColumn.name : 'X'}</button>
+						<input type="radio" value="cloud" onChange={() => this.setState({ visualization: 'cloud'})} checked= {this.state.visualization === "cloud"}/> Cloud
+						<input type="radio" value="scatterplot" onChange={() => this.setState({ visualization: 'scatterplot'})} checked={this.state.visualization === "scatterplot"}/> Scatterplot
+						<input type="radio" value="cluster" onChange={() => this.setState({ visualization: 'cluster'})} checked={this.state.visualization === "cluster"}/> Cluster
+						</div>
+
+						<div className="graphicOptionsBox"><br/>Camera<br/>
+						<input type="checkbox" value="Rotate" onChange={() => this.setState({ rotate: !this.state.rotate })}/> Enable Rotate
+						</div>
+						
+					  <div className="graphicOptionsBox"><br/>Color Options:<br/>
+						<button className="button"onClick = {() => this.toggleColorMenu('x')}>{graphData.xColumn ? graphData.xColumn.name : 'X'}</button>
 						<button className="button"onClick = {() => this.toggleColorMenu('y')}>{graphData.yColumn ? graphData.yColumn.name : 'Y'}</button>
 						<button className="button"onClick = {() => this.toggleColorMenu('z')}>{graphData.zColumn ? graphData.zColumn.name : 'Z'}</button>
-						{this.renderColorX()}
-						{this.renderColorY()}
-						{this.renderColorZ()}
-						<br/>Thickness<br/>
-						
+						<button className="button"onClick = {() => this.toggleColorMenu('d')}>Data Point</button>
+						{this.renderColorPicker('x')}
+						{this.renderColorPicker('y')}
+						{this.renderColorPicker('z')}
+						{this.renderColorPicker('d')}
 						<br/><br/>
-						<button className = "button" onClick = {() => {this.setState()}}> Save Options </button>
+						Background Color:
+						<form className ="dropdownmenu">
+						<Dropdown options={['white', 'black']}
+							value={this.state.color.background}
+							onChange={e => this.setState({ ...this.state, color: { ...this.state.color, background: e.value } })}/>
+						</form>
+						</div>
+
+						<div className="graphicOptionsBox">
+						<input type="checkbox" defaultChecked={this.state.axesLabels} onChange={() => this.setState({ axesLabels: !this.state.axesLabels })}/> Show Axes Labels
+						<input type="checkbox" defaultChecked={this.state.axesNames} onChange={() => this.setState({ axesNames: !this.state.axesNames })}/> Show Axes Names
+						</div>
+						<br/>
+						
+						<div className="graphicOptionsBox">
+						<button className = "button" onClick = {() => this.props.updateGraphicOptions(this.state)}> Save Options </button>
 						</div>
 						<div className="addLine"></div>
 		        </div>
@@ -152,11 +126,12 @@ class GraphicOptions extends Component {
 }
 
 const mapStateToProps = state => ({
-	graphData: state.graphData
+	graphicOptions: state.graphicOptions,
+	graphData: state.graphData	
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-	updateGraphData
+	updateGraphicOptions
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(GraphicOptions);

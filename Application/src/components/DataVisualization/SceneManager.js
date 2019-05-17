@@ -24,9 +24,8 @@ export default (canvas, graphData, graphicOptions) => {
     const sceneSubjects = createSceneSubjects(scene);
 
     function buildScene() {
-        console.log(graphicOptions)
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(graphicOptions.background || 'white');
+        scene.background = new THREE.Color(graphicOptions.color.background === 'white' ? '#FFFFFF' : '#000000' );
 
         return scene;
     }
@@ -70,6 +69,7 @@ export default (canvas, graphData, graphicOptions) => {
             sceneSubjects[i].update(camera);
 
         controls.update();
+        controls.autoRotate = graphicOptions.rotate;
         renderer.render(scene, camera);
     }
 

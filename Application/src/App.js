@@ -2,6 +2,9 @@ import React, { Component } from "react";
 
 // COMPONENTS //
 import ThreeContainer from './components/DataVisualization/ThreeContainer';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
+import { updateGraphicOptions } from './redux/actions';
 
 // CSS //
 import "./assets/css/styles.css";
@@ -12,7 +15,7 @@ import hamburger from './assets/img/hamburger.png';
 import helpimg from './assets/img/helpimg.png';
 import DataMenu from "./components/DataMenu";
 
-export default class App extends Component {
+class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -46,8 +49,8 @@ export default class App extends Component {
 				<li>On the <b>"File Filter Options"</b> menu, your file will have populated a 
 				field full of your rows for each axis. You can choose what you would like to
 				include in your data. You will also have the option to sort each axis.</li>
-				<li><b>"Graphic Options"</b> allows you to choose different colors, patterns, and visualization
-				options for your data.</li>
+				<li><b>"Graphic Options"</b> allows you to choose different colors, set line thickness, explore camera options, hide names and lastly visualize different types of visualization
+                options for your data.</li>
 				<li>Once you are satisfied with your graph, you can choose <b>"Download"</b> and a screen grab of
 				the graph in its current position.</li>
 				</ol>
@@ -63,7 +66,7 @@ export default class App extends Component {
 
 	render() {
 		return (
-			<div>
+			<div style={{background: this.props.graphicOptions.data.color.background}}>
 			<div className="topbox">
 			<center><div className="boxaroundlogo">
 			<img src={logo} className="mainlogo" height = 'auto' width = '110px'/><br/>
@@ -80,3 +83,13 @@ export default class App extends Component {
 			);
 	}
 }
+
+const mapStateToProps = state => ({
+	graphicOptions: state.graphicOptions
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+	updateGraphicOptions
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

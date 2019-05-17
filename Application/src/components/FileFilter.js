@@ -187,7 +187,7 @@ class FileFilter extends Component {
 				<input type="radio" value="Descending" name="order3" onChange={() => this.sortedType("Descending", "zOrder")} checked ={this.state.zOrder === "Descending"}/> Descending
 				{graphDataReady ? this.produceCheckboxes("z") : null}
 				</div>
-				<button className="Rerender" onClick={() => this.sendFilteredData((graphData.xColumn.indices), (this.state.xOrder),(this.state.filteredRows.x),(graphData.yColumn.indices), (this.state.yOrder),(this.state.filteredRows.y),(graphData.zColumn.indices), (this.state.zOrder),(this.state.filteredRows.z))}> Save Options </button>
+				<button className="button" onClick={() => this.sendFilteredData((graphData.xColumn.indices), (this.state.xOrder),(this.state.filteredRows.x),(graphData.yColumn.indices), (this.state.yOrder),(this.state.filteredRows.y),(graphData.zColumn.indices), (this.state.zOrder),(this.state.filteredRows.z))}> Save Options </button>
 				<div className="addLine"></div>
             </div>
         );

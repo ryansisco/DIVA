@@ -12,8 +12,20 @@ body {
 }
 
 .button {
-	margin-top: 2px;
-	margin-left: 10px;
+	cursor: pointer;
+	margin: 5px;
+	-webkit-transition-duration: 0.6s;
+	transition-duration: 0.6s;
+	border-radius: 5%;
+	border: 1px solid black;
+	box-shadow: 1px 1px grey;
+}
+.button:hover {
+	background-color: #f09bbb;
+	color: white;
+	border: 1px solid black;
+	border-radius: 5%;
+	box-shadow: 1px 1px grey;
 }
 
 .toggleAllGrey {
@@ -29,7 +41,6 @@ body {
 
 .graphicOptionsBox {
 	max-width: inherit;
-	overflow: auto;
 }
 
 .uidropbutton {

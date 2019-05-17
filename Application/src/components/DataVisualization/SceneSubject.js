@@ -3,6 +3,9 @@ import * as MeshLine from 'three.meshline';
 import * as TextSprite from 'three.textsprite';
 import { SCALE } from './SceneManager';
 
+
+const res = new THREE.Vector2(window.innerWidth, window.innerHeight);
+
 function makeText(scene, text, clr, textSize, x, y, z){
 	var sprite = new TextSprite({
 		textSize,
@@ -18,50 +21,44 @@ function makeText(scene, text, clr, textSize, x, y, z){
 	scene.add(sprite)
 }
 
+function makeLine( geo, clr, w, graph ){
+	var g = new MeshLine.MeshLine();
+	g.setGeometry(geo);
+	
+	var material = new MeshLine.MeshLineMaterial({
+		useMap: false,
+		color: clr,
+		opacity: 1,
+		resolution: res,
+		sizeAttenuation: true,
+		lineWidth: w
+	});
+	
+	var mesh = new THREE.Mesh(g.geometry, material);
+	graph.add(mesh);
+}
+
 export default (scene, graphData, graphicOptions, camera) => {
 	
 	const WIDTH = 0.005 * SCALE
-	const blobRadius = 50;
-	const sphereRadius = 5;
-	const sphereSegment = 32;
-	const pink = 0xff00ff;
-	const white = 0xffffff;
 	// SET UP AXES
-	var res = new THREE.Vector2(window.innerWidth, window.innerHeight);
 	var graph = new THREE.Object3D();
 	scene.add(graph);
  	var line = new THREE.Geometry();
-  
-	function makeLine( geo, clr, w ){
-		var g = new MeshLine.MeshLine();
-		g.setGeometry(geo);
-		
-		var material = new MeshLine.MeshLineMaterial({
-			useMap: false,
-			color: new THREE.Color(clr),
-			opacity: 1,
-			resolution: res,
-			sizeAttenuation: true,
-			lineWidth: w
-		});
-		
-		var mesh = new THREE.Mesh(g.geometry, material);
-		graph.add(mesh);
-	}
-  
+
 	line.vertices.push( new THREE.Vector3( SCALE, 0, 0) );
 	line.vertices.push( new THREE.Vector3( 0, 0, 0) );
-	makeLine(line, '#ff0000', WIDTH);
+	makeLine(line, graphicOptions.color.x, WIDTH, graph);
 	
 	var line = new THREE.Geometry();
 	line.vertices.push( new THREE.Vector3( 0, SCALE, 0) );
 	line.vertices.push( new THREE.Vector3( 0, 0, 0) );
-	makeLine(line, '#00ff00', WIDTH);
+	makeLine(line, graphicOptions.color.y, WIDTH, graph);
 	
 	var line = new THREE.Geometry();
 	line.vertices.push( new THREE.Vector3( 0, 0, -1 * SCALE) );
 	line.vertices.push( new THREE.Vector3( 0, 0, 0) );
-	makeLine(line, '#0000ff', WIDTH);
+	makeLine(line, graphicOptions.color.z, WIDTH, graph);
 
 	const formatString = (i, max, min, indices) => {
 		return indices[Math.round((i/SCALE * (max - min)) + min)];
@@ -127,7 +124,7 @@ export default (scene, graphData, graphicOptions, camera) => {
 						y: 0,
 						z: SCALE/75
 					},
-					color: '#ff0000' 
+					color: graphicOptions.color.x
 				}
 			case 'y':
 				return {
@@ -141,7 +138,7 @@ export default (scene, graphData, graphicOptions, camera) => {
 						y: per * SCALE,
 						z: SCALE/100
 					},
-					color: '#00ff00'
+					color: graphicOptions.color.y
 				}
 			case 'z':
 				return {
@@ -155,49 +152,63 @@ export default (scene, graphData, graphicOptions, camera) => {
 						y: 0,
 						z: -per * SCALE
 					},
-					color: '#0000ff'
+					color: graphicOptions.color.z
 				}
 			default:
 				return null;
 		}
 	}
 
-	Object.keys(axes).forEach(axisKey => {
-		const axis = axes[axisKey];
-		switch(axis.type) {
-			case 'date':
-			case 'number':
-				for (let i = 0; i <= axis.max - axis.min; i += (axis.max - axis.min)/10) {
-					const per = i/(axis.max - axis.min);
-					const textOffset = offsetText(axisKey, per);
-					const tickInfo = offsetTick(axisKey, per);
-					var line = new THREE.Geometry();
-					line.vertices.push(new THREE.Vector3(tickInfo.from.x, tickInfo.from.y, tickInfo.from.z));
-					line.vertices.push(new THREE.Vector3(tickInfo.to.x, tickInfo.to.y, tickInfo.to.z));
-					makeLine(line, tickInfo.color, graph);
-					makeText(scene, String(i + axis.min), graphicOptions.background || 'black', 0.015 * SCALE, textOffset.x, textOffset.y, textOffset.z);
-				}
+	if (graphicOptions.axesLabels) {
+		Object.keys(axes).forEach(axisKey => {
+			const axis = axes[axisKey];
+			switch(axis.type) {
+				case 'date':
+					for (let i = 0; i <= axis.max - axis.min; i += (axis.max - axis.min)/10) {
+						const per = i/(axis.max - axis.min);
+						const textOffset = offsetText(axisKey, per);
+						const tickInfo = offsetTick(axisKey, per);
+						var line = new THREE.Geometry();
+						line.vertices.push(new THREE.Vector3(tickInfo.from.x, tickInfo.from.y, tickInfo.from.z));
+						line.vertices.push(new THREE.Vector3(tickInfo.to.x, tickInfo.to.y, tickInfo.to.z));
+						makeLine(line, tickInfo.color, WIDTH, graph);
+						makeText(scene, new Date(i + axis.min).toLocaleDateString(), graphicOptions.color.background === 'white' ? '#000000' : '#FFFFFF' , 0.015 * SCALE, textOffset.x, textOffset.y, textOffset.z);
+					}
 				break;
-			case 'string':
-				const incrementAmount = axis.max >= 10 ? (axis.max - (axis.max % 10)) / 10 : 1;
-				const incrementTo = axis.max >= 10 ?  axis.max - (axis.max % 10) : axis.max;
-				for (let i = 0; i < incrementTo; i+=incrementAmount) {
-					const per = i/incrementTo;
-					const textOffset = offsetText(axisKey, per);
-					const tickInfo = offsetTick(axisKey, per);
-					var line = new THREE.Geometry();
-					line.vertices.push(new THREE.Vector3(tickInfo.from.x, tickInfo.from.y, tickInfo.from.z));
-					line.vertices.push(new THREE.Vector3(tickInfo.to.x, tickInfo.to.y, tickInfo.to.z));
-					makeLine(line, tickInfo.color, graph)
-					makeText(scene, axis.indices[i], graphicOptions.background === 'black' ? 'white' : 'black', 0.015 * SCALE, textOffset.x, textOffset.y, textOffset.z);
-				}
-		}
-	});
+				case 'number':
+					for (let i = 0; i <= axis.max - axis.min; i += (axis.max - axis.min)/10) {
+						const per = i/(axis.max - axis.min);
+						const textOffset = offsetText(axisKey, per);
+						const tickInfo = offsetTick(axisKey, per);
+						var line = new THREE.Geometry();
+						line.vertices.push(new THREE.Vector3(tickInfo.from.x, tickInfo.from.y, tickInfo.from.z));
+						line.vertices.push(new THREE.Vector3(tickInfo.to.x, tickInfo.to.y, tickInfo.to.z));
+						makeLine(line, tickInfo.color, WIDTH, graph);
+						makeText(scene, String(i + axis.min),  graphicOptions.color.background === 'white' ? '#000000' : '#FFFFFF', 0.015 * SCALE, textOffset.x, textOffset.y, textOffset.z);
+					}
+					break;
+				case 'string':
+					const incrementAmount = axis.max >= 10 ? (axis.max - (axis.max % 10)) / 10 : 1;
+					const incrementTo = axis.max >= 10 ?  axis.max - (axis.max % 10) : axis.max;
+					for (let i = 0; i < incrementTo; i+=incrementAmount) {
+						const per = i/incrementTo;
+						const textOffset = offsetText(axisKey, per);
+						const tickInfo = offsetTick(axisKey, per);
+						var line = new THREE.Geometry();
+						line.vertices.push(new THREE.Vector3(tickInfo.from.x, tickInfo.from.y, tickInfo.from.z));
+						line.vertices.push(new THREE.Vector3(tickInfo.to.x, tickInfo.to.y, tickInfo.to.z));
+						makeLine(line, tickInfo.color, WIDTH, graph)
+						makeText(scene, axis.indices[i],  graphicOptions.color.background === 'white' ? '#000000' : '#FFFFFF', 0.015 * SCALE, textOffset.x, textOffset.y, textOffset.z);
+					}
+			}
+		});
+	}
 	
-	
-	makeText(scene, graphData.xColumn.name, graphicOptions.background === 'black' ? 'white' : 'black', .03 * SCALE, SCALE/2, 0, SCALE/5);
-	makeText(scene, graphData.yColumn.name, graphicOptions.background === 'black' ? 'white' : 'black', .03 * SCALE, -SCALE/5, SCALE/2, SCALE/5);
-	makeText(scene, graphData.zColumn.name, graphicOptions.background === 'black' ? 'white' : 'black', .03 * SCALE, -SCALE/5, 0, -SCALE/2);
+	if (graphicOptions.axesNames) {
+		makeText(scene, graphData.xColumn.name, graphicOptions.color.background === 'white' ? '#000000' : '#FFFFFF', .03 * SCALE, SCALE/2, 0, SCALE/5);
+		makeText(scene, graphData.yColumn.name, graphicOptions.color.background === 'white' ? '#000000' : '#FFFFFF', .03 * SCALE, -SCALE/5, SCALE/2, SCALE/5);
+		makeText(scene, graphData.zColumn.name, graphicOptions.color.background === 'white' ? '#000000' : '#FFFFFF', .03 * SCALE, -SCALE/5, 0, -SCALE/2);
+	}
 	// END OF AXES
 	
 
@@ -217,9 +228,7 @@ export default (scene, graphData, graphicOptions, camera) => {
 	
   var group = new THREE.Object3D();
 	
-	graphicOptions.visualization = 'cluster';	
-	
-	if (graphicOptions.visualization === 'blob') {
+	if (graphicOptions.visualization === 'cloud') {
 		function makeBlob(group, clr, x, y, z){
 			// POINT CLOUD
 			const sphereGeom = new THREE.SphereGeometry(50, 50, 50);
@@ -266,7 +275,7 @@ export default (scene, graphData, graphicOptions, camera) => {
 
 		//graph blob
 		graphData.data.forEach((value) => {
-			makeBlob(group, 0xff00ff, formatX(value.x), formatY(value.y), formatZ(value.z));
+			makeBlob(group, graphicOptions.color.d, formatX(value.x), formatY(value.y), formatZ(value.z));
 		});
 			  
 		scene.add( group );
@@ -275,7 +284,7 @@ export default (scene, graphData, graphicOptions, camera) => {
 		graphData.data.forEach(value => {
 			line.vertices.push( new THREE.Vector3( formatX(value.x), formatY(value.y), formatZ(value.z)) );
 		});
-		makeLine(line, 0xff00ff, WIDTH);
+		makeLine(line, graphicOptions.color.d, WIDTH, graph);
 	} else if (graphicOptions.visualization === 'cluster') {
 		//Graph Branch
 		graphData.data.forEach(point => {
@@ -300,62 +309,20 @@ export default (scene, graphData, graphicOptions, camera) => {
 				var line = new THREE.Geometry();
 				line.vertices.push( new THREE.Vector3( minPoint.x, minPoint.y, minPoint.z));
 				line.vertices.push( pointA );
-				makeLine(line, pink, WIDTH*.5);
+				makeLine(line, graphicOptions.color.d, WIDTH*.5, graph);
 			});
 		});
-
-		//Graph low Branch
-			/*graphData.data.forEach(value => {
-			var line = new THREE.Geometry();
-			line.vertices.push( new THREE.Vector3( SCALE/2, SCALE/2, -SCALE/2) );
-			line.vertices.push( new THREE.Vector3( formatX(value.x), formatY(value.y), formatZ(value.z)) );
-			makeLine(line, pink, WIDTH);
-		});*/
 	} else {
 		//Graph Scatterplot
 		  graphData.data.forEach(value => {
 			var geometry = new THREE.SphereGeometry( 5, 32, 32 );
-			var material = new THREE.MeshBasicMaterial( {color: 0xff00ff} );
+			var material = new THREE.MeshBasicMaterial( {color: graphicOptions.color.d } );
 			var sphere = new THREE.Mesh( geometry, material );
 			sphere.position.set(formatX(value.x), formatY(value.y), formatZ(value.z));
 			scene.add( sphere );
 		});
 	}
-  
-
-	/*
-  //Graph Everything
-  /*graphData.data.forEach(value => {
-		makeBlob(group, blobRadius, pink, formatX(value.x), formatY(value.y), formatZ(value.z));
-		var geometry = new THREE.SphereGeometry( sphereRadius, sphereSegment, sphereSegment );
-		var material = new THREE.MeshBasicMaterial( {color: pink} );
-		var sphere = new THREE.Mesh( geometry, material );
-		sphere.position.set(formatX(value.x), 0, formatZ(value.z));
-		scene.add( sphere );
-		var geometry = new THREE.SphereGeometry( sphereRadius, sphereSegment, sphereSegment );
-		var material = new THREE.MeshBasicMaterial( {color: pink} );
-		var sphere = new THREE.Mesh( geometry, material );
-		sphere.position.set(0, formatY(value.y), formatZ(value.z));
-		scene.add( sphere );
-		var line = new THREE.Geometry();
-		line.vertices.push( new THREE.Vector3( 0, formatY(value.y), formatZ(value.z)) );
-		line.vertices.push( new THREE.Vector3( formatX(value.x), formatY(value.y), formatZ(value.z)) );
-		makeLine(line, white, .1*WIDTH);
-		var line = new THREE.Geometry();
-		line.vertices.push( new THREE.Vector3( formatX(value.x), 0, formatZ(value.z)) );
-		line.vertices.push( new THREE.Vector3( formatX(value.x), formatY(value.y), formatZ(value.z)) );
-		makeLine(line, white, .1*WIDTH);
-  });
-  scene.add(group)*/
-	
-	// END OF GRAPH DATA	
-	
-  /*
-	function STATE(graphOptions, axes, clr, bg, width){
-		Enter vis here
-		case
-	}
-  */
+	// END OF GRAPH DATA
 	
   const speed = 0.02;
 

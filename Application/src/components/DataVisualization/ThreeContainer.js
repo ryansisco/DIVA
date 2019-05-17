@@ -5,8 +5,8 @@ import threeEntryPoint from './ThreeEntryPoint';
 
 class ThreeContainer extends Component {
     componentDidUpdate() {
-        if (this.props.graphData.type === 'GRAPH_UPDATE') {
-            threeEntryPoint(this.threeRootElement, this.props.graphData.data, {})
+        if (this.props.graphData.type === 'GRAPH_UPDATE' || this.props.graphicOptions.data === 'GRAPHIC_OPTIONS_UPDATE') {
+            threeEntryPoint(this.threeRootElement, this.props.graphData.data, this.props.graphicOptions.data)
         }
     }
 
@@ -20,7 +20,8 @@ class ThreeContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        graphData: state.graphData
+        graphData: state.graphData,
+        graphicOptions: state.graphicOptions
     };
   };
 
