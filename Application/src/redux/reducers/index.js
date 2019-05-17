@@ -27,5 +27,6 @@ export const createReducer = (actionName, initialData) => {
 }
 
 export default combineReducers({
-    graphData: createReducer('GRAPH', [])
+    graphData: createReducer('GRAPH', []),
+    graphicalOptions: createReducer('GRAPHICAL_OPTIONS', {})
 });

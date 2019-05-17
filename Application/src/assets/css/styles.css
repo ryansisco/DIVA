@@ -1,6 +1,8 @@
 ::selection { background: #f09bbb; }
 
 body {
+	margin: 0 !important;
+	overflow: hidden;
 	font-family: Tahoma, Geneva, sans-serif;
 	font-size: 12;
 }

@@ -13,3 +13,4 @@ const createAction = (actionName) => {
 }
 
 export const updateGraphData = createAction('GRAPH');
+export const updateGraphicalOptions = createAction('GRAPHICAL_OPTIONS');

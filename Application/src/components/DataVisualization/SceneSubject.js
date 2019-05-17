@@ -21,6 +21,11 @@ function makeText(scene, text, clr, textSize, x, y, z){
 export default (scene, graphData, graphicOptions, camera) => {
 	
 	const WIDTH = 0.005 * SCALE
+	const blobRadius = 50;
+	const sphereRadius = 5;
+	const sphereSegment = 32;
+	const pink = 0xff00ff;
+	const white = 0xffffff;
 	// SET UP AXES
 	var res = new THREE.Vector2(window.innerWidth, window.innerHeight);
 	var graph = new THREE.Object3D();
@@ -184,19 +189,18 @@ export default (scene, graphData, graphicOptions, camera) => {
 					line.vertices.push(new THREE.Vector3(tickInfo.from.x, tickInfo.from.y, tickInfo.from.z));
 					line.vertices.push(new THREE.Vector3(tickInfo.to.x, tickInfo.to.y, tickInfo.to.z));
 					makeLine(line, tickInfo.color, graph)
-					makeText(scene, axis.indices[i], graphicOptions.background || 'black', 0.015 * SCALE, textOffset.x, textOffset.y, textOffset.z);
+					makeText(scene, axis.indices[i], graphicOptions.background === 'black' ? 'white' : 'black', 0.015 * SCALE, textOffset.x, textOffset.y, textOffset.z);
 				}
 		}
 	});
 	
 	
-	makeText(scene, graphData.xColumn.name, graphicOptions.background || 'black', .03 * SCALE, SCALE/2, 0, SCALE/5);
-	makeText(scene, graphData.yColumn.name, graphicOptions.background || 'black', .03 * SCALE, -SCALE/5, SCALE/2, SCALE/5);
-	makeText(scene, graphData.zColumn.name, graphicOptions.background || 'black', .03 * SCALE, -SCALE/5, 0, -SCALE/2);
+	makeText(scene, graphData.xColumn.name, graphicOptions.background === 'black' ? 'white' : 'black', .03 * SCALE, SCALE/2, 0, SCALE/5);
+	makeText(scene, graphData.yColumn.name, graphicOptions.background === 'black' ? 'white' : 'black', .03 * SCALE, -SCALE/5, SCALE/2, SCALE/5);
+	makeText(scene, graphData.zColumn.name, graphicOptions.background === 'black' ? 'white' : 'black', .03 * SCALE, -SCALE/5, 0, -SCALE/2);
 	// END OF AXES
 	
 
-	
 	// START OF GRAPH DATA
 	
 	// All points must be inbetween (0, 0, 0) and (SCALE, SCALE, SCALE). This keeps the viewbox consistent for different data being displayed.
@@ -211,8 +215,10 @@ export default (scene, graphData, graphicOptions, camera) => {
 		return -1 * SCALE * (val - graphData.zColumn.min) / (graphData.zColumn.max - graphData.zColumn.min);
 	}
 	
-  	var group = new THREE.Object3D();
-  
+  var group = new THREE.Object3D();
+	
+	graphicOptions.visualization = 'cluster';	
+	
 	if (graphicOptions.visualization === 'blob') {
 		function makeBlob(group, clr, x, y, z){
 			// POINT CLOUD
@@ -270,6 +276,41 @@ export default (scene, graphData, graphicOptions, camera) => {
 			line.vertices.push( new THREE.Vector3( formatX(value.x), formatY(value.y), formatZ(value.z)) );
 		});
 		makeLine(line, 0xff00ff, WIDTH);
+	} else if (graphicOptions.visualization === 'cluster') {
+		//Graph Branch
+		graphData.data.forEach(point => {
+			const minDistancePoints = [];
+			var pointA = new THREE.Vector3( formatX(point.x), formatY(point.y), formatZ(point.z));
+			graphData.data.forEach(otherPoint => {
+				var pointB = new THREE.Vector3( formatX(otherPoint.x), formatY(otherPoint.y), formatZ(otherPoint.z));
+				const dist = pointA.distanceTo(pointB);
+				const full = 4;
+				if (minDistancePoints.length < full) {
+					const newMinPoint = { x: pointB.x, y: pointB.y, z: pointB.z, dist }
+					minDistancePoints.push(newMinPoint);
+				} else if (minDistancePoints.some(currentMin => dist < currentMin.dist)) {
+					const newMinPoint = { x: pointB.x, y: pointB.y, z: pointB.z, dist }
+					minDistancePoints.push(newMinPoint);
+					minDistancePoints.sort((a, b) => a.dist < b.dist ? -1 : 1);
+					minDistancePoints.pop();
+				}	
+			});
+			//draw n lines from 'point' to all points in minDistancePoints
+			minDistancePoints.forEach(minPoint => {
+				var line = new THREE.Geometry();
+				line.vertices.push( new THREE.Vector3( minPoint.x, minPoint.y, minPoint.z));
+				line.vertices.push( pointA );
+				makeLine(line, pink, WIDTH*.5);
+			});
+		});
+
+		//Graph low Branch
+			/*graphData.data.forEach(value => {
+			var line = new THREE.Geometry();
+			line.vertices.push( new THREE.Vector3( SCALE/2, SCALE/2, -SCALE/2) );
+			line.vertices.push( new THREE.Vector3( formatX(value.x), formatY(value.y), formatZ(value.z)) );
+			makeLine(line, pink, WIDTH);
+		});*/
 	} else {
 		//Graph Scatterplot
 		  graphData.data.forEach(value => {
@@ -284,26 +325,26 @@ export default (scene, graphData, graphicOptions, camera) => {
 
 	/*
   //Graph Everything
-  graphData.data.forEach(value => {
-		makeBlob(group, 0xff00ff, formatX(value.x), formatY(value.y), formatZ(value.z));
-		var geometry = new THREE.SphereGeometry( 5, 32, 32 );
-		var material = new THREE.MeshBasicMaterial( {color: 0xff00ff} );
+  /*graphData.data.forEach(value => {
+		makeBlob(group, blobRadius, pink, formatX(value.x), formatY(value.y), formatZ(value.z));
+		var geometry = new THREE.SphereGeometry( sphereRadius, sphereSegment, sphereSegment );
+		var material = new THREE.MeshBasicMaterial( {color: pink} );
 		var sphere = new THREE.Mesh( geometry, material );
 		sphere.position.set(formatX(value.x), 0, formatZ(value.z));
 		scene.add( sphere );
-		var geometry = new THREE.SphereGeometry( 5, 32, 32 );
-		var material = new THREE.MeshBasicMaterial( {color: 0xff00ff} );
+		var geometry = new THREE.SphereGeometry( sphereRadius, sphereSegment, sphereSegment );
+		var material = new THREE.MeshBasicMaterial( {color: pink} );
 		var sphere = new THREE.Mesh( geometry, material );
 		sphere.position.set(0, formatY(value.y), formatZ(value.z));
 		scene.add( sphere );
 		var line = new THREE.Geometry();
 		line.vertices.push( new THREE.Vector3( 0, formatY(value.y), formatZ(value.z)) );
 		line.vertices.push( new THREE.Vector3( formatX(value.x), formatY(value.y), formatZ(value.z)) );
-		makeLine(line, 0xffffff, .1*WIDTH);
+		makeLine(line, white, .1*WIDTH);
 		var line = new THREE.Geometry();
 		line.vertices.push( new THREE.Vector3( formatX(value.x), 0, formatZ(value.z)) );
 		line.vertices.push( new THREE.Vector3( formatX(value.x), formatY(value.y), formatZ(value.z)) );
-		makeLine(line, 0xffffff, .1*WIDTH);
+		makeLine(line, white, .1*WIDTH);
   });
   scene.add(group)*/
 	

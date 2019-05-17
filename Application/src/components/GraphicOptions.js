@@ -5,6 +5,11 @@ import { bindActionCreators } from "redux";
 import { updateGraphData } from '../redux/actions';
 
 let state = {
+	colorMenus: {
+		x: false,
+		y: false,
+		z: false
+	},
 	color: {
 		x: null,
 		y: [],
@@ -35,15 +40,23 @@ class GraphicOptions extends Component {
 		}
 
 	toggleColorMenu = toggledAxis => {
-				const newState = this.state;
-				Object.keys(newState).map(axis => {
-            if (axis === toggledAxis) {
-                newState[axis] = !newState[axis];
-            }
-        })
-        //this.setState(newState);
-				this.setState({colorX:!this.state.colorX})
-				this.setState({colorX:!this.state.colorY})
+		const colorMenus = this.state.colorMenus;
+
+		if (this.state.colorMenus[toggledAxis] === true) {
+
+		} else {
+			Object.keys(colorMenus).map(axis => {
+				if (axis !== toggledAxis) {
+					colorMenus[axis] = false;
+				} else  {
+					colorMenus[axis] = true;
+				}
+			})
+		}
+		this.setState({
+			...this.state,
+			colorMenus
+		});
 	}
 
 	renderColorX(){
