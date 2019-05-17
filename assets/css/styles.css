@@ -1,6 +1,8 @@
 ::selection { background: #f09bbb; }
 
 body {
+	margin: 0 !important;
+	overflow: hidden;
 	font-family: Tahoma, Geneva, sans-serif;
 	font-size: 12;
 }
@@ -10,8 +12,20 @@ body {
 }
 
 .button {
-	margin-top: 2px;
-	margin-left: 10px;
+	cursor: pointer;
+	margin: 5px;
+	-webkit-transition-duration: 0.6s;
+	transition-duration: 0.6s;
+	border-radius: 5%;
+	border: 1px solid black;
+	box-shadow: 1px 1px grey;
+}
+.button:hover {
+	background-color: #f09bbb;
+	color: white;
+	border: 1px solid black;
+	border-radius: 5%;
+	box-shadow: 1px 1px grey;
 }
 
 .toggleAllGrey {
@@ -27,8 +41,6 @@ body {
 
 .graphicOptionsBox {
 	max-width: inherit;
-	max-height: 200px;
-	overflow: auto;
 }
 
 .uidropbutton {
@@ -36,6 +48,7 @@ body {
 	font-size: 18;
 	height: 40px;
 	width: inherit;
+	min-width: inherit;
 	border: 0px;
 	background-color: #EBEBEB;
 	text-align: left;
@@ -43,6 +56,11 @@ body {
 	padding: 3px;
 	padding-left: 8px;
 	cursor: pointer;
+}
+
+.buttonInterior {
+	width: inherit;
+	height: 30%;
 }
 
 .dropdownicoD {
@@ -61,6 +79,8 @@ body {
 }
 .sortandfilt{
 	padding: 5px;
+	width: inherit;
+	text-overflow: ellipsis;
 }
 .addLine {
 	border: 1px solid black;
@@ -71,8 +91,8 @@ body {
 	display: grid;
 	grid-template-columns: 50% 50%;
 	align-self: right;
-	max-height: 60px;
-	max-width: inherit;
+	max-height: 100px;
+	width: inherit;
 	overflow-y: auto; 
 	text-align: left;
 	text-overflow: ellipsis;
@@ -144,14 +164,15 @@ body {
 	float: left;
 	outline: 2px solid black;
 	background-color: white;
-	box-shadow: 6px 6px 3px lightgrey;
 	position: fixed;
 	left: 0px;
 	top: 42px;
-	width: 270px;
-	max-height: 100%;
+	min-width: 250px;
+	width: 250px;
 	padding: 0px 0px 0px 0px;
-	overflow: auto;
+	resize: horizontal;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .helpmenucontainer {
@@ -159,7 +180,6 @@ body {
 	padding: 2px;
 	outline: 2px solid black;
 	background-color: white;
-	box-shadow: 10px 10px 5px lightgrey;
 	position: fixed;
 	right: 0px;
 	top: 42px;
@@ -213,7 +233,6 @@ body {
 .dropdown-menu {
 	background-color: white;
 	border: 1px solid #ccc;
-	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 	box-sizing: border-box;
 	margin-top: -1px;
 	max-height: 200px;
@@ -228,7 +247,6 @@ body {
 .dropdown-helpmenu {
 	background-color: white;
 	border: 1px solid #ccc;
-	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 	box-sizing: border-box;
 	margin-top: -1px;
 	max-height: 200px;
@@ -243,7 +261,6 @@ body {
 .dropdown-cameramenu {
 	background-color: white;
 	border: 1px solid #ccc;
-	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 	box-sizing: border-box;
 	margin-top: -1px;
 	max-height: 200px;

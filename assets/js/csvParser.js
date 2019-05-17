@@ -100,6 +100,10 @@ export function getRows(content, title){
   return checkboxArray.sort();
 };
 
+const isDate = date => {
+  return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
+}
+
 // getTypes
 // input: content - CSV file content
 //        offsets - 
@@ -111,10 +115,10 @@ function getTypes(content, offsets) {
 
   //for the column values, test what type each is. Could be string, date, or number
   Object.entries(offsets).map(offset => {
-    if (Date.parse(firstDataArr[offset[1]]))
-      types[offset[0]] = 'date';
-    else if (!isNaN(firstDataArr[offset[1]]))
+    if (!isNaN(firstDataArr[offset[1]]))
       types[offset[0]] = 'number';
+    else if (isDate(firstDataArr[offset[1]]))
+      types[offset[0]] = 'date';
     else
       types[offset[0]] = 'string';
   });
@@ -141,10 +145,10 @@ function sortData(indices, data, order, axis){
     currentIndex = element[axis];
     newIndex = sortedIndices.indexOf(indices[currentIndex]);
 
-    if (newIndex > 0){
-    tempData = element;
-    tempData[axis] = newIndex;
-    newData.push(tempData);
+    if (newIndex >= 0){
+      tempData = element;
+      tempData[axis] = newIndex;
+      newData.push(tempData);
     }
     
   });
@@ -221,6 +225,11 @@ export function get3dvObjectSort(content, columns, sortingObject) {
           maximums[key] = val;
         else if (val < minimums[key] || ! minimums[key])
           minimums[key] = val;
+                  
+        const existingIndexDate = indices[key].indexOf(rowArray[offsets[key]]);
+        if (existingIndexDate == -1){
+          indices[key].push(rowArray[offsets[key]]);
+        }
       }
 
       else if (types[key] === 'number') {
@@ -251,7 +260,7 @@ export function get3dvObjectSort(content, columns, sortingObject) {
 
           indices[key].push(postStr);
           maximums[key]++;
-          tempVals[key] = maximums[key];
+          tempVals[key] = indices[key].indexOf(rowArray[offsets[key]]);
         } else {
           tempVals[key] = existingIndex;
         }
@@ -270,7 +279,7 @@ export function get3dvObjectSort(content, columns, sortingObject) {
     }
 
     //TODO: subdata
-
+    console.log(tempVals)
     data.push(tempVals);
   }
 
@@ -358,15 +367,26 @@ export function get3dvObject(content, columns) {
           maximums[key] = val;
         else if (val < minimums[key] || ! minimums[key])
           minimums[key] = val;
+
+        const existingIndexDate = indices[key].indexOf(rowArray[offsets[key]]);
+        if (existingIndexDate == -1){
+          indices[key].push(rowArray[offsets[key]]);
+        }
       }
 
       else if (types[key] === 'number') {
-        const val = rowArray[offsets[key]];
+        const val = parseInt(rowArray[offsets[key]]);
         tempVals[key] = val;
-        if (val > maximums[key] || !maximums[key])
-          maximums[key] = val;
-        else if (val < minimums[key] || ! minimums[key])
+        if (!minimums[key] && !maximums[key]) {
           minimums[key] = val;
+          maximums[key] = val;
+        }
+        if (val > maximums[key]) {
+          maximums[key] = val;
+        }
+        if (val < minimums[key]) {
+          minimums[key] = val;
+        }
       }
 
       else {
@@ -381,7 +401,7 @@ export function get3dvObject(content, columns) {
         if (existingIndex === -1) {
           indices[key].push(rowArray[offsets[key]]);
           maximums[key]++;
-          tempVals[key] = maximums[key];
+          tempVals[key] = indices[key].indexOf(rowArray[offsets[key]]);
         } else {
           tempVals[key] = existingIndex;
         }
@@ -395,27 +415,26 @@ export function get3dvObject(content, columns) {
     }
 
     //TODO: subdata
-
     data.push(tempVals);
   }
 
   var tempSortReturn;
   // sort indices.x by user input
-  if (types["x"] !== "date") {
+  if (types["x"] === "string") {
     tempSortReturn = sortData(indices.x, data, "Ascending", "x");
     indices.x = tempSortReturn["sortedIndices"];
     data = tempSortReturn["newData"];
   }
 
   // sort indices.y by user input
-  if (types["y"] !== "date") {
+  if (types["y"] === "string") {
     tempSortReturn = sortData(indices.y, data, "Ascending", "y");
     indices.y = tempSortReturn["sortedIndices"];
     data = tempSortReturn["newData"];
   }
 
   // sort indices.z by user input
-  if (types["z"] !== "date") {
+  if (types["z"] === "string") {
     tempSortReturn = sortData(indices.z, data, "Ascending", "z");
     indices.z = tempSortReturn["sortedIndices"];
     data = tempSortReturn["newData"];
