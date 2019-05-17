@@ -327,7 +327,7 @@ export default (scene, graphData, graphicOptions, camera) => {
   const speed = 0.02;
 
 	function update(camera) {
-		if (graphicOptions.visualization === 'blob') {
+		if (graphicOptions.visualization === 'cloud') {
 			group.traverse(function (node){
 				if(node instanceof THREE.Mesh){
 				node.material.uniforms.viewVector.value = new THREE.Vector3().subVectors(camera.position, node.position);
