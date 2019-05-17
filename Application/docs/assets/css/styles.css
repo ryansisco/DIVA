@@ -1,4 +1,8 @@
+::selection { background: #f09bbb; }
+
 body {
+	margin: 0 !important;
+	overflow: hidden;
 	font-family: Tahoma, Geneva, sans-serif;
 	font-size: 12;
 }
@@ -8,21 +12,90 @@ body {
 }
 
 .button {
-	font-family: Tahoma, Geneva, sans-serif;
-	font-size: 12;
-	box-shadow: 4px 4px 2px lightgrey;
-	width: 200px;
-	height: 35px;
-	background-color: #f09bbb;
-	border: 1px solid black;
-	border-radius: 6px;
-	color: white;
-	margin: 10px;
-	margin-top: 3px;
-	margin-bottom: 3px;
-	text-align: center;
-	text-decoration: none;
 	cursor: pointer;
+	margin: 5px;
+	-webkit-transition-duration: 0.6s;
+	transition-duration: 0.6s;
+	border-radius: 5%;
+	border: 1px solid black;
+	box-shadow: 1px 1px grey;
+}
+.button:hover {
+	background-color: #f09bbb;
+	color: white;
+	border: 1px solid black;
+	border-radius: 5%;
+	box-shadow: 1px 1px grey;
+}
+
+.toggleAllGrey {
+	cursor: not-allowed;
+	opacity: .6;
+}
+
+.permchecked {
+	cursor: not-allowed;
+	opacity: .6;
+	pointer-events: none;
+}
+
+.graphicOptionsBox {
+	max-width: inherit;
+}
+
+.uidropbutton {
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 18;
+	height: 40px;
+	width: inherit;
+	min-width: inherit;
+	border: 0px;
+	background-color: #EBEBEB;
+	text-align: left;
+	text-decoration: none;
+	padding: 3px;
+	padding-left: 8px;
+	cursor: pointer;
+}
+
+.buttonInterior {
+	width: inherit;
+	height: 30%;
+}
+
+.dropdownicoD {
+	height: 23px;
+	width: auto;
+	align-self: right;
+	margin-right: 5px;
+}
+
+.dropdownicoU {
+	height: 23px;
+	width: inherit;
+	align-self: right;
+	margin-right: 5px;
+	transform: rotate(180deg);
+}
+.sortandfilt{
+	padding: 5px;
+	width: inherit;
+	text-overflow: ellipsis;
+}
+.addLine {
+	border: 1px solid black;
+}
+
+.filteroptions{
+	border: 1px solid lightgrey;
+	display: grid;
+	grid-template-columns: 50% 50%;
+	align-self: right;
+	max-height: 100px;
+	width: inherit;
+	overflow-y: auto; 
+	text-align: left;
+	text-overflow: ellipsis;
 }
 
 .dropdownmenu {
@@ -52,31 +125,11 @@ body {
 	height: 40px;
 }
 
-.notreadybutton {
-	position: relative;
-	font-family: Tahoma, Geneva, sans-serif;
-	font-size: 12;
-	width: 200px;
-	height: 35px;
-	background-color: #f09bbb;
-	border: none;
-	border-radius: 6px;
-	color: white;
-	margin: 10px;
-	margin-top: 3px;
-	margin-bottom: 3px;
-	text-align: center;
-	text-decoration: none;
-	cursor: pointer;
-	opacity: 0.6;
-	cursor: not-allowed;
-}
-
 .selectedfile {
 	font-family: Tahoma, Geneva, sans-serif;
 	font-size: 12;
 	margin-left: 10px;
-	width: 200px;
+	width: 190px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
@@ -109,13 +162,17 @@ body {
 
 .menucontainer {
 	float: left;
-	padding: 2px;
 	outline: 2px solid black;
 	background-color: white;
-	box-shadow: 10px 10px 5px lightgrey;
 	position: fixed;
 	left: 0px;
 	top: 42px;
+	min-width: 250px;
+	width: 250px;
+	padding: 0px 0px 0px 0px;
+	resize: horizontal;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 
 .helpmenucontainer {
@@ -123,22 +180,12 @@ body {
 	padding: 2px;
 	outline: 2px solid black;
 	background-color: white;
-	box-shadow: 10px 10px 5px lightgrey;
 	position: fixed;
 	right: 0px;
 	top: 42px;
+	max-width: 300px;
 }
 
-.cameramenucontainer {
-	float: left;
-	padding: 2px;
-	outline: 2px solid black;
-	background-color: white;
-	box-shadow: 10px 10px 5px lightgrey;
-	position: fixed;
-	right: 0px;
-	top: 42px;
-}
 
 .dropdown-root {
 	position: relative;
@@ -186,7 +233,6 @@ body {
 .dropdown-menu {
 	background-color: white;
 	border: 1px solid #ccc;
-	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 	box-sizing: border-box;
 	margin-top: -1px;
 	max-height: 200px;
@@ -201,7 +247,6 @@ body {
 .dropdown-helpmenu {
 	background-color: white;
 	border: 1px solid #ccc;
-	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 	box-sizing: border-box;
 	margin-top: -1px;
 	max-height: 200px;
@@ -216,7 +261,6 @@ body {
 .dropdown-cameramenu {
 	background-color: white;
 	border: 1px solid #ccc;
-	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 	box-sizing: border-box;
 	margin-top: -1px;
 	max-height: 200px;
