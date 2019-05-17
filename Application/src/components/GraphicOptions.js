@@ -88,8 +88,10 @@ class GraphicOptions extends Component {
 						<input type="radio" value="cluster" onChange={() => this.setState({ visualization: 'cluster'})} checked={this.state.visualization === "cluster"}/> Cluster
 						</div>
 
-						<div className="graphicOptionsBox"><br/>Camera<br/>
-						<input type="checkbox" value="Rotate" onChange={() => this.setState({ rotate: !this.state.rotate })}/> Enable Rotate
+						<div className="graphicOptionsBox">
+						Camera Rotation<br/>
+						<input type="radio" onChange={() => this.setState({ rotate: true})} checked={this.state.rotate}/> Enabled
+						<input type="radio" onChange={() => this.setState({ rotate: false})} checked={!this.state.rotate}/> Disabled
 						</div>
 						
 					  <div className="graphicOptionsBox"><br/>Color Options:<br/>
@@ -111,8 +113,9 @@ class GraphicOptions extends Component {
 						</div>
 
 						<div className="graphicOptionsBox">
-						<input type="checkbox" defaultChecked={this.state.axesLabels} onChange={() => this.setState({ axesLabels: !this.state.axesLabels })}/> Show Axes Labels
-						<input type="checkbox" defaultChecked={this.state.axesNames} onChange={() => this.setState({ axesNames: !this.state.axesNames })}/> Show Axes Names
+						Axes Labels<br/>
+						<input type="radio" onChange={() => this.setState({ axesLabels: true})} checked={this.state.axesLabels}/> Enabled
+						<input type="radio" onChange={() => this.setState({ axesLabels: false})} checked={!this.state.axesLabels}/> Disabled
 						</div>
 						<br/>
 						
