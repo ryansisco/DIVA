@@ -42,7 +42,7 @@
         "react-redux": "^5.0.7",
         "redux": "^4.0.1",
         "redux-thunk": "^2.3.0",
-        "three": "^0.100.0",
+        "three": "^0.125.0",
         "three-orbitcontrols": "^2.101.1",
         "three.meshline": "^1.2.0",
         "three.textsprite": "^19.0.0"
